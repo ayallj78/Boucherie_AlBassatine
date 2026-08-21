@@ -1,0 +1,91 @@
+{% load static %}<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Merci pour votre avis</title>
+<style>
+  body{margin:0;padding:0;background:#F0EBEA;font-family:Georgia,'Lora',serif;}
+  table{border-collapse:collapse;}
+  a{color:#6E0E22;text-decoration:none;}
+  .display{font-family:'Trebuchet MS','Oswald',Arial,sans-serif;}
+</style>
+</head>
+<body>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F0EBEA;padding:36px 12px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#FFFFFF;">
+
+        <!-- HEADER — bandeau bordeaux + médaillon -->
+        <tr>
+          <td style="background:#4F0A18;background:linear-gradient(135deg,#6E0E22,#4F0A18);padding:44px 40px 38px;text-align:center;">
+            <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 18px;">
+              <tr>
+                <td width="58" height="58" style="width:58px;height:58px;border-radius:50%;background:#FFFFFF;text-align:center;vertical-align:middle;" class="display">
+                  <span style="font-size:15px;font-weight:bold;color:#6E0E22;letter-spacing:0.03em;">AB</span>
+                </td>
+              </tr>
+            </table>
+            <p class="display" style="margin:0;color:#FFFFFF;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;opacity:0.75;">AL BASSATINE VIANDES</p>
+            <h1 class="display" style="margin:10px 0 0;color:#FFFFFF;font-size:24px;letter-spacing:0.02em;text-transform:uppercase;font-weight:700;">Merci pour votre avis</h1>
+          </td>
+        </tr>
+
+        <!-- CORPS -->
+        <tr>
+          <td style="padding:40px 40px 8px;">
+            <p style="margin:0 0 18px;color:#221316;font-size:16px;line-height:1.7;">
+              Bonjour <strong>{{ name }}</strong>,
+            </p>
+            <p style="margin:0 0 26px;color:#221316;font-size:15px;line-height:1.75;">
+              Nous vous remercions sincèrement d'avoir pris le temps de partager votre expérience avec <strong>AL BASSATINE VIANDES</strong>. Votre retour compte énormément pour nous et nous aide à améliorer chaque jour la qualité de nos produits et de notre service.
+            </p>
+
+            <!-- carte avis -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F4F3;border:1px solid #E7DEDF;margin:0 0 30px;">
+              <tr>
+                <td style="padding:26px 28px;">
+                  <table role="presentation" cellpadding="0" cellspacing="0">
+                    <tr>
+                      {% for i in stars_range %}
+                      <td style="padding-right:3px;">
+                        <span style="font-size:18px;color:{% if i < rating %}#C8901A{% else %}#DCD3D2{% endif %};">&#9733;</span>
+                      </td>
+                      {% endfor %}
+                    </tr>
+                  </table>
+                  <p style="margin:14px 0 0;color:#221316;font-size:14.5px;line-height:1.7;font-style:italic;">
+                    &laquo;&nbsp;{{ message }}&nbsp;&raquo;
+                  </p>
+                </td>
+              </tr>
+            </table>
+
+            <p style="margin:0;color:#221316;font-size:15px;line-height:1.75;">
+              Toute l'équipe reste à votre disposition pour toute question, et espère avoir le plaisir de vous compter à nouveau parmi nos clients.
+            </p>
+          </td>
+        </tr>
+
+        <tr><td style="height:34px;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="background:#221316;padding:30px 40px;">
+            <p class="display" style="margin:0 0 8px;color:#FFFFFF;font-size:12px;letter-spacing:0.05em;">AL BASSATINE VIANDES</p>
+            <p style="margin:0 0 4px;color:rgba(255,255,255,0.55);font-size:12.5px;line-height:1.6;">Lot. AL Bassatine, Rue Agadir N° 111 — Tanger</p>
+            <p style="margin:0;color:rgba(255,255,255,0.55);font-size:12.5px;line-height:1.6;">
+              <a href="tel:+212539947841" style="color:rgba(255,255,255,0.75);">+212 539 94 78 41</a>
+              &nbsp;·&nbsp;
+              <a href="https://wa.me/212667106796" style="color:rgba(255,255,255,0.75);">WhatsApp</a>
+            </p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

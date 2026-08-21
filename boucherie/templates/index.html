@@ -1,0 +1,4448 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ALBASSATINE VIANDES  —  L’excellence taillée sur mesure </title>
+<link href="{% static 'images/image_11.png' %}" rel="icon">
+<meta name="description" content="Découpe, transformation, stockage et distribution de viande rouge. Traçabilité complète, du pré à l'assiette.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ============================================
+   TOKENS — Burgundy & White
+   ============================================ */
+:root{
+  --burgundy:#6E0E22;
+  --burgundy-deep:#4F0A18;
+  --burgundy-light:#8C1B33;
+  --white:#FFFFFF;
+  --off-white:#F7F4F3;
+  --ink:#221316;
+  --grey:#7A7072;
+  --line:#E7DEDF;
+
+  --display:"Oswald", sans-serif;
+  --body:"Lora", serif;
+
+  --ease: cubic-bezier(.2,.7,.2,1);
+}
+
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:var(--white);
+  color:var(--ink);
+  font-family:var(--body);
+  font-size:17px;
+  line-height:1.65;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;margin:0;text-transform:uppercase;letter-spacing:0.01em;}
+p{margin:0;}
+::selection{background:var(--burgundy);color:var(--white);}
+
+@media (prefers-reduced-motion: reduce){
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important;}
+}
+
+/* ============================================
+   WELCOME SPLASH — écran de bienvenue burgundy
+   ============================================ */
+html.welcome-lock, html.welcome-lock body{overflow:hidden;height:100%;}
+
+/* le contenu du site derrière la carte passe en flou tant que l'annonce est ouverte */
+#pageContent{transition:filter .6s var(--ease);}
+html.welcome-lock #pageContent{filter:blur(10px) saturate(1.05);}
+
+#welcomeSplash{
+  position:fixed;inset:0;z-index:9000;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px;
+  background:rgba(34,19,22,0.52);
+  backdrop-filter:blur(3px);
+  -webkit-backdrop-filter:blur(3px);
+  opacity:1;
+  perspective:1400px;
+  animation:welcomeBackdropIn .7s var(--ease) both;
+  transition:opacity .5s var(--ease), visibility .5s var(--ease), backdrop-filter .5s var(--ease);
+}
+@keyframes welcomeBackdropIn{
+  0%{background-color:rgba(34,19,22,0);backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);}
+  100%{background-color:rgba(34,19,22,0.52);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px);}
+}
+
+.welcome-card{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;
+  text-align:center;
+  width:min(92vw, 420px);
+  aspect-ratio:1 / 1;
+  padding:32px 30px;
+  border-radius:24px;
+  background:
+    radial-gradient(420px 260px at 15% 0%, rgba(255,255,255,0.08), transparent 60%),
+    linear-gradient(150deg, var(--burgundy-deep) 0%, var(--burgundy) 60%, var(--burgundy-deep) 100%);
+  box-shadow:0 30px 70px rgba(20,6,10,0.45), 0 4px 18px rgba(20,6,10,0.25);
+  border:1px solid rgba(255,255,255,0.14);
+  overflow:hidden;
+  transform-style:preserve-3d;
+  will-change:transform;
+  animation:welcomeCardIn .95s cubic-bezier(.2,.85,.25,1.15) both;
+  animation-delay:.08s;
+}
+@keyframes welcomeCardIn{
+  0%{opacity:0;transform:translateY(70px) scale(.6) rotateX(28deg) rotateZ(-3deg);filter:blur(16px);}
+  45%{opacity:1;filter:blur(0);}
+  62%{transform:translateY(-10px) scale(1.035) rotateX(-4deg) rotateZ(1deg);}
+  80%{transform:translateY(4px) scale(.99) rotateX(2deg) rotateZ(-.4deg);}
+  100%{opacity:1;transform:translateY(0) scale(1) rotateX(0) rotateZ(0);filter:blur(0);}
+}
+
+/* onde de choc qui se propage depuis la carte à son apparition */
+.welcome-shock{
+  position:absolute;z-index:1;
+  left:50%;top:50%;
+  width:60px;height:60px;
+  margin:-30px 0 0 -30px;
+  border-radius:50%;
+  border:1.5px solid rgba(255,255,255,0.55);
+  opacity:0;
+  animation:welcomeShock 1.1s var(--ease) forwards;
+  animation-delay:.35s;
+  pointer-events:none;
+}
+.welcome-shock.d2{animation-delay:.5s;border-color:rgba(255,255,255,0.35);}
+@keyframes welcomeShock{
+  0%{opacity:.9;transform:scale(0);}
+  100%{opacity:0;transform:scale(9);}
+}
+
+/* halo tournant décoratif derrière le blason, contenu dans la carte */
+.welcome-card .welcome-halo{
+  position:absolute;top:-90px;left:50%;
+  width:320px;height:320px;
+  margin-left:-160px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,0.12);
+  animation:welcomeSpin 40s linear infinite;
+  pointer-events:none;
+}
+.welcome-card .welcome-halo::before{
+  content:"";position:absolute;inset:26px;border-radius:50%;border:1px solid rgba(255,255,255,0.08);
+  animation:welcomeSpin 55s linear infinite reverse;
+}
+@keyframes welcomeSpin{to{transform:rotate(360deg);}}
+
+.welcome-close{
+  position:absolute;top:14px;right:14px;z-index:3;
+  width:34px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  background:rgba(255,255,255,0.1);
+  border:1px solid rgba(255,255,255,0.22);
+  color:var(--white);
+  cursor:pointer;
+  transition:background .25s var(--ease), transform .25s var(--ease), border-color .25s;
+}
+.welcome-close:hover{background:rgba(255,255,255,0.22);transform:rotate(90deg);border-color:rgba(255,255,255,0.4);}
+.welcome-close svg{width:15px;height:15px;}
+
+.welcome-inner{
+  position:relative;z-index:2;
+  display:flex;flex-direction:column;align-items:center;
+  text-align:center;
+  max-height:100%;
+  overflow-y:auto;
+  overflow-x:hidden;
+  scrollbar-width:none;
+}
+.welcome-inner::-webkit-scrollbar{display:none;}
+
+.welcome-crest{
+  width:56px;height:56px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:12px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.22);
+  opacity:0;transform:translateY(16px) scale(.85);
+  animation:welcomeRise .8s var(--ease) forwards;
+  animation-delay:.15s;
+  box-shadow:0 0 0 0 rgba(255,255,255,0.25);
+  flex-shrink:0;
+}
+.welcome-crest img{width:28px;height:28px;object-fit:contain;filter:brightness(0) invert(1);}
+
+.welcome-eyebrow{
+  font-family:var(--display);
+  font-size:10px;font-weight:700;
+  letter-spacing:.28em;text-transform:uppercase;
+  color:rgba(255,255,255,0.72);
+  margin-bottom:10px;
+  opacity:0;transform:translateY(14px);
+  animation:welcomeRise .8s var(--ease) forwards;
+  animation-delay:.3s;
+}
+
+.welcome-title{
+  font-family:var(--display);
+  color:var(--white);
+  font-weight:600;
+  text-transform:uppercase;
+  line-height:1.14;
+  font-size:clamp(21px, 3.4vw, 30px);
+  letter-spacing:.01em;
+  margin:0;
+}
+.welcome-title span{
+  display:inline-block;
+  opacity:0;transform:translateY(22px);
+  animation:welcomeRise .8s var(--ease) forwards;
+}
+.welcome-title .w1{animation-delay:.42s;}
+.welcome-title .w2{
+  animation-delay:.55s;
+  color:transparent;
+  background:linear-gradient(100deg, #fff 20%, #f4d9c9 45%, #fff 70%);
+  background-size:220% auto;
+  -webkit-background-clip:text;background-clip:text;
+  animation:welcomeRise .8s var(--ease) forwards, welcomeShine 4.5s linear infinite 1.3s;
+}
+@keyframes welcomeShine{to{background-position:-220% 0;}}
+
+.welcome-divider{
+  width:0;height:1px;
+  background:linear-gradient(90deg, transparent, rgba(255,255,255,0.75), transparent);
+  margin:12px 0;
+  animation:welcomeGrow .9s var(--ease) forwards;
+  animation-delay:.72s;
+  flex-shrink:0;
+}
+@keyframes welcomeGrow{to{width:80px;}}
+
+.welcome-sub{
+  font-family:var(--body);
+  font-style:italic;
+  font-size:clamp(12.5px, 1.9vw, 14.5px);
+  line-height:1.5;
+  color:rgba(255,255,255,0.82);
+  max-width:300px;
+  opacity:0;transform:translateY(14px);
+  animation:welcomeRise .8s var(--ease) forwards;
+  animation-delay:.85s;
+}
+
+.welcome-chips{
+  display:flex;flex-wrap:wrap;gap:7px;
+  justify-content:center;
+  margin-top:14px;
+  opacity:0;transform:translateY(14px);
+  animation:welcomeRise .8s var(--ease) forwards;
+  animation-delay:1s;
+}
+.welcome-chips span{
+  font-family:var(--display);font-size:9px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:var(--white);
+  border:1px solid rgba(255,255,255,0.3);
+  background:rgba(255,255,255,0.06);
+  border-radius:30px;padding:5px 11px;
+}
+
+
+@keyframes welcomeRise{to{opacity:1;transform:translateY(0) scale(1);}}
+
+#welcomeSplash.is-leaving{opacity:0;visibility:hidden;pointer-events:none;backdrop-filter:blur(0px);-webkit-backdrop-filter:blur(0px);}
+#welcomeSplash.is-leaving .welcome-card{transition:transform .5s var(--ease), opacity .5s var(--ease);transform:translateY(10px) scale(.92);opacity:0;}
+
+@media (max-width:560px){
+  .welcome-card{width:min(88vw, 340px);padding:26px 22px;}
+  .welcome-crest{width:48px;height:48px;margin-bottom:10px;}
+  .welcome-crest img{width:24px;height:24px;}
+  .welcome-chips span{font-size:8.5px;padding:5px 10px;}
+}
+
+.wrap{max-width:1280px;margin:0 auto;padding:0 6vw;}
+.eyebrow{
+  font-family:var(--display);
+  font-size:13px;
+  letter-spacing:0.18em;
+  text-transform:uppercase;
+  color:var(--burgundy);
+  font-weight:600;
+}
+.eyebrow.on-dark{color:var(--white);opacity:0.85;}
+
+a:focus-visible, button:focus-visible{
+  outline:2px solid var(--burgundy);
+  outline-offset:3px;
+}
+
+/* ============================================
+   NAV — split around centered crest logo
+   ============================================ */
+
+.hero-sub .thin{
+  color:var(--burgundy-light);
+  font-weight:600;
+  font-style:italic;
+}
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 6vw;
+  height:128px;
+  background:transparent;
+  transition:height .4s var(--ease), background .4s var(--ease), box-shadow .4s var(--ease);
+}
+.nav.scrolled{
+  height:84px;
+  background:var(--white);
+  box-shadow:0 6px 24px rgba(0,0,0,0.1);
+  border-bottom:1px solid var(--line);
+}
+.nav.scrolled .nav-group a{color:var(--ink);}
+.nav.scrolled .nav-group a:hover{color:var(--burgundy);}
+.nav.scrolled .nav-burger{
+  border-color:rgba(0,0,0,0.18);
+  background:rgba(0,0,0,0.04);
+}
+.nav.scrolled .nav-burger:hover{border-color:rgba(0,0,0,0.35);}
+.nav.scrolled .nav-burger-icon span{background:var(--ink);}
+.nav.scrolled.menu-open .nav-burger{background:var(--burgundy);border-color:var(--burgundy-light);}
+.nav.scrolled.menu-open .nav-burger-icon span{background:var(--white);}
+.nav-group{
+  display:flex;align-items:center;
+  gap:clamp(16px, 2.1vw, 40px);
+  flex:1;
+  min-width:0;
+  font-family:var(--display);
+  font-size:clamp(12px, 1vw, 13.5px);font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;
+  opacity:0;transform:translateY(-14px);
+  animation:navDrop .7s var(--ease) forwards;
+}
+.nav-group.left{justify-content:flex-start;animation-delay:.55s;}
+.nav-group.right{justify-content:flex-end;animation-delay:.65s;}
+@keyframes navDrop{to{opacity:1;transform:translateY(0);}}
+
+.nav-group a{
+  position:relative;padding:8px 0;color:var(--white);
+  white-space:nowrap;
+  transition:opacity .3s;
+}
+.nav-group > a:first-child{display:flex;align-items:center;gap:10px;}
+.nav-group > a:first-child::before{
+  content:"";width:0;height:0;
+  border-style:solid;
+  border-width:0 0 22px 22px;
+  border-color:transparent transparent var(--burgundy) transparent;
+  display:inline-block;
+  transition:border-width .4s var(--ease);
+}
+.nav.scrolled .nav-group > a:first-child::before{border-width:0 0 16px 16px;}
+.nav-group a::after{
+  content:"";position:absolute;left:0;bottom:2px;width:0%;height:2px;background:var(--burgundy-light);
+  transition:width .3s var(--ease);
+}
+.nav-group a:hover::after{width:100%;}
+
+/* ---- Produits dropdown (Vache / Mouton) — Desktop Rich Style ---- */
+.nav-dropdown{
+  position:relative;
+}
+.nav-dropdown-trigger{
+  display:flex;align-items:center;gap:6px;
+  background:none;border:none;cursor:pointer;
+  font-family:var(--display);
+  font-size:clamp(12px, 1vw, 13.5px);font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;
+  color:var(--white);
+  padding:8px 0;
+  position:relative;
+  transition:opacity .3s, color .3s;
+}
+.nav.scrolled .nav-dropdown-trigger{color:var(--ink);}
+.nav-dropdown-trigger::after{
+  content:"";position:absolute;left:0;bottom:2px;width:0%;height:2px;background:var(--burgundy-light);
+  transition:width .3s var(--ease);
+}
+.nav-dropdown:hover .nav-dropdown-trigger::after,
+.nav-dropdown.is-open .nav-dropdown-trigger::after{width:100%;}
+.nav-dropdown-caret{
+  width:9px;height:9px;
+  display:inline-flex;
+  transition:transform .3s var(--ease);
+  flex-shrink:0;
+}
+.nav-dropdown-caret svg{width:100%;height:100%;}
+.nav-dropdown:hover .nav-dropdown-caret,
+.nav-dropdown.is-open .nav-dropdown-caret{transform:rotate(180deg);}
+
+/* ---- MEGA PANEL ---- */
+.nav-dropdown-menu{
+  position:absolute;top:calc(100% + 18px);left:50%;
+  transform:translateX(-50%) translateY(6px);
+  width:440px;
+  background:var(--white);
+  border-radius:20px;
+  box-shadow:
+    0 2px 0 rgba(110,14,34,0.12),
+    0 24px 60px rgba(34,19,22,0.22),
+    0 6px 16px rgba(34,19,22,0.08);
+  border:1px solid var(--line);
+  padding:0;
+  overflow:hidden;
+  opacity:0;visibility:hidden;
+  transition:opacity .28s var(--ease), transform .28s var(--ease), visibility .28s;
+  z-index:50;
+}
+.nav-dropdown:hover .nav-dropdown-menu,
+.nav-dropdown.is-open .nav-dropdown-menu{
+  opacity:1;visibility:visible;
+  transform:translateX(-50%) translateY(0);
+}
+
+/* Header strip */
+.nav-dropdown-header{
+  background:linear-gradient(135deg, var(--burgundy-deep) 0%, var(--burgundy) 100%);
+  padding:14px 20px 12px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.nav-dropdown-header-title{
+  font-family:var(--display);font-size:10px;font-weight:700;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,0.65);
+}
+.nav-dropdown-badge{
+  font-family:var(--display);font-size:9.5px;font-weight:700;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--white);
+  background:rgba(255,255,255,0.14);
+  border:1px solid rgba(255,255,255,0.28);
+  border-radius:20px;
+  padding:3px 10px;
+}
+
+/* Grid of product cards */
+.nav-dropdown-grid{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:0;
+  padding:12px;
+}
+.nav-dropdown-menu a{
+  display:flex;flex-direction:column;align-items:center;gap:0;
+  padding:18px 14px 16px;
+  border-radius:14px;
+  color:var(--ink);
+  text-align:center;
+  position:relative;overflow:hidden;
+  background:transparent;
+  transition:background .25s var(--ease), color .25s, transform .2s var(--ease), box-shadow .25s;
+}
+.nav-dropdown-menu a:hover{
+  background:linear-gradient(160deg, var(--burgundy) 0%, var(--burgundy-deep) 100%);
+  transform:translateY(-2px);
+  box-shadow:0 8px 24px rgba(110,14,34,0.22);
+  color:var(--white);
+}
+.nav-dropdown-menu a::after{display:none;}
+
+/* Icon circle */
+.nav-dropdown-icon{
+  width:52px;height:52px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  background:var(--off-white);
+  border:1.5px solid var(--line);
+  color:var(--burgundy);
+  transition:background .25s, color .25s, border-color .25s, transform .2s var(--ease);
+  position:relative;z-index:1;
+  margin-bottom:12px;
+}
+.nav-dropdown-menu a:hover .nav-dropdown-icon{
+  background:rgba(255,255,255,0.18);
+  border-color:rgba(255,255,255,0.35);
+  color:var(--white);
+  transform:scale(1.08);
+}
+.nav-dropdown-icon svg{width:24px;height:24px;}
+
+/* Text inside card */
+.nav-dropdown-card-name{
+  font-family:var(--display);font-size:13px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  position:relative;z-index:1;
+  transition:color .25s;
+}
+.nav-dropdown-card-desc{
+  font-family:var(--body);font-size:11.5px;font-style:italic;
+  color:var(--grey);
+  margin-top:5px;line-height:1.4;
+  position:relative;z-index:1;
+  transition:color .25s;
+}
+.nav-dropdown-menu a:hover .nav-dropdown-card-desc{color:rgba(255,255,255,0.75);}
+
+/* Arrow indicator */
+.nav-dropdown-card-arrow{
+  position:absolute;bottom:12px;right:14px;
+  width:20px;height:20px;
+  border-radius:50%;
+  background:rgba(110,14,34,0.08);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;
+  transition:opacity .25s, background .25s;
+  z-index:1;
+}
+.nav-dropdown-card-arrow svg{width:11px;height:11px;color:var(--burgundy);}
+.nav-dropdown-menu a:hover .nav-dropdown-card-arrow{
+  opacity:1;
+  background:rgba(255,255,255,0.18);
+}
+.nav-dropdown-menu a:hover .nav-dropdown-card-arrow svg{color:var(--white);}
+
+/* Divider between cards */
+.nav-dropdown-divider{
+  width:1px;background:var(--line);margin:8px 0;
+}
+
+/* Footer strip */
+.nav-dropdown-footer{
+  border-top:1px solid var(--line);
+  padding:11px 20px;
+  display:flex;align-items:center;justify-content:space-between;
+  background:var(--off-white);
+}
+.nav-dropdown-footer-text{
+  font-family:var(--body);font-size:11.5px;font-style:italic;
+  color:var(--grey);
+}
+.nav-dropdown-footer-link{
+  font-family:var(--display);font-size:10.5px;font-weight:700;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--burgundy);
+  display:flex;align-items:center;gap:5px;
+  transition:gap .2s;
+}
+.nav-dropdown-footer-link:hover{gap:8px;}
+.nav-dropdown-footer-link svg{width:12px;height:12px;}
+
+.nav-crest{
+  position:relative;z-index:2;
+  flex-shrink:0;
+  width:132px;height:132px;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 18px;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 32% 26%, var(--white) 0%, #FBF8F7 55%, #F0E8E7 100%);
+  box-shadow:
+    0 22px 46px rgba(0,0,0,0.38),
+    0 2px 0 rgba(255,255,255,0.9) inset,
+    0 -10px 18px rgba(0,0,0,0.05) inset,
+    0 0 0 1px rgba(110,14,34,0.14);
+  opacity:0;transform:translateY(-26px) scale(0.92);
+  animation:crestDrop .8s cubic-bezier(.2,.9,.25,1.3) .15s forwards, badgeBreathe 5s ease-in-out 1.2s infinite;
+  transition:transform .45s var(--ease), margin .45s var(--ease), width .45s var(--ease), height .45s var(--ease), box-shadow .45s var(--ease);
+}
+/* outer thin ring — slightly offset from the badge edge, like a medal rim */
+.nav-crest::before{
+  content:"";position:absolute;inset:-6px;
+  border-radius:50%;
+  border:1px solid rgba(110,14,34,0.18);
+  background:
+    conic-gradient(from 220deg,
+      rgba(110,14,34,0.45) 0deg,
+      rgba(110,14,34,0.06) 70deg,
+      rgba(110,14,34,0.02) 180deg,
+      rgba(110,14,34,0.28) 280deg,
+      rgba(110,14,34,0.45) 360deg);
+  -webkit-mask:
+    radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  mask:
+    radial-gradient(farthest-side, transparent calc(100% - 2px), #000 calc(100% - 2px));
+  opacity:0.85;
+  transition:inset .45s var(--ease);
+}
+/* inner bevel ring, sits just inside the crest edge */
+.nav-crest::after{
+  content:"";position:absolute;inset:9px;
+  border-radius:50%;
+  border:1px solid rgba(110,14,34,0.16);
+  box-shadow:0 1px 1px rgba(0,0,0,0.08) inset;
+  pointer-events:none;
+  transition:inset .45s var(--ease);
+}
+@keyframes crestDrop{to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes badgeBreathe{
+  0%,100%{transform:translateY(0) scale(1);}
+  50%{transform:translateY(-3px) scale(1.025);}
+}
+
+/* halo pulse — separate element so it doesn't fight with the bevel ring */
+.nav-crest .crest-halo{
+  position:absolute;inset:-14px;
+  border-radius:50%;
+  box-shadow:0 0 0 0 rgba(140,27,51,0.55);
+  animation:badgePulse 3.2s ease-out 1.4s infinite;
+  pointer-events:none;
+  transition:inset .45s var(--ease);
+}
+@keyframes badgePulse{
+  0%{box-shadow:0 0 0 0 rgba(140,27,51,0.5);}
+  70%{box-shadow:0 0 0 16px rgba(140,27,51,0);}
+  100%{box-shadow:0 0 0 16px rgba(140,27,51,0);}
+}
+
+/* SHRINK ON SCROLL — noticeably smaller badge, tighter rings, flatter shadow */
+.nav.scrolled .nav-crest{
+  width:64px;height:64px;
+  margin:0 10px;
+  box-shadow:
+    0 10px 22px rgba(0,0,0,0.18),
+    0 1px 0 rgba(255,255,255,0.9) inset,
+    0 -6px 10px rgba(0,0,0,0.04) inset,
+    0 0 0 1px rgba(110,14,34,0.16);
+}
+.nav.scrolled .nav-crest::before{inset:-4px;}
+.nav.scrolled .nav-crest::after{inset:6px;}
+.nav.scrolled .nav-crest .crest-halo{inset:-8px;}
+
+.nav-crest .crest-logo{
+  position:relative;z-index:1;
+  width:70%;height:auto;
+  filter:drop-shadow(0 6px 10px rgba(0,0,0,0.35));
+  transition:width .45s var(--ease);
+}
+.nav.scrolled .nav-crest .crest-logo{width:66%;}
+
+/* ============================================
+   MOBILE NAV — burger trigger + slide-down panel
+   ============================================ */
+.nav-burger{
+  display:none;
+  height:44px;
+  padding:0 17px 0 14px;
+  border:1px solid rgba(255,255,255,0.35);
+  border-radius:24px;
+  background:rgba(0,0,0,0.2);
+  align-items:center;justify-content:center;
+  gap:10px;
+  cursor:pointer;
+  position:relative;z-index:3;
+  transition:background .3s, border-color .3s, padding .35s var(--ease);
+}
+.nav-burger-icon{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:5px;width:18px;flex-shrink:0;
+}
+.nav-burger-icon span{
+  display:block;width:18px;height:2px;
+  background:var(--white);
+  transition:transform .35s var(--ease), opacity .25s, width .25s;
+}
+.nav-burger-label{
+  font-family:var(--display);font-size:11px;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--white);white-space:nowrap;
+  transition:color .3s;
+}
+.nav.scrolled .nav-burger-label{color:var(--ink);}
+.nav.scrolled.menu-open .nav-burger-label,
+.nav.menu-open .nav-burger-label{color:var(--white);}
+.nav-burger:hover{border-color:rgba(255,255,255,0.6);}
+.nav.menu-open .nav-burger{background:var(--burgundy);border-color:var(--burgundy-light);}
+.nav.menu-open .nav-burger-icon span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav.menu-open .nav-burger-icon span:nth-child(2){opacity:0;width:0;}
+.nav.menu-open .nav-burger-icon span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+
+.nav-progress{
+  display:none;
+  position:absolute;left:0;bottom:0;
+  height:2px;width:0%;
+  background:linear-gradient(90deg, var(--burgundy-light), var(--burgundy));
+  transition:width .12s linear;
+  z-index:4;
+}
+
+/* ============================================
+   LANGUAGE SWITCHER — advanced dropdown (FR / EN / AR)
+   ============================================ */
+.lang-switch{
+  position:relative;
+  display:flex;align-items:center;
+  margin-left:28px;
+  font-family:var(--display);
+}
+.lang-switch-btn{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,0.08);
+  border:1px solid rgba(255,255,255,0.28);
+  color:var(--white);
+  padding:8px 14px;
+  font-family:var(--display);font-size:12px;font-weight:700;
+  letter-spacing:0.06em;text-transform:uppercase;
+  cursor:pointer;
+  transition:background .3s, border-color .3s, color .3s;
+}
+.nav.scrolled .lang-switch-btn{
+  background:rgba(20,6,11,0.04);
+  border-color:rgba(20,6,11,0.18);
+  color:var(--ink);
+}
+.lang-switch-btn:hover{background:var(--burgundy);border-color:var(--burgundy);color:var(--white);}
+.lang-switch-btn .lang-globe{
+  width:14px;height:14px;display:inline-flex;
+}
+.lang-switch-btn .lang-globe svg{width:100%;height:100%;}
+.lang-switch-btn .lang-current{min-width:18px;text-align:center;}
+.lang-switch-btn .lang-caret{
+  width:9px;height:9px;display:inline-flex;
+  transition:transform .3s var(--ease);
+}
+.lang-switch.open .lang-switch-btn .lang-caret{transform:rotate(180deg);}
+
+.lang-switch-menu{
+  position:absolute;top:calc(100% + 10px);right:0;
+  min-width:172px;
+  background:var(--white);
+  border:1px solid var(--line);
+  box-shadow:0 18px 48px rgba(20,6,11,0.18);
+  opacity:0;visibility:hidden;
+  transform:translateY(-8px);
+  transition:opacity .25s var(--ease), transform .25s var(--ease), visibility .25s;
+  z-index:50;
+  overflow:hidden;
+}
+.lang-switch.open .lang-switch-menu{
+  opacity:1;visibility:visible;transform:translateY(0);
+}
+.lang-switch-menu button{
+  display:flex;align-items:center;gap:11px;
+  width:100%;
+  padding:13px 16px;
+  background:none;border:none;
+  border-bottom:1px solid var(--line);
+  font-family:var(--body);font-size:13.5px;color:var(--ink);
+  cursor:pointer;text-align:left;
+  transition:background .2s, padding-left .2s;
+}
+.lang-switch-menu button:last-child{border-bottom:none;}
+.lang-switch-menu button:hover{background:var(--off-white);padding-left:21px;}
+.lang-switch-menu button.active{color:var(--burgundy);font-weight:700;}
+.lang-switch-menu button .lang-code{
+  width:26px;height:18px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--off-white);
+  font-size:10px;font-weight:700;letter-spacing:0.04em;
+  color:var(--burgundy);
+  font-family:var(--display);
+}
+.lang-switch-menu button.active .lang-code{background:var(--burgundy);color:var(--white);}
+.lang-switch-menu button .lang-native{margin-left:auto;font-size:11px;color:var(--grey);}
+
+/* RTL adjustments when Arabic is active */
+html[dir="rtl"] body{direction:rtl;}
+html[dir="rtl"] .lang-switch{margin-left:0;margin-right:28px;}
+html[dir="rtl"] .lang-switch-menu{right:auto;left:0;}
+html[dir="rtl"] .lang-switch-menu button{text-align:right;}
+html[dir="rtl"] .lang-switch-menu button:hover{padding-left:16px;padding-right:21px;}
+html[dir="rtl"] .lang-switch-menu button .lang-native{margin-left:0;margin-right:auto;}
+html[dir="rtl"] .produits-row-list li{padding-left:0;padding-right:20px;}
+html[dir="rtl"] .produits-row-list li::before{left:auto;right:0;}
+html[dir="rtl"] .produits-row-quote{border-left:none;border-right:2px solid var(--burgundy);padding-left:0;padding-right:14px;}
+html[dir="rtl"] .hero-content{left:auto;right:0;}
+html[dir="rtl"] .ci-label{margin-right:0;}
+
+@media (max-width:1080px){
+  .lang-switch{display:none;}
+}
+.lang-switch-mobile{
+  display:flex;gap:8px;
+  margin:6px 0 22px;
+}
+.lang-switch-mobile button{
+  flex:1;
+  padding:10px 0;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.18);
+  color:rgba(255,255,255,0.7);
+  font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:0.06em;
+  cursor:pointer;
+  transition:background .25s, color .25s, border-color .25s;
+}
+.lang-switch-mobile button.active{
+  background:var(--burgundy);border-color:var(--burgundy);color:var(--white);
+}
+
+.nav-mobile-panel{
+  display:none;
+}
+
+@media (max-width:1080px){
+  .nav-group{display:none;}
+  .nav{justify-content:space-between;height:110px;}
+  .nav.scrolled{
+    height:78px;
+    background:rgba(255,255,255,0.82);
+    backdrop-filter:blur(18px) saturate(160%);
+    -webkit-backdrop-filter:blur(18px) saturate(160%);
+  }
+  .nav-progress{display:block;}
+  .nav-crest{width:84px;height:84px;}
+  .nav.scrolled .nav-crest{width:54px;height:54px;}
+  .nav-burger{display:flex;}
+  /* burger stays on the left (first in DOM); crest sits on the right via flex space-between */
+  .nav-crest{animation:crestDropMobile .8s cubic-bezier(.2,.9,.25,1.3) .15s forwards, badgeBreathe 5s ease-in-out 1.2s infinite;}
+  @keyframes crestDropMobile{
+    from{opacity:0;transform:translateY(-26px) scale(0.92);}
+    to{opacity:1;transform:translateY(0) scale(1);}
+  }
+  .nav-spacer-right{display:none;}
+
+  .nav-mobile-panel{
+    display:block;
+    position:fixed;top:0;left:0;right:0;
+    background:var(--burgundy-deep);
+    z-index:199;
+    max-height:0;
+    overflow:hidden;
+    transition:max-height .5s var(--ease), box-shadow .5s var(--ease);
+    box-shadow:none;
+  }
+  .nav.menu-open + .nav-mobile-panel{
+    max-height:680px;
+    box-shadow:0 18px 40px rgba(0,0,0,0.4);
+  }
+  .nav-mobile-panel-inner{
+    padding:128px 8vw 32px;
+    display:flex;flex-direction:column;gap:2px;
+  }
+  .nav-mobile-panel-inner > a{
+    display:flex;align-items:center;gap:14px;
+    padding:16px 4px;
+    color:var(--white);
+    font-family:var(--display);
+    font-size:16px;font-weight:600;
+    letter-spacing:0.05em;text-transform:uppercase;
+    border-bottom:1px solid rgba(255,255,255,0.12);
+    opacity:0;transform:translateY(10px);
+    transition:opacity .25s, color .25s;
+  }
+  .nmp-num{
+    font-family:var(--display);font-size:11px;font-weight:600;
+    color:var(--burgundy-light);letter-spacing:0.05em;
+  }
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > a{
+    animation:mobileLinkIn .5s var(--ease) forwards;
+  }
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > a:nth-child(1){animation-delay:.08s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > a:nth-child(2){animation-delay:.13s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > a:nth-child(3){animation-delay:.18s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > a:nth-child(4){animation-delay:.23s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > a:nth-child(5){animation-delay:.28s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > a:nth-child(6){animation-delay:.33s;}
+  @keyframes mobileLinkIn{to{opacity:1;transform:translateY(0);}}
+  .nav-mobile-panel-inner > a:hover{color:var(--burgundy-light);}
+  .nav-mobile-panel-inner > a:last-of-type{border-bottom:none;}
+
+  /* mobile produits dropdown */
+  .nmp-dropdown{
+    opacity:0;transform:translateY(10px);
+    border-bottom:1px solid rgba(255,255,255,0.12);
+  }
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner > .nmp-dropdown{
+    animation:mobileLinkIn .5s var(--ease) forwards;
+  }
+  .nmp-dropdown-trigger{
+    display:flex;align-items:center;justify-content:space-between;gap:14px;
+    width:100%;
+    padding:16px 4px;
+    background:none;border:none;
+    color:var(--white);
+    font-family:var(--display);
+    font-size:16px;font-weight:600;
+    letter-spacing:0.05em;text-transform:uppercase;
+    cursor:pointer;
+  }
+  .nmp-dropdown-trigger-label{display:flex;align-items:center;gap:14px;}
+  .nmp-dropdown-caret{width:11px;height:11px;transition:transform .3s var(--ease);flex-shrink:0;}
+  .nmp-dropdown-caret svg{width:100%;height:100%;}
+  .nmp-dropdown.is-open .nmp-dropdown-caret{transform:rotate(180deg);}
+  .nmp-dropdown-panel{
+    max-height:0;overflow:hidden;
+    transition:max-height .35s var(--ease);
+  }
+  .nmp-dropdown.is-open .nmp-dropdown-panel{max-height:160px;}
+  .nmp-dropdown-panel a{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 4px 13px 38px;
+    color:rgba(255,255,255,0.82);
+    font-family:var(--display);
+    font-size:14px;font-weight:600;
+    letter-spacing:0.04em;text-transform:uppercase;
+  }
+  .nmp-dropdown-panel a:hover{color:var(--burgundy-light);}
+  .nmp-dropdown-icon{
+    width:24px;height:24px;flex-shrink:0;
+    display:flex;align-items:center;justify-content:center;
+    border-radius:50%;
+    background:rgba(255,255,255,0.1);
+    color:var(--white);
+  }
+  .nmp-dropdown-icon svg{width:14px;height:14px;}
+
+  .nav-mobile-panel-footer{
+    margin-top:16px;padding-top:22px;
+    border-top:1px solid rgba(255,255,255,0.14);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+    opacity:0;transform:translateY(10px);
+  }
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-footer{
+    animation:mobileLinkIn .5s var(--ease) .38s forwards;
+  }
+  .nmp-call{display:flex;flex-direction:column;gap:4px;}
+  .nmp-call-label{
+    font-family:var(--display);font-size:10.5px;letter-spacing:0.12em;
+    text-transform:uppercase;color:rgba(255,255,255,0.55);
+  }
+  .nmp-call-number{
+    font-family:var(--body);font-style:italic;font-size:16.5px;
+    color:var(--white);letter-spacing:0;transition:color .25s;
+  }
+  .nmp-call:hover .nmp-call-number{color:var(--burgundy-light);}
+  .nmp-social{display:flex;gap:10px;flex-shrink:0;}
+  .nmp-social a{
+    width:36px;height:36px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-size:12px;color:var(--white);
+    transition:border-color .25s, background .25s;
+  }
+  .nmp-social a:hover{border-color:var(--burgundy-light);background:rgba(110,14,34,0.3);}
+
+  body.menu-locked{overflow:hidden;}
+}
+
+@media (max-width:480px){
+  .nav{height:96px;}
+  .nav.scrolled{height:70px;}
+  .nav-crest{width:82px;height:82px;}
+  .nav.scrolled .nav-crest{width:54px;height:54px;}
+  .nav-mobile-panel-inner{padding-top:112px;}
+}
+
+/* ============================================
+   HERO — image mosaic with overlay content
+   FIXED in viewport; page content scrolls over it (reveal effect)
+   ============================================ */
+.hero{
+  position:fixed;
+  top:0;left:0;right:0;
+  height:100vh;
+  min-height:620px;
+  overflow:hidden;
+  background:var(--ink);
+  z-index:1;
+  transform:translateY(calc(var(--hero-drift, 0px) * -1));
+  will-change:transform;
+}
+
+/* ============================================
+   CURSEUR PERSONNALISÉ AVANCÉ
+   ============================================ */
+*, body {
+  cursor: none !important;
+}
+
+#cursor-dot {
+  position: fixed;
+  width: 40px; height: 40px;
+  background: url("{% static 'images/image_10.png' %}") center/contain no-repeat;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s var(--ease), width 0.25s var(--ease), height 0.25s var(--ease), opacity 0.2s;
+}
+
+#cursor-ring {
+  position: fixed;
+  width: 44px; height: 44px;
+  border: 1.5px solid rgba(110,14,34,0.7);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.35s var(--ease), height 0.35s var(--ease), border-color 0.3s, opacity 0.3s;
+}
+
+#cursor-halo {
+  position: fixed;
+  width: 56px; height: 56px;
+  border: 1px dashed rgba(110,14,34,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+#cursor-trail {
+  position: fixed;
+  width: 6px; height: 6px;
+  background: rgba(110,14,34,0.35);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9996;
+  transform: translate(-50%, -50%);
+}
+
+/* États hover */
+body.cursor-hover #cursor-dot {
+  width: 48px; height: 48px;
+}
+body.cursor-hover #cursor-ring {
+  width: 60px; height: 60px;
+  border-color: var(--burgundy);
+}
+body.cursor-hover #cursor-halo {
+  opacity: 0.6;
+}
+
+/* Cacher sur mobile */
+@media (hover: none) or (pointer: coarse) {
+  #cursor-dot, #cursor-ring, #cursor-halo, #cursor-trail {
+    display: none;
+  }
+  *, body { cursor: auto !important; }
+}
+/* spacer that occupies the same height in normal flow so content below starts after the hero */
+.hero-spacer{
+  height:100vh;
+  min-height:620px;
+  width:100%;
+}
+.hero-mosaic{
+  position:absolute;inset:0;
+  background:var(--ink);
+}
+.hero-mosaic .tile{
+  position:absolute;inset:0;
+  opacity:0;
+  z-index:1;
+  transition:opacity 1.1s var(--ease);
+}
+.hero-mosaic .tile.active{
+  opacity:1;
+  z-index:2;
+}
+@keyframes tileIn{to{opacity:1;transform:scale(1);}}
+.hero-mosaic .tile img{
+  width:100%;height:100%;object-fit:cover;
+  position:absolute;inset:0;
+  animation:tileDrift 16s ease-in-out infinite alternate;
+  transition:transform .6s var(--ease), filter .6s var(--ease);
+  filter:saturate(1) brightness(1);
+}
+@keyframes tileDrift{
+  from{transform:scale(1.04) translateY(0);}
+  to{transform:scale(1.12) translateY(-2%);}
+}
+@media (hover:hover) and (pointer:fine){
+  .hero-mosaic .tile:hover img{
+    filter:saturate(1.18) brightness(1.06);
+    transform:scale(1.16) !important;
+  }
+  .hero-mosaic .tile:hover::after{
+    opacity:1;
+  }
+}
+.hero-mosaic .tile::after{
+  content:"";position:absolute;inset:0;
+  background:radial-gradient(circle at 50% 50%, rgba(110,14,34,0.0) 0%, rgba(110,14,34,0.28) 100%);
+  opacity:0;
+  transition:opacity .5s var(--ease);
+  pointer-events:none;
+}
+.hero-mosaic::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(20,6,11,0.22) 0%, rgba(20,6,11,0.32) 32%, rgba(20,6,11,0.84) 58%, rgba(20,6,11,0.96) 100%);
+  pointer-events:none;
+  z-index:3;
+}
+
+/* hero-badge removed — merged into .nav-crest (single red-plate logo, always visible in nav) */
+
+.hero-content{
+  position:absolute;z-index:5;left:0;bottom:0;
+  padding:0 6vw 18vh;color:var(--white);
+  max-width:1040px;
+}
+.hero h1{
+  font-size:clamp(28px, 3.6vw, 50px);
+  line-height:1.2;
+  font-weight:700;
+  text-shadow:0 2px 18px rgba(0,0,0,0.55);
+  opacity:0;transform:translateY(24px);
+  animation:rise 1s var(--ease) .9s forwards;
+}
+.hero h1 .accent{color:#C23A56;}
+.hero-sub{
+  margin-top:20px;max-width:54ch;
+  font-family:var(--body);
+  font-size:16.5px;color:rgba(255,255,255,0.82);
+  text-shadow:0 1px 10px rgba(0,0,0,0.45);
+  opacity:0;transform:translateY(18px);
+  animation:rise 1s var(--ease) 1.15s forwards;
+}
+@keyframes rise{to{opacity:1;transform:translateY(0);}}
+
+
+.btn-plus{
+  width:60px;height:60px;flex-shrink:0;
+  border:2px solid var(--white);
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(4px);
+  color:var(--white);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;font-weight:300;
+  cursor:pointer;
+  transition:background .3s, transform .3s var(--ease), border-color .3s;
+}
+.btn-plus:hover{background:rgba(255,255,255,0.28);border-color:rgba(255,255,255,0.9);transform:rotate(90deg);}
+.btn-solid{
+  height:60px;
+  display:flex;align-items:center;
+  font-family:var(--display);font-size:13.5px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  background:var(--burgundy);color:var(--white);
+  padding:0 40px;
+  border:2px solid var(--burgundy);
+  position:relative;overflow:hidden;
+  transition:background .3s, transform .3s var(--ease), box-shadow .3s;
+  box-shadow:0 6px 24px rgba(110,14,34,0.5);
+}
+.btn-solid::before{
+  content:"";position:absolute;top:0;left:-60%;width:40%;height:100%;
+  background:linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.35) 50%, rgba(255,255,255,0) 100%);
+  transform:skewX(-20deg);
+  animation:btnShine 3.6s ease-in-out infinite;
+}
+@keyframes btnShine{
+  0%{left:-60%;}
+  35%{left:130%;}
+  100%{left:130%;}
+}
+.btn-solid:hover{background:var(--burgundy-light);transform:translateY(-3px);box-shadow:0 12px 32px rgba(110,14,34,0.65);border-color:var(--burgundy-light);}
+
+.hero-dots{
+  position:absolute;bottom:5vh;right:6vw;z-index:6;display:flex;gap:12px;
+}
+.hero-dot{
+  width:32px;height:3px;background:rgba(255,255,255,0.32);
+  cursor:pointer;border:none;padding:0;position:relative;overflow:hidden;
+  transition:transform .3s var(--ease), width .3s var(--ease);
+}
+.hero-dot:hover{transform:scaleY(1.8);}
+.hero-dot::after{
+  content:"";position:absolute;inset:0;background:var(--white);
+  transform:scaleX(0);transform-origin:left;transition:transform .3s;
+}
+.hero-dot.active::after{transform:scaleX(1);}
+.hero-dot.active{width:44px;}
+
+@media (max-width:880px){
+  .hero-tagline-row{flex-wrap:wrap;}
+  .hero-dots{display:none;}
+}
+
+/* ============================================
+   REVEAL UTILITIES
+   ============================================ */
+.reveal{
+  opacity:0;transform:translateY(34px) scale(.985);filter:blur(4px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease), filter .9s var(--ease);
+}
+.reveal.is-visible{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+.reveal-stagger > *{
+  opacity:0;transform:translateY(26px) scale(.97);filter:blur(3px);
+  transition:opacity .7s var(--ease), transform .7s var(--ease), filter .7s var(--ease);
+}
+.reveal-stagger.is-visible > *{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
+.reveal-stagger.is-visible > *:nth-child(1){transition-delay:.05s;}
+.reveal-stagger.is-visible > *:nth-child(2){transition-delay:.15s;}
+.reveal-stagger.is-visible > *:nth-child(3){transition-delay:.25s;}
+.reveal-stagger.is-visible > *:nth-child(4){transition-delay:.35s;}
+.reveal-stagger.is-visible > *:nth-child(5){transition-delay:.45s;}
+
+/* ============================================
+   INTRO — compact split layout
+   ============================================ */
+.intro{
+  padding:0;
+  overflow:hidden;
+  border-bottom:1px solid var(--line);
+}
+.intro-inner{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-height:440px;
+}
+.intro-left{
+  padding:64px 6vw 64px 6vw;
+  display:flex;flex-direction:column;justify-content:center;
+  border-right:1px solid var(--line);
+  position:relative;
+}
+.intro-left::before{
+  content:"";position:absolute;top:0;left:0;width:3px;height:0;
+  background:var(--burgundy);
+  transition:height 1.2s var(--ease);
+}
+.intro-left.is-visible::before{height:100%;}
+.intro .eyebrow{display:block;margin-bottom:14px;}
+.intro h2{
+  font-size:clamp(22px,2.8vw,36px);
+  line-height:1.15;
+  margin-bottom:0;
+}
+.intro h2 .thin{
+  font-weight:300;color:var(--burgundy);
+  font-family:var(--body);font-style:italic;
+  text-transform:none;display:block;
+  font-size:0.6em;letter-spacing:0;margin-top:6px;
+}
+.intro-right{
+  padding:64px 6vw;
+  display:flex;flex-direction:column;justify-content:center;
+  background:var(--off-white);
+  gap:28px;
+}
+.intro-right p{
+  color:var(--grey);font-size:15.5px;line-height:1.75;
+}
+.intro-link{
+  display:inline-flex;align-items:center;gap:10px;
+  font-family:var(--display);font-size:12.5px;font-weight:600;
+  letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--burgundy);
+  transition:gap .3s var(--ease);
+  width:fit-content;
+}
+.intro-link::after{
+  content:"→";font-size:16px;
+  transition:transform .3s var(--ease);
+}
+.intro-link:hover{gap:16px;}
+.intro-link:hover::after{transform:translateX(4px);}
+
+/* Process tabs — horizontal strip below intro */
+.intro-tabs-strip{
+  border-top:1px solid var(--line);
+  display:grid;grid-template-columns:repeat(4,1fr);
+}
+.process-tab{
+  text-align:center;padding:20px 14px;
+  font-family:var(--display);font-size:12px;font-weight:600;
+  letter-spacing:0.04em;text-transform:uppercase;
+  color:var(--grey);
+  border-right:1px solid var(--line);
+  cursor:pointer;
+  position:relative;
+  transition:color .3s, background .3s;
+}
+.process-tab:last-child{border-right:none;}
+.process-tab .tnum{color:var(--burgundy);margin-right:6px;}
+.process-tab.active{color:var(--ink);background:var(--off-white);}
+.process-tab::after{
+  content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:var(--burgundy);
+  transform:scaleX(0);transition:transform .3s var(--ease);
+}
+.process-tab.active::after{transform:scaleX(1);}
+
+@media (max-width:880px){
+  .intro-inner{grid-template-columns:1fr;}
+  .intro-left{border-right:none;border-bottom:1px solid var(--line);padding:48px 6vw;}
+  .intro-right{padding:40px 6vw;}
+  .intro-tabs-strip{grid-template-columns:1fr 1fr;}
+  .process-tab{border-bottom:1px solid var(--line);}
+  .process-tab:nth-child(2){border-right:none;}
+}
+@media (max-width:480px){
+  .intro-tabs-strip{grid-template-columns:1fr 1fr;}
+  .process-tab{padding:16px 10px;font-size:11px;}
+}
+
+/* process-tabs styles merged into .intro CSS above */
+
+/* ============================================
+   PRODUITS — "Nos expertises" — vitrine alternée
+   ============================================ */
+.produits{
+  background:var(--white);
+  position:relative;
+  padding:96px 0 8px;
+}
+.produits-header{
+  max-width:760px;
+  padding:0 6vw 64px;
+  opacity:0;
+  transform:translateY(28px);
+  transition:opacity .9s var(--ease), transform .9s var(--ease);
+}
+.produits-header.is-visible{
+  opacity:1;
+  transform:translateY(0);
+}
+.produits-header .produits-nav-eyebrow{
+  font-family:var(--display);font-size:11px;font-weight:600;
+  letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--burgundy);display:block;margin-bottom:14px;
+}
+.produits-header h2{
+  font-size:clamp(26px,3.4vw,42px);
+  color:var(--ink);
+  margin-bottom:16px;
+}
+.produits-header-sub{
+  font-family:var(--body);font-size:16px;line-height:1.7;
+  color:var(--grey);max-width:56ch;
+}
+
+/* Alternating expertise rows */
+.produits-list{
+  display:flex;flex-direction:column;
+}
+
+/* "Avancer" reveal — rows slide in horizontally, alternating direction with the layout,
+   instead of the generic fade-up used elsewhere on the page. */
+.produits-row.reveal{
+  opacity:0;filter:blur(0);
+  transform:translateX(-64px) scale(.98);
+  transition:opacity 1s var(--ease), transform 1s var(--ease);
+}
+.produits-row.reverse.reveal{
+  transform:translateX(64px) scale(.98);
+}
+.produits-row.reveal.is-visible{
+  opacity:1;transform:translateX(0) scale(1);
+}
+.produits-row.reveal .produits-row-media{
+  transition:transform .9s var(--ease) .15s, filter .9s var(--ease) .15s;
+  transform:scale(1.06);
+}
+.produits-row.reveal.is-visible .produits-row-media{
+  transform:scale(1);
+}
+.produits-row.reveal .produits-row-bignum{
+  opacity:0;transform:translateX(-16px);
+  transition:opacity .6s var(--ease) .45s, transform .6s var(--ease) .45s;
+}
+.produits-row.reveal.is-visible .produits-row-bignum{
+  opacity:1;transform:translateX(0);
+}
+@media (max-width:900px){
+  .produits-row.reveal,
+  .produits-row.reverse.reveal{
+    transform:translateY(40px) scale(.98);
+  }
+  .produits-row.reveal.is-visible{
+    transform:translateY(0) scale(1);
+  }
+}
+.produits-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;
+  gap:6vw;
+  padding:56px 6vw;
+  border-top:1px solid var(--line);
+}
+.produits-row:last-child{border-bottom:1px solid var(--line);}
+.produits-row:nth-child(even){background:var(--off-white);}
+
+.produits-row-media{
+  order:1;
+  position:relative;
+  overflow:hidden;
+  border:1px solid var(--line);
+  aspect-ratio:5/4;
+}
+.produits-row.reverse .produits-row-media{order:2;}
+.produits-row.reverse .produits-row-body{order:1;}
+.produits-row-media img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .8s var(--ease), filter .8s var(--ease);
+}
+.produits-row:hover .produits-row-media img{
+  transform:scale(1.05);
+}
+/* Oversized index number, knocked out of a soft burgundy plate top-left of the image */
+.produits-row-bignum{
+  position:absolute;top:0;left:0;
+  width:74px;height:74px;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--burgundy);
+  color:var(--white);
+  font-family:var(--display);font-weight:700;font-size:22px;
+  letter-spacing:0.02em;
+  z-index:2;
+}
+
+.produits-row-body{
+  order:2;
+  padding:0 4px;
+}
+.produits-row-eyebrow{
+  font-family:var(--display);font-size:11px;font-weight:600;
+  letter-spacing:0.18em;text-transform:uppercase;
+  color:var(--burgundy);display:block;margin-bottom:14px;
+}
+.produits-row-body h3{
+  font-size:clamp(22px,2.4vw,30px);
+  color:var(--ink);margin-bottom:18px;
+}
+.produits-row-body > p{
+  font-family:var(--body);font-size:15.5px;line-height:1.75;
+  color:var(--ink);opacity:0.78;
+  max-width:48ch;margin-bottom:22px;
+}
+.produits-row-list{
+  list-style:none;margin:0 0 24px;padding:0;
+  display:grid;gap:11px;
+}
+.produits-row-list li{
+  font-family:var(--body);font-size:14.5px;color:var(--ink);
+  padding-left:20px;position:relative;
+}
+.produits-row-list li::before{
+  content:"—";position:absolute;left:0;top:0;
+  color:var(--burgundy);font-weight:600;
+}
+.produits-row-quote{
+  font-family:var(--body);font-style:italic;font-size:14px;
+  color:var(--burgundy-light);
+  padding-left:14px;
+  border-left:2px solid var(--burgundy);
+}
+
+@media (max-width:900px){
+  .produits-row{grid-template-columns:1fr;gap:26px;padding:40px 6vw;}
+  .produits-row.reverse .produits-row-media,
+  .produits-row-media{order:1;}
+  .produits-row.reverse .produits-row-body,
+  .produits-row-body{order:2;}
+}
+@media (max-width:680px){
+  .produits{padding:64px 0 4px;}
+  .produits-header{padding:0 6vw 40px;}
+  .produits-row{padding:32px 6vw;}
+  .produits-row-body h3{font-size:20px;}
+}
+
+
+
+/* ============================================
+   ENGAGEMENTS — slider infini animé (marquee), rangée unique
+   ============================================ */
+.engagements{
+  background:var(--off-white);
+  padding:0 0 120px;
+  overflow:hidden;
+  position:relative;
+}
+.engagements-head{
+  text-align:center;
+  padding:90px 6vw 20px;
+  background:transparent;
+  position:relative;
+}
+.engagements-head .eyebrow{display:block;margin-bottom:14px;}
+.engagements-head h2{
+  font-size:clamp(30px,4.5vw,54px);
+  color:var(--ink);
+  margin:0;
+  font-weight:700;
+  letter-spacing:0.01em;
+}
+/* progress underline that grows in on reveal, purely decorative */
+.engagements-head::after{
+  content:"";
+  display:block;
+  width:64px;height:3px;
+  background:var(--burgundy);
+  margin:22px auto 0;
+  transform:scaleX(0);
+  transform-origin:50% 50%;
+  transition:transform .7s var(--ease) .15s;
+}
+.engagements-head.is-visible::after{transform:scaleX(1);}
+
+/* pause control button */
+.eng-pause-btn{
+  display:flex;align-items:center;gap:9px;
+  margin:0 auto 56px;
+  padding:11px 22px;
+  border:1px solid var(--line);
+  background:var(--white);
+  border-radius:30px;
+  font-family:var(--display);
+  font-size:11.5px;
+  font-weight:600;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color:var(--burgundy);
+  cursor:pointer;
+  transition:border-color .3s, background .3s, color .3s, box-shadow .3s, transform .25s var(--ease);
+  width:fit-content;
+  box-shadow:0 6px 18px rgba(34,19,22,0.06);
+}
+.eng-pause-btn:hover{
+  border-color:var(--burgundy);
+  background:var(--off-white);
+  transform:translateY(-2px);
+  box-shadow:0 10px 24px rgba(34,19,22,0.1);
+}
+.eng-pause-btn .eng-pause-icon{
+  width:14px;height:14px;
+  position:relative;
+  flex-shrink:0;
+}
+.eng-pause-btn .eng-pause-icon span{
+  position:absolute;top:0;bottom:0;width:4px;
+  background:currentColor;
+  border-radius:1px;
+}
+.eng-pause-btn .eng-pause-icon span:first-child{left:0;}
+.eng-pause-btn .eng-pause-icon span:last-child{right:0;}
+.eng-pause-btn.is-paused .eng-pause-icon{
+  width:0;height:0;
+  border-style:solid;
+  border-width:7px 0 7px 12px;
+  border-color:transparent transparent transparent currentColor;
+}
+.eng-pause-btn.is-paused .eng-pause-icon span{display:none;}
+
+/* ---- viewport + edge fade masks ---- */
+.eng-slider{
+  position:relative;
+  width:100%;
+  padding:14px 0 34px;
+  -webkit-mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image:linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+/* ---- the actual moving track ---- */
+.eng-track{
+  display:flex;
+  width:max-content;
+  gap:34px;
+  animation:engScroll var(--eng-duration, 34s) linear infinite;
+  animation-play-state:running;
+}
+.eng-slider:hover .eng-track,
+.eng-slider:focus-within .eng-track,
+.eng-track.is-paused{
+  animation-play-state:paused;
+}
+@keyframes engScroll{
+  from{transform:translateX(0);}
+  to{transform:translateX(-50%);}
+}
+@keyframes engScrollRTL{
+  from{transform:translateX(0);}
+  to{transform:translateX(50%);}
+}
+html[dir="rtl"] .eng-slider{
+  -webkit-mask-image:linear-gradient(270deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+  mask-image:linear-gradient(270deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+html[dir="rtl"] .eng-track{
+  animation-name:engScrollRTL;
+  direction:ltr;
+}
+
+/* ---- cards ---- */
+.eng-card{
+  flex:0 0 auto;
+  width:340px;
+  background:var(--white);
+  border:1px solid var(--line);
+  display:flex;flex-direction:column;
+  position:relative;
+  box-shadow:0 10px 30px rgba(34,19,22,0.06);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease);
+}
+.eng-card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 28px 56px rgba(34,19,22,0.18);
+  border-color:rgba(110,14,34,0.4);
+  z-index:2;
+}
+.eng-card-media{
+  position:relative;
+  height:210px;
+  overflow:hidden;
+}
+.eng-card-media::after{
+  content:"";
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(34,19,22,0) 50%, rgba(34,19,22,0.4) 100%);
+  opacity:0;
+  transition:opacity .4s var(--ease);
+}
+.eng-card:hover .eng-card-media::after{opacity:1;}
+.eng-card-media img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .8s var(--ease), filter .8s var(--ease);
+  filter:saturate(1);
+}
+.eng-card:hover .eng-card-media img{transform:scale(1.1);}
+.eng-card-num{
+  position:absolute;top:16px;left:16px;
+  width:38px;height:38px;
+  background:linear-gradient(155deg, var(--white) 0%, #F3ECEB 100%);
+  color:var(--burgundy);
+  font-family:var(--display);font-weight:700;font-size:13px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 6px 16px rgba(0,0,0,0.18);
+  border-radius:2px;
+  transition:transform .45s var(--ease), background .45s var(--ease), color .45s var(--ease), box-shadow .45s var(--ease);
+}
+.eng-card:hover .eng-card-num{
+  transform:scale(1.1) rotate(-4deg);
+  background:linear-gradient(155deg, var(--burgundy) 0%, var(--burgundy-deep) 100%);
+  color:var(--white);
+  box-shadow:0 8px 20px rgba(110,14,34,0.35);
+}
+.eng-card-body{
+  padding:26px 24px 30px;
+  border-top:3px solid var(--burgundy);
+  position:relative;
+  overflow:hidden;
+}
+.eng-card-body::before{
+  content:"";
+  position:absolute;top:-3px;left:0;
+  width:0;height:3px;
+  background:linear-gradient(90deg, var(--burgundy-light), var(--burgundy));
+  transition:width .55s var(--ease);
+}
+.eng-card:hover .eng-card-body::before{width:100%;}
+.eng-card h3{
+  font-size:17px;
+  color:var(--ink);
+  margin:0 0 11px;
+  line-height:1.25;
+  letter-spacing:0.01em;
+}
+.eng-card p{
+  font-size:14px;
+  color:var(--grey);
+  line-height:1.6;
+  margin:0;
+  font-family:var(--body);
+  text-transform:none;
+  letter-spacing:normal;
+}
+
+@media (max-width:980px){
+  .eng-card{width:280px;}
+  .eng-card-media{height:180px;}
+}
+@media (max-width:560px){
+  .engagements-head{padding:64px 6vw 16px;}
+  .eng-pause-btn{margin-bottom:36px;}
+  .eng-card{width:240px;}
+  .eng-card-media{height:160px;}
+  .eng-track{gap:20px;animation-duration:24s;}
+}
+@media (prefers-reduced-motion: reduce){
+  .eng-track{animation:none;}
+}
+
+/* ============================================
+   CERTIFICATIONS STRIP
+   ============================================ */
+.certs{
+  padding:100px 0 110px;text-align:center;position:relative;overflow:hidden;
+}
+.certs-bg-glow{
+  position:absolute;top:-220px;left:50%;transform:translateX(-50%);
+  width:900px;height:520px;border-radius:50%;
+  background:radial-gradient(circle, rgba(110,14,34,0.08) 0%, rgba(110,14,34,0) 70%);
+  pointer-events:none;
+}
+.certs .eyebrow{display:block;margin-bottom:16px;}
+.certs h2{font-size:clamp(26px,3.4vw,38px);margin-bottom:16px;}
+.certs-sub{
+  max-width:560px;margin:0 auto 56px;color:var(--grey);font-size:15px;line-height:1.7;
+}
+.certs-footnote{
+  margin-top:48px;font-size:12px;letter-spacing:0.03em;color:var(--grey);
+}
+
+.certs-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:36px;
+  position:relative;z-index:1;
+}
+@media (max-width:900px){
+  .certs-grid{grid-template-columns:1fr;max-width:420px;margin:0 auto;}
+}
+
+.cert-card{ perspective:1200px; }
+
+.cert-card-frame{
+  position:relative;background:var(--white,#fff);
+  border:1px solid var(--line);border-radius:4px;
+  padding:14px;text-align:left;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .5s var(--ease);
+  will-change:transform;
+}
+.cert-card-frame:hover{
+  transform:translateY(-10px) rotateX(2deg);
+  box-shadow:0 30px 60px -20px rgba(110,14,34,0.28);
+  border-color:rgba(110,14,34,0.35);
+}
+
+.cert-corner{
+  position:absolute;width:22px;height:22px;
+  border:1.5px solid var(--burgundy);
+  opacity:0;transition:opacity .5s var(--ease), width .5s var(--ease), height .5s var(--ease);
+}
+.cert-corner-tl{top:6px;left:6px;border-right:none;border-bottom:none;}
+.cert-corner-tr{top:6px;right:6px;border-left:none;border-bottom:none;}
+.cert-corner-bl{bottom:6px;left:6px;border-right:none;border-top:none;}
+.cert-corner-br{bottom:6px;right:6px;border-left:none;border-top:none;}
+.cert-card-frame:hover .cert-corner{opacity:1;width:30px;height:30px;}
+
+.cert-card-media{
+  position:relative;overflow:hidden;border-radius:2px;
+  aspect-ratio:4/3;background:#f4efec;
+  border:1px solid var(--line);
+  cursor:pointer;
+}
+.cert-card-media img{
+  width:100%;height:100%;object-fit:cover;object-position:top;
+  transition:transform .7s var(--ease), filter .5s var(--ease);
+  display:block;
+}
+.cert-card-frame:hover .cert-card-media img{transform:scale(1.08);}
+
+.cert-card-shine{
+  position:absolute;top:0;left:-75%;width:45%;height:100%;
+  background:linear-gradient(115deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.55) 50%, rgba(255,255,255,0) 100%);
+  transform:skewX(-20deg);pointer-events:none;
+}
+.cert-card-frame:hover .cert-card-shine{animation:certShine 1.1s ease-in-out;}
+@keyframes certShine{
+  0%{left:-75%;}
+  100%{left:140%;}
+}
+
+.cert-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg, rgba(79,10,24,0) 40%, rgba(79,10,24,0.86) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  gap:8px;padding:0 0 16px;
+  color:#fff;font-family:var(--display);font-size:11px;letter-spacing:0.08em;text-transform:uppercase;
+  opacity:0;transform:translateY(8px);
+  transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.cert-card-frame:hover .cert-card-overlay{opacity:1;transform:translateY(0);}
+.cert-zoom-icon{
+  width:38px;height:38px;border-radius:50%;
+  border:1.4px solid rgba(255,255,255,0.8);
+  display:flex;align-items:center;justify-content:center;
+  transform:scale(.8);transition:transform .4s var(--ease);
+}
+.cert-card-frame:hover .cert-zoom-icon{transform:scale(1);}
+.cert-zoom-icon svg{width:16px;height:16px;color:#fff;}
+
+.cert-card-body{padding:22px 8px 10px;}
+.cert-card-number{
+  display:inline-block;font-family:var(--display);font-size:10.5px;letter-spacing:0.1em;
+  color:var(--burgundy);background:rgba(110,14,34,0.07);
+  border:1px solid rgba(110,14,34,0.18);border-radius:20px;
+  padding:4px 12px;margin-bottom:12px;
+}
+.cert-card-body h3{
+  font-family:var(--display);font-size:16.5px;letter-spacing:0.01em;
+  color:var(--ink);margin-bottom:8px;line-height:1.35;
+}
+.cert-card-body p{
+  font-size:13px;line-height:1.65;color:var(--grey);margin-bottom:16px;
+}
+.cert-card-issuer{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:11px;letter-spacing:0.08em;font-weight:600;color:var(--burgundy);
+  padding-top:14px;border-top:1px solid var(--line);width:100%;
+}
+.cert-card-issuer svg{width:14px;height:14px;}
+
+.certs-grid.reveal-stagger > .cert-card{transform:translateY(28px) scale(.97);}
+.certs-grid.reveal-stagger.is-visible > .cert-card{transform:translateY(0) scale(1);}
+
+.cert-lightbox{
+  position:fixed;inset:0;z-index:900;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;visibility:hidden;
+  transition:opacity .4s var(--ease), visibility 0s linear .4s;
+}
+.cert-lightbox.is-open{
+  opacity:1;visibility:visible;
+  transition:opacity .4s var(--ease), visibility 0s linear 0s;
+}
+.cert-lightbox-backdrop{
+  position:absolute;inset:0;background:rgba(34,19,22,0.9);backdrop-filter:blur(6px);
+}
+.cert-lightbox-inner{
+  position:relative;max-width:min(560px,88vw);max-height:86vh;
+  transform:scale(.9);transition:transform .45s var(--ease);
+}
+.cert-lightbox.is-open .cert-lightbox-inner{transform:scale(1);}
+.cert-lightbox-inner img{
+  width:100%;height:100%;max-height:86vh;object-fit:contain;
+  border-radius:4px;box-shadow:0 30px 80px rgba(0,0,0,0.5);
+  border:1px solid rgba(255,255,255,0.15);
+}
+.cert-lightbox-close{
+  position:absolute;top:-46px;right:0;width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:background .3s, transform .3s var(--ease);
+}
+.cert-lightbox-close:hover{background:var(--burgundy);transform:rotate(90deg);}
+.cert-lightbox-close svg{width:16px;height:16px;color:#fff;}
+@media (max-width:640px){
+  .cert-lightbox-close{top:-42px;right:0;}
+}
+
+/* ============================================
+   AVIS CLIENT — formulaire stylisé
+   ============================================ */
+.reviews{
+  background:var(--burgundy-deep);
+  color:var(--white);
+  padding:120px 0;
+  position:relative;
+  overflow:hidden;
+}
+.reviews-bg-shape{
+  position:absolute;
+  top:-30%;right:-10%;
+  width:640px;height:640px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(140,27,51,0.35) 0%, rgba(140,27,51,0) 70%);
+  pointer-events:none;
+}
+.reviews-bg-shape::after{
+  content:"";
+  position:absolute;
+  bottom:-260px;left:-260px;
+  width:520px;height:520px;
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(140,27,51,0.22) 0%, rgba(140,27,51,0) 70%);
+}
+.news-head{text-align:center;max-width:54ch;margin:0 auto 56px;position:relative;z-index:1;}
+.news-head h2{color:var(--white);font-size:clamp(28px,3.8vw,42px);margin-top:16px;}
+.reviews-sub{
+  margin-top:18px;
+  font-family:var(--body);font-size:15.5px;line-height:1.7;
+  color:rgba(255,255,255,0.66);
+}
+
+/* ---- the form card ---- */
+.review-form{
+  position:relative;z-index:1;
+  max-width:680px;margin:0 auto;
+  background:var(--white);
+  border:1px solid rgba(255,255,255,0.14);
+  padding:48px clamp(24px,4vw,56px) 52px;
+  display:flex;flex-direction:column;gap:26px;
+  box-shadow:0 30px 70px rgba(0,0,0,0.35);
+}
+.review-form-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:22px;
+}
+.review-field{
+  display:flex;flex-direction:column;gap:9px;
+  position:relative;
+}
+.review-field label,
+.review-field-label{
+  font-family:var(--display);font-size:11px;font-weight:600;
+  letter-spacing:0.12em;text-transform:uppercase;
+  color:var(--burgundy);
+}
+.review-field input[type="text"],
+.review-field input[type="email"],
+.review-field textarea{
+  width:100%;
+  background:var(--off-white);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-family:var(--body);font-size:15px;
+  padding:13px 16px;
+  resize:vertical;
+  transition:border-color .3s var(--ease), background .3s var(--ease), box-shadow .3s var(--ease);
+}
+.review-field textarea{min-height:120px;line-height:1.6;}
+.review-field input::placeholder,
+.review-field textarea::placeholder{color:var(--grey);opacity:0.7;}
+.review-field input:focus,
+.review-field textarea:focus{
+  outline:none;
+  border-color:var(--burgundy);
+  background:var(--white);
+  box-shadow:0 0 0 4px rgba(110,14,34,0.12);
+}
+.review-field-count{
+  align-self:flex-end;
+  font-family:var(--display);font-size:11px;
+  color:var(--grey);
+}
+
+/* ---- star rating ---- */
+.review-stars{
+  display:flex;align-items:center;gap:6px;
+  margin-top:2px;
+}
+.review-star{
+  appearance:none;border:none;background:none;
+  cursor:pointer;
+  padding:4px;
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .25s cubic-bezier(.34,1.56,.64,1);
+}
+.review-star svg{
+  width:100%;height:100%;
+  fill:none;
+  stroke:var(--line);
+  stroke-width:1.4;
+  transition:fill .3s var(--ease), stroke .3s var(--ease), filter .3s var(--ease);
+}
+.review-star:hover{transform:scale(1.18) rotate(-4deg);}
+.review-star.is-active svg,
+.review-star.is-hover svg{
+  fill:#F2B33D;
+  stroke:#F2B33D;
+  filter:drop-shadow(0 0 8px rgba(242,179,61,0.45));
+}
+.review-star.is-active{transform:scale(1.05);}
+.review-stars-hint{
+  margin-left:10px;
+  font-family:var(--body);font-style:italic;font-size:13px;
+  color:var(--grey);
+  transition:color .3s, opacity .3s;
+}
+.review-stars-hint.is-rated{color:#C8901A;opacity:1;}
+.review-stars.review-shake{animation:reviewShake .45s var(--ease);}
+@keyframes reviewShake{
+  0%,100%{transform:translateX(0);}
+  20%{transform:translateX(-6px);}
+  40%{transform:translateX(6px);}
+  60%{transform:translateX(-4px);}
+  80%{transform:translateX(4px);}
+}
+
+/* ---- submit button ---- */
+.review-submit{
+  appearance:none;border:none;cursor:pointer;
+  align-self:flex-start;
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--burgundy);
+  color:var(--white);
+  font-family:var(--display);font-size:13px;font-weight:700;
+  letter-spacing:0.08em;text-transform:uppercase;
+  padding:16px 30px;
+  position:relative;overflow:hidden;
+  transition:transform .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+}
+.review-submit::before{
+  content:"";
+  position:absolute;inset:0;
+  background:var(--burgundy-deep);
+  transform:translateX(-101%);
+  transition:transform .45s var(--ease);
+  z-index:0;
+}
+.review-submit:hover::before{transform:translateX(0);}
+.review-submit:hover{
+  color:var(--white);
+  transform:translateY(-3px);
+  box-shadow:0 16px 34px rgba(110,14,34,0.35);
+}
+.review-submit-label,
+.review-submit-icon{position:relative;z-index:1;}
+.review-submit-icon{
+  width:16px;height:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .35s var(--ease);
+}
+.review-submit-icon svg{width:100%;height:100%;fill:currentColor;}
+.review-submit:hover .review-submit-icon{transform:translateX(4px);}
+.review-submit.is-loading{pointer-events:none;opacity:0.7;}
+.review-submit.is-loading .review-submit-icon{
+  animation:reviewSpin .7s linear infinite;
+}
+@keyframes reviewSpin{to{transform:rotate(360deg);}}
+
+/* ---- success state ---- */
+.review-success{
+  display:none;
+  align-items:center;gap:12px;
+  font-family:var(--body);font-size:14.5px;
+  color:#1F7A3D;
+  background:#EAF8EE;
+  border:1px solid #BCE7C8;
+  padding:14px 18px;
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity .4s var(--ease), transform .4s var(--ease);
+}
+.review-success.is-shown{
+  display:flex;
+  opacity:1;
+  transform:translateY(0);
+}
+.review-success-check{
+  width:18px;height:18px;flex-shrink:0;
+  fill:none;stroke:#1F7A3D;stroke-width:2.5;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+
+@media (max-width:640px){
+  .review-form-grid{grid-template-columns:1fr;}
+  .review-form{padding:36px 22px 42px;}
+}
+
+
+/* ============================================
+   AVIS PUBLIÉS — même animation que Engagements
+   ============================================ */
+.avis-showcase{
+  background:var(--white);
+  padding:0 0 120px;
+  overflow:hidden;
+  position:relative;
+}
+.avis-showcase-head{
+  text-align:center;
+  padding:90px 6vw 20px;
+  position:relative;
+}
+.avis-showcase-head .eyebrow{display:block;margin-bottom:14px;}
+.avis-showcase-head h2{
+  font-size:clamp(30px,4.5vw,54px);
+  color:var(--ink);
+  margin:0;
+  font-weight:700;
+  letter-spacing:0.01em;
+}
+.avis-showcase-head::after{
+  content:"";
+  display:block;
+  width:64px;height:3px;
+  background:var(--burgundy);
+  margin:22px auto 0;
+  transform:scaleX(0);
+  transform-origin:50% 50%;
+  transition:transform .7s var(--ease) .15s;
+}
+.avis-showcase-head.is-visible::after{transform:scaleX(1);}
+
+/* ---- stats bandeau (note moyenne) ---- */
+.avis-stats{
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  margin:0 auto 40px;
+  opacity:0;transform:translateY(14px);
+  transition:opacity .7s var(--ease), transform .7s var(--ease);
+}
+.avis-stats.is-visible{opacity:1;transform:translateY(0);}
+.avis-stats-score{display:flex;align-items:baseline;gap:12px;}
+.avis-stats-number{
+  font-family:var(--display);font-weight:700;
+  font-size:clamp(30px,3.4vw,38px);
+  color:var(--burgundy);
+  line-height:1;
+  font-variant-numeric:tabular-nums;
+}
+.avis-stats-stars{display:flex;gap:3px;}
+.avis-stats-stars svg{width:15px;height:15px;fill:var(--line);}
+.avis-stats-stars svg.is-filled{fill:#C8901A;}
+.avis-stats-count{
+  font-family:var(--display);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--grey);
+  padding-left:16px;border-left:1px solid var(--line);
+}
+
+/* ---- cards (flex items inside the eng-track marquee) ---- */
+.avis-card{
+  flex:0 0 auto;
+  width:340px;
+  position:relative;
+  background:var(--off-white);
+  border:1px solid var(--line);
+  padding:28px 24px 26px;
+  display:flex;flex-direction:column;gap:16px;
+  box-shadow:0 10px 30px rgba(34,19,22,0.06);
+  transition:transform .4s var(--ease), box-shadow .4s var(--ease), border-color .4s var(--ease), background .4s var(--ease);
+}
+.avis-card:hover{
+  transform:translateY(-10px) scale(1.02);
+  box-shadow:0 28px 56px rgba(34,19,22,0.18);
+  border-color:#C8901A;
+  background:var(--white);
+  z-index:2;
+}
+.avis-card-quote{
+  position:absolute;top:18px;right:22px;
+  width:28px;height:28px;
+  opacity:0.08;
+  fill:var(--burgundy);
+}
+.avis-card-head{display:flex;align-items:center;gap:13px;}
+.avis-card-avatar{
+  width:44px;height:44px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(135deg,var(--burgundy-light),var(--burgundy-deep));
+  color:var(--white);
+  font-family:var(--display);font-size:14px;font-weight:700;letter-spacing:0.02em;
+}
+.avis-card-id{display:flex;flex-direction:column;gap:2px;min-width:0;}
+.avis-card-name{
+  font-family:var(--display);font-size:13.5px;font-weight:600;letter-spacing:0.01em;
+  color:var(--ink);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.avis-card-date{font-family:var(--body);font-size:12px;color:var(--grey);}
+.avis-card-stars{display:flex;gap:2px;}
+.avis-card-stars svg{width:13px;height:13px;fill:var(--line);}
+.avis-card-stars svg.is-filled{fill:#C8901A;}
+.avis-card-msg{
+  font-family:var(--body);font-size:14.5px;line-height:1.65;
+  color:var(--ink);opacity:0.82;
+  display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden;
+}
+
+/* empty state */
+.avis-empty{
+  text-align:center;
+  font-family:var(--body);font-style:italic;font-size:14.5px;
+  color:var(--grey);
+  padding:10px 0 6px;
+  display:none;
+}
+.avis-empty.is-shown{display:block;}
+
+@media (max-width:980px){
+  .avis-card{width:280px;}
+}
+@media (max-width:560px){
+  .avis-showcase-head{padding:64px 6vw 16px;}
+  .avis-card{width:240px;}
+  .avis-track{gap:20px;}
+}
+
+/* ============================================
+   CONTACT / CTA
+   ============================================ */
+.contact{
+  background:var(--burgundy);
+  color:var(--white);
+  padding:110px 0;
+  position:relative;overflow:hidden;
+}
+.contact::before{
+  content:"";position:absolute;
+  width:540px;height:540px;border-radius:50%;
+  border:1px solid rgba(255,255,255,0.14);
+  top:-260px;right:-180px;
+}
+.contact-grid{
+  display:grid;grid-template-columns:1.3fr 1fr;gap:60px;
+  position:relative;z-index:2;
+}
+.contact h2{font-size:clamp(30px,4.6vw,52px);max-width:15ch;color:var(--white);}
+.contact p.lead{margin-top:18px;color:rgba(255,255,255,0.82);font-family:var(--body);font-style:italic;text-transform:none;font-size:17px;max-width:42ch;}
+.contact-info{
+  display:flex;flex-direction:column;gap:24px;
+  font-family:var(--display);font-size:14px;font-weight:500;
+  border-left:1px solid rgba(255,255,255,0.3);padding-left:36px;
+}
+.contact-info a{transition:opacity .25s;}
+.contact-info a:hover{opacity:0.7;}
+.contact-info .ci-label{display:block;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);margin-bottom:6px;font-weight:600;}
+
+@media (max-width:880px){
+  .contact-grid{grid-template-columns:1fr;gap:40px;}
+  .contact-info{border-left:none;padding-left:0;border-top:1px solid rgba(255,255,255,0.3);padding-top:30px;}
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer{
+  background:var(--ink);color:rgba(255,255,255,0.55);
+  padding:38px 0;
+  font-family:var(--display);font-size:12px;letter-spacing:0.03em;
+}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+footer a{color:rgba(255,255,255,0.75);}
+footer a:hover{color:var(--white);}
+footer .social{display:flex;gap:14px;}
+footer .social a{
+  width:34px;height:34px;border:1px solid rgba(255,255,255,0.25);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .25s, background .25s;
+}
+footer .social a:hover{border-color:var(--burgundy-light);background:rgba(110,14,34,0.3);}
+
+/* ============================================
+   BACK TO TOP BUTTON
+   ============================================ */
+#backToTop{
+  position:fixed;bottom:32px;right:32px;
+  width:48px;height:48px;
+  background:var(--burgundy);
+  border:none;
+  border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+  z-index:190;
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .4s var(--ease), transform .4s var(--ease), background .25s, box-shadow .3s;
+  box-shadow:0 6px 22px rgba(110,14,34,0.45);
+  pointer-events:none;
+}
+#backToTop.visible{
+  opacity:1;transform:translateY(0);pointer-events:auto;
+}
+#backToTop:hover{
+  background:var(--burgundy-light);
+  box-shadow:0 10px 30px rgba(110,14,34,0.55);
+  transform:translateY(-3px);
+}
+#backToTop svg{
+  width:18px;height:18px;stroke:var(--white);stroke-width:2.2;fill:none;
+  stroke-linecap:round;stroke-linejoin:round;
+}
+@media (max-width:680px){
+  #backToTop{bottom:20px;right:16px;width:42px;height:42px;}
+}
+
+/* ============================================
+   FLOATING SIDE BUTTONS — Appel / WhatsApp / Facebook / Instagram
+   ============================================ */
+.float-side-nav{
+  position:fixed;right:36px;top:50%;
+  transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:9px;
+  z-index:190;
+}
+.float-side-btn{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--burgundy);
+  box-shadow:0 3px 10px rgba(34,19,22,0.28);
+  transition:transform .35s var(--ease), box-shadow .35s var(--ease), background .3s;
+  position:relative;
+  opacity:0;
+  animation:floatSideIn .7s cubic-bezier(.34,1.56,.64,1) forwards,
+            floatBob 3.2s ease-in-out infinite;
+}
+.float-side-nav a:nth-child(1){animation-delay:.15s, 1.1s;}
+.float-side-nav a:nth-child(2){animation-delay:.3s, 1.4s;}
+.float-side-nav a:nth-child(3){animation-delay:.45s, 1.7s;}
+.float-side-nav a:nth-child(4){animation-delay:.6s, 2s;}
+@keyframes floatSideIn{
+  0%{opacity:0;transform:translateX(46px) scale(.4) rotate(40deg);}
+  60%{opacity:1;transform:translateX(-6px) scale(1.08) rotate(-6deg);}
+  100%{opacity:1;transform:translateX(0) scale(1) rotate(0deg);}
+}
+@keyframes floatBob{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-4px);}
+}
+.float-side-btn::before{
+  content:"";
+  position:absolute;inset:0;border-radius:50%;
+  background:var(--burgundy);
+  opacity:.5;
+  animation:floatPulse 2.8s ease-out infinite;
+  pointer-events:none;
+}
+.float-side-nav a:nth-child(1)::before{animation-delay:0s;}
+.float-side-nav a:nth-child(2)::before{animation-delay:.4s;}
+.float-side-nav a:nth-child(3)::before{animation-delay:.8s;}
+.float-side-nav a:nth-child(4)::before{animation-delay:1.2s;}
+@keyframes floatPulse{
+  0%{transform:scale(1);opacity:.45;}
+  100%{transform:scale(2.1);opacity:0;}
+}
+.float-side-btn::after{
+  content:"";
+  position:absolute;inset:-4px;border-radius:50%;
+  border:1.5px solid transparent;
+  border-top-color:rgba(110,14,34,.55);
+  border-right-color:rgba(110,14,34,.2);
+  opacity:0;
+  transition:opacity .3s var(--ease);
+  animation:floatSpin 2.4s linear infinite;
+  pointer-events:none;
+}
+.float-side-btn:hover::after{opacity:1;}
+@keyframes floatSpin{
+  to{transform:rotate(360deg);}
+}
+.float-side-btn svg{
+  width:13px;height:13px;fill:var(--white);
+  position:relative;z-index:1;
+  transition:transform .4s var(--ease);
+}
+.float-side-btn:hover{
+  animation-play-state:paused, paused;
+  transform:translateX(-6px) scale(1.22);
+  background:var(--burgundy-light);
+  box-shadow:0 8px 22px rgba(110,14,34,0.55);
+}
+.float-side-btn:hover svg{transform:scale(1.15) rotate(-10deg);}
+.float-side-btn:active{transform:translateX(-3px) scale(0.9);}
+.float-side-btn .float-side-tip{
+  position:absolute;right:calc(100% + 12px);top:50%;transform:translateY(-50%) translateX(6px);
+  background:var(--ink);color:var(--white);
+  font-family:var(--display);font-size:10px;font-weight:600;letter-spacing:0.04em;
+  padding:6px 10px;border-radius:8px;white-space:nowrap;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transition:opacity .25s var(--ease), transform .25s var(--ease), visibility .25s;
+}
+.float-side-btn .float-side-tip::after{
+  content:"";position:absolute;left:100%;top:50%;transform:translateY(-50%);
+  border:5px solid transparent;border-left-color:var(--ink);
+}
+.float-side-btn:hover .float-side-tip{opacity:1;visibility:visible;transform:translateY(-50%) translateX(0);}
+@media (max-width:680px){
+  .float-side-nav{right:16px;gap:7px;}
+  .float-side-btn{width:26px;height:26px;}
+  .float-side-btn svg{width:11px;height:11px;}
+  .float-side-btn .float-side-tip{display:none;}
+}
+
+/* ============================================
+   MAIN WRAPPER — scrolls over the fixed hero (reveal/parallax effect)
+   ============================================ */
+#pageMain{
+  position:relative;
+  z-index:50;
+  background:var(--white);
+  box-shadow:0 -40px 70px -20px rgba(0,0,0,0.35);
+  border-radius:0;
+}
+
+
+/* ============================================
+   HERO TAGLINE ROW — confiance + bouton inline
+   ============================================ */
+.hero-tagline-row{
+  display:flex;
+  align-items:center;
+  justify-content:flex-start;
+  gap:16px;
+  margin-top:20px;
+  opacity:0;transform:translateY(18px);
+  animation:rise 1s var(--ease) 1.4s forwards;
+  flex-wrap:nowrap;
+}
+.hero-tagline{
+  font-family:var(--body);
+  font-size:16.5px;
+  color:rgba(255,255,255,0.82);
+  text-shadow:0 1px 10px rgba(0,0,0,0.45);
+  font-style:italic;
+}
+@media(max-width:880px){
+  .hero-content{padding:0 5vw 12vh;}
+  .hero-sub{font-size:14px;margin-top:12px;max-width:100%;}
+  .hero-tagline-row{gap:10px;margin-top:14px;}
+  .hero-tagline{font-size:13.5px;}
+  .btn-plus{width:44px;height:44px;font-size:22px;flex-shrink:0;}
+  .btn-solid{height:44px;padding:0 22px;font-size:12px;}
+}
+@media(max-width:480px){
+  .hero-content{padding:0 5vw 10vh;}
+  .hero h1{font-size:clamp(22px,7vw,34px);}
+  .hero-sub{font-size:13px;}
+  .hero-tagline{font-size:12.5px;}
+  .btn-plus{width:40px;height:40px;font-size:20px;}
+  .btn-solid{height:40px;padding:0 16px;font-size:11.5px;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- ============================================
+     ÉCRAN DE BIENVENUE — s'affiche avant le contenu
+     ============================================ -->
+<div id="welcomeSplash" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+  <div class="welcome-shock" aria-hidden="true"></div>
+  <div class="welcome-shock d2" aria-hidden="true"></div>
+  <div class="welcome-card">
+    <div class="welcome-halo" aria-hidden="true"></div>
+
+    <button type="button" class="welcome-close" id="welcomeCloseBtn" aria-label="Fermer l’annonce">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+
+    <div class="welcome-inner">
+      <div class="welcome-crest">
+        <img src="{% static 'images/image_11.png' %}" alt="" aria-hidden="true">
+      </div>
+      <p class="welcome-eyebrow">Al Bassatine Viandes</p>
+      <h2 class="welcome-title" id="welcomeTitle">
+        <span class="w1">Bienvenue</span><br>
+        <span class="w2">dans notre univers</span>
+      </h2>
+      <div class="welcome-divider"></div>
+      <p class="welcome-sub">Ravis de vous accueillir. Viande rouge d’excellence, tradition du métier et traçabilité totale.</p>
+      <div class="welcome-chips">
+        <span>Fraîcheur garantie</span>
+        <span>Savoir-faire artisanal</span>
+        <span>Traçabilité totale</span>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+(function(){
+  var splash = document.getElementById('welcomeSplash');
+  if(!splash) return;
+
+  // Ne montrer l'annonce qu'une fois par session de navigation
+  var alreadySeen = false;
+  try { alreadySeen = sessionStorage.getItem('abvWelcomeSeen') === '1'; } catch(e){}
+
+  if(alreadySeen){
+    splash.style.display = 'none';
+    return;
+  }
+
+  document.documentElement.classList.add('welcome-lock');
+
+  function closeSplash(){
+    if(splash.classList.contains('is-leaving')) return;
+    splash.classList.add('is-leaving');
+    document.documentElement.classList.remove('welcome-lock');
+    try { sessionStorage.setItem('abvWelcomeSeen', '1'); } catch(e){}
+    setTimeout(function(){ splash.style.display = 'none'; }, 550);
+  }
+
+  var closeBtn = document.getElementById('welcomeCloseBtn');
+  if(closeBtn) closeBtn.addEventListener('click', closeSplash);
+
+  // clic sur le fond flouté = fermer aussi
+  splash.addEventListener('click', function(e){
+    if(e.target === splash) closeSplash();
+  });
+
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape') closeSplash();
+  });
+})();
+</script>
+
+<!-- CURSEUR AVANCÉ (hors du conteneur flouté pour rester toujours bien positionné) -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-halo"></div>
+<div id="cursor-trail"></div>
+
+<!-- CONTENU DU SITE (flouté tant que l'annonce est ouverte) -->
+<div id="pageContent">
+
+<!-- BACK TO TOP -->
+<button id="backToTop" aria-label="Retour en haut">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+
+<!-- FLOATING SIDE BUTTONS -->
+<div class="float-side-nav">
+  <a class="float-side-btn call" href="tel:+212539947841" aria-label="Appeler AL BASSATINE VIANDES">
+    <span class="float-side-tip">+212 539 94 78 41</span>
+    <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12.8 12.8 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12.8 12.8 0 0 0 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
+  </a>
+  <a class="float-side-btn whatsapp" href="https://wa.me/212667106796" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp">
+    <span class="float-side-tip">WhatsApp</span>
+    <svg viewBox="0 0 24 24"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 8.9 8.9 0 0 1-1.6-2.1c-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.2-.5s-.4-1-.6-1.4c-.1-.4-.3-.3-.5-.3h-.6c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.1 3 2 3 4.8 4.2c.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2zm0 18.3a8.3 8.3 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.3 8.3 0 1 1 12 20.3z"/></svg>
+  </a>
+  <a class="float-side-btn facebook" href="https://www.facebook.com/share/198nyYgYi7/" target="_blank" rel="noopener" aria-label="Suivez-nous sur Facebook">
+    <span class="float-side-tip">Facebook</span>
+    <svg viewBox="0 0 24 24"><path d="M13.5 21v-7.6h2.6l.4-3H13.5V8.4c0-.9.2-1.5 1.5-1.5h1.6V4.2C16.3 4.1 15.2 4 14 4c-2.5 0-4.2 1.5-4.2 4.3v2.1H7.2v3h2.6V21h3.7z"/></svg>
+  </a>
+  <a class="float-side-btn instagram" href="https://www.instagram.com/albassatineviandes?igsh=eTIzZzc5c3BxMXMx" target="_blank" rel="noopener" aria-label="Suivez-nous sur Instagram">
+    <span class="float-side-tip">Instagram</span>
+    <svg viewBox="0 0 24 24"><path d="M12 2c-2.7 0-3.1 0-4.1.1-1.1 0-1.8.2-2.4.5-.7.3-1.2.6-1.8 1.2-.6.6-.9 1.1-1.2 1.8-.3.6-.5 1.3-.5 2.4C2 9 2 9.4 2 12s0 3.1.1 4.1c0 1.1.2 1.8.5 2.4.3.7.6 1.2 1.2 1.8.6.6 1.1.9 1.8 1.2.6.3 1.3.5 2.4.5C9 22 9.4 22 12 22s3.1 0 4.1-.1c1.1 0 1.8-.2 2.4-.5.7-.3 1.2-.6 1.8-1.2.6-.6.9-1.1 1.2-1.8.3-.6.5-1.3.5-2.4.1-1 .1-1.4.1-4.1s0-3.1-.1-4.1c0-1.1-.2-1.8-.5-2.4-.3-.7-.6-1.2-1.2-1.8-.6-.6-1.1-.9-1.8-1.2-.6-.3-1.3-.5-2.4-.5C15.1 2 14.7 2 12 2zm0 1.8c2.6 0 2.9 0 4 .1.9 0 1.5.2 1.8.3.5.2.8.4 1.1.7.3.3.5.6.7 1.1.2.3.3.9.3 1.8.1 1.1.1 1.4.1 4s0 2.9-.1 4c0 .9-.2 1.5-.3 1.8-.2.5-.4.8-.7 1.1-.3.3-.6.5-1.1.7-.3.2-.9.3-1.8.3-1.1.1-1.4.1-4 .1s-2.9 0-4-.1c-.9 0-1.5-.2-1.8-.3-.5-.2-.8-.4-1.1-.7-.3-.3-.5-.6-.7-1.1-.2-.3-.3-.9-.3-1.8-.1-1.1-.1-1.4-.1-4s0-2.9.1-4c0-.9.2-1.5.3-1.8.2-.5.4-.8.7-1.1.3-.3.6-.5 1.1-.7.3-.2.9-.3 1.8-.3 1.1-.1 1.4-.1 4-.1zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-8.4a1.2 1.2 0 1 1-2.4 0 1.2 1.2 0 0 1 2.4 0z"/></svg>
+  </a>
+</div>
+
+<nav class="nav" id="nav">
+  <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navMobilePanel">
+    <span class="nav-burger-icon"><span></span><span></span><span></span></span>
+    <span class="nav-burger-label">Menu</span>
+  </button>
+
+  <div class="nav-group left">
+    <a href="/" data-i18n="nav.home">Accueil</a>
+    <a href="#societe" data-i18n="nav.about">Notre société</a>
+    <div class="nav-dropdown" id="navProduitsDropdown">
+      <button type="button" class="nav-dropdown-trigger" id="navProduitsTrigger" aria-haspopup="true" aria-expanded="false">
+        <span data-i18n="nav.products">Nos produits</span>
+        <span class="nav-dropdown-caret" aria-hidden="true">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="2,4 6,8 10,4"></polyline></svg>
+        </span>
+      </button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="nav-dropdown-header">
+          <span class="nav-dropdown-header-title" data-i18n="nav.dropdown.title">Nos produits</span>
+          <span class="nav-dropdown-badge" data-i18n="nav.dropdown.badge">✦ Halal certifié</span>
+        </div>
+        <div class="nav-dropdown-grid">
+          <a href="/vache" role="menuitem">
+            <div class="nav-dropdown-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10c0-1.5 1-2.5 2.2-2.8C6.8 5.8 8.2 5 10 5c.8 0 1.5.3 2 .8.5-.5 1.2-.8 2-.8 1.8 0 3.2.8 3.8 2.2C19 7.5 20 8.5 20 10c0 1.7-1.2 3-3 3.2V15c0 2.2-2.2 4-5 4s-5-1.8-5-4v-1.8C5.2 13 4 11.7 4 10z"></path><circle cx="9.5" cy="11" r=".6" fill="currentColor"></circle><circle cx="14.5" cy="11" r=".6" fill="currentColor"></circle></svg>
+            </div>
+            <span class="nav-dropdown-card-name" data-i18n="nav.products.cow">Vache</span>
+            <span class="nav-dropdown-card-desc" data-i18n="nav.products.cow.desc">Découpe & transformation<br>sur mesure</span>
+            <span class="nav-dropdown-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h8M7 3l3 3-3 3"/></svg>
+            </span>
+          </a>
+          <a href="/mouton" role="menuitem">
+            <div class="nav-dropdown-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9c-1.7 0-3-1.1-3-2.5S4.3 4 6 4c.6 0 1.1.2 1.6.5C8.3 3.6 10 3 12 3s3.7.6 4.4 1.5c.5-.3 1-.5 1.6-.5 1.7 0 3 1.1 3 2.5S19.7 9 18 9c-.3 0-.6 0-.9-.1.5.7.9 1.6.9 2.6 0 3-3 6-6 6s-6-3-6-6c0-1 .3-1.9.9-2.6-.3.1-.6.1-.9.1z"></path><circle cx="10" cy="11" r=".6" fill="currentColor"></circle><circle cx="14" cy="11" r=".6" fill="currentColor"></circle></svg>
+            </div>
+            <span class="nav-dropdown-card-name" data-i18n="nav.products.sheep">Mouton</span>
+            <span class="nav-dropdown-card-desc" data-i18n="nav.products.sheep.desc">Agneau & brebis<br>sélectionnés à la source</span>
+            <span class="nav-dropdown-card-arrow" aria-hidden="true">
+              <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h8M7 3l3 3-3 3"/></svg>
+            </span>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-crest">
+    <span class="crest-halo"></span>
+    <img src="{% static 'images/image_11.png' %}" alt="Boucherie Albassatine" class="crest-logo">
+  </div>
+
+  <div class="nav-group right">
+    <a href="#engagements" data-i18n="nav.commitments">Nos engagements</a>
+    
+    <a href="/contact" data-i18n="nav.contact">Contact</a>
+
+    <div class="lang-switch" id="langSwitch">
+      <button class="lang-switch-btn" id="langSwitchBtn" aria-haspopup="true" aria-expanded="false">
+        <span class="lang-globe" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"></path></svg>
+        </span>
+        <span class="lang-current" id="langCurrent">FR</span>
+        <span class="lang-caret" aria-hidden="true">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="2,4 6,8 10,4"></polyline></svg>
+        </span>
+      </button>
+      <div class="lang-switch-menu" id="langSwitchMenu" role="menu">
+        <button type="button" data-lang="fr" class="active" role="menuitem">
+          <span class="lang-code">FR</span> Français <span class="lang-native">FR</span>
+        </button>
+        <button type="button" data-lang="en" role="menuitem">
+          <span class="lang-code">EN</span> English <span class="lang-native">EN</span>
+        </button>
+        <button type="button" data-lang="ar" role="menuitem">
+          <span class="lang-code">AR</span> العربية <span class="lang-native">AR</span>
+        </button>
+        <button type="button" data-lang="ja" role="menuitem">
+          <span class="lang-code">JA</span> 日本語 <span class="lang-native">JA</span>
+        </button>
+        <button type="button" data-lang="zh" role="menuitem">
+          <span class="lang-code">ZH</span> 中文 <span class="lang-native">ZH</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <span class="nav-spacer-right" aria-hidden="true"></span>
+  <span class="nav-progress" id="navProgress" aria-hidden="true"></span>
+</nav>
+
+<div class="nav-mobile-panel" id="navMobilePanel">
+  <div class="nav-mobile-panel-inner">
+    <a href="#hero"><span class="nmp-num">01</span><span data-i18n="nav.home">Accueil</span></a>
+    <a href="#societe"><span class="nmp-num">02</span><span data-i18n="nav.about">Notre société</span></a>
+    <div class="nmp-dropdown" id="nmpProduitsDropdown">
+      <button type="button" class="nmp-dropdown-trigger" id="nmpProduitsTrigger" aria-expanded="false">
+        <span class="nmp-dropdown-trigger-label"><span class="nmp-num">03</span><span data-i18n="nav.products">Nos produits</span></span>
+        <span class="nmp-dropdown-caret" aria-hidden="true">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="2,4 6,8 10,4"></polyline></svg>
+        </span>
+      </button>
+      <div class="nmp-dropdown-panel">
+        <a href="/vache">
+          <span class="nmp-dropdown-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10c0-1.5 1-2.5 2.2-2.8C6.8 5.8 8.2 5 10 5c.8 0 1.5.3 2 .8.5-.5 1.2-.8 2-.8 1.8 0 3.2.8 3.8 2.2C19 7.5 20 8.5 20 10c0 1.7-1.2 3-3 3.2V15c0 2.2-2.2 4-5 4s-5-1.8-5-4v-1.8C5.2 13 4 11.7 4 10z"></path></svg>
+          </span>
+          <span data-i18n="nav.products.cow">Vache</span>
+        </a>
+        <a href="/mouton">
+          <span class="nmp-dropdown-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9c-1.7 0-3-1.1-3-2.5S4.3 4 6 4c.6 0 1.1.2 1.6.5C8.3 3.6 10 3 12 3s3.7.6 4.4 1.5c.5-.3 1-.5 1.6-.5 1.7 0 3 1.1 3 2.5S19.7 9 18 9c-.3 0-.6 0-.9-.1.5.7.9 1.6.9 2.6 0 3-3 6-6 6s-6-3-6-6c0-1 .3-1.9.9-2.6-.3.1-.6.1-.9.1z"></path></svg>
+          </span>
+          <span data-i18n="nav.products.sheep">Mouton</span>
+        </a>
+      </div>
+    </div>
+    <a href="#engagements"><span class="nmp-num">04</span><span data-i18n="nav.commitments">Nos engagements</span></a>
+    
+    <a href="/contact"><span class="nmp-num">06</span><span data-i18n="nav.contact">Contact</span></a>
+
+    <div class="lang-switch-mobile" id="langSwitchMobile">
+      <button type="button" data-lang="fr" class="active">FR</button>
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="ar">AR</button>
+      <button type="button" data-lang="ja">JA</button>
+      <button type="button" data-lang="zh">ZH</button>
+    </div>
+
+    <div class="nav-mobile-panel-footer">
+      <a href="tel:+212539947841" class="nmp-call">
+        <span class="nmp-call-label" data-i18n="contact.callUs">Nous appeler</span>
+        <span class="nmp-call-number">+212 539 94 78 41</span>
+      </a>
+      <div class="nmp-social">
+        <a href="https://www.facebook.com/share/198nyYgYi7/" aria-label="Facebook">f</a>
+        <a href="https://www.instagram.com/albassatineviandes?igsh=eTIzZzc5c3BxMXMx" aria-label="Instagram">in</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HERO MOSAIC -->
+<header class="hero" id="hero">
+
+
+
+<div class="hero-mosaic" id="heroMosaic">
+    <div class="tile active">
+        <img data-tile="1" src="{% static 'images/image_12.png' %}" alt="Atelier de découpe Boucherie Albassatine">
+    </div>
+    <div class="tile">
+        <img data-tile="2" src="{% static 'images/image_13.png' %}" alt="Façade Boucherie Albassatine">
+    </div>
+</div>
+
+  <div class="hero-content">
+    <h1 data-i18n="hero.title">ALBASSATINE VIANDES :  <span class="accent">L’excellence </span><br>taillée sur mesure </h1>
+    <p class="hero-sub" data-i18n="hero.subtitle">Le premier pat pour des bons plats, une bonne cuisine et un client satisfait c'est également les matières premières que vous utilisez, pour cela<span class="thin"> ALBASSATINE VIANDES</span> valorise chaque pièce et respecte chaque saveur.</p>
+    <div class="hero-tagline-row">
+      
+      <span class="hero-tagline" data-i18n="hero.tagline">« Votre confiance, notre savoir-faire ».</span>
+      <button class="btn-plus" id="heroPlus" aria-label="Voir plus">+</button>
+      <a href="#societe" class="btn-solid" data-i18n="hero.cta">Plus d'infos</a>
+    </div>
+  </div>
+
+  <div class="hero-dots">
+    <button class="hero-dot active" data-slide="0" aria-label="Slide 1"></button>
+    <button class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+  </div>
+</header>
+
+
+
+<!-- SPACER: keeps normal page flow height equal to the fixed hero, so content below starts right after it -->
+<div class="hero-spacer" aria-hidden="true"></div>
+
+<!-- MAIN: scrolls over the fixed hero (reveal effect). Opaque background hides the mosaic once it passes underneath -->
+<main id="pageMain">
+
+<!-- INTRO -->
+<section class="intro" id="societe">
+  <div class="intro-inner">
+    <div class="intro-left reveal">
+      <span class="eyebrow" data-i18n="about.eyebrow">Notre Société</span>
+      <h2><span data-i18n="about.titleMain">ALBASSATINE VIANDES</span>
+        <span class="thin" data-i18n="about.titleSub"> Là ou l'amour et le métier se rencontre</span>
+      </h2>
+    </div>
+    <div class="intro-right reveal">
+      <p data-i18n="about.text">Fondée par Mr Mohcine Driss un expert en boucherie depuis les années 70, avec pleinement d'expériences, d'amour de métier, persévérance et détermination. Notre Leader vous serve ses années en main pour rendre votre expérience spéciale et pour que votre client soit SUPER SATISFAIT.</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;">
+        <p style="font-style:italic;color:var(--burgundy);margin:0;">« Votre confiance, notre savoir-faire »</p>
+        <a href="#produits" class="intro-link" style="flex-shrink:0;" data-i18n="about.cta">Découvrir nos expertises</a>
+      </div>
+    </div>
+  </div>
+  
+</section>
+
+<!-- PRODUITS — "Nos expertises" : vitrine alternée image / contenu -->
+<section class="produits" id="produits">
+  <div class="produits-header" id="produitsHeader">
+    <span class="produits-nav-eyebrow" data-i18n="products.eyebrow">Nos expertises</span>
+    <h2 data-i18n="products.title">Ce que nous faisons</h2>
+    <p class="produits-header-sub" data-i18n="products.subtitle">Du pré à l'assiette, chaque étape de notre chaîne est pensée pour garantir traçabilité, hygiène et fraîcheur — de la découpe jusqu'à la livraison.</p>
+  </div>
+
+  <div class="produits-list">
+
+    <!-- 01 — Découpe & Transformation -->
+    <article class="produits-row reveal">
+      <div class="produits-row-media">
+        <span class="produits-row-bignum" aria-hidden="true">01</span>
+        <img src="{% static 'images/image_14.png' %}" alt="Découpe professionnelle de viande">
+      </div>
+      <div class="produits-row-body">
+        <span class="produits-row-eyebrow" data-i18n="products.step1.eyebrow">Étape 01</span>
+        <h3 data-i18n="products.step1.title">Découpe &amp; Transformation</h3>
+        <p data-i18n="products.step1.text">Notre salle de découpe et transformation répond à tous les normes internationales de qualité, d'hygiène et d'organisation et répond également aux conditions fixées sur le DECRET n°2-10-473 du 7Chaoual et au système de management HACCP.</p>
+
+        <p class="produits-row-quote" data-i18n="products.step1.quote">« Car chaque découpe est une responsabilité »</p>
+      </div>
+    </article>
+
+    <!-- 02 — Stockage & Conditionnement -->
+    <article class="produits-row reverse reveal">
+      <div class="produits-row-media">
+        <span class="produits-row-bignum" aria-hidden="true">02</span>
+        <img src="{% static 'images/image_15.png' %}" alt="Stockage frigorifique des viandes">
+      </div>
+      <div class="produits-row-body">
+        <span class="produits-row-eyebrow" data-i18n="products.step2.eyebrow">Étape 02</span>
+        <h3 data-i18n="products.step2.title">Stockage &amp; Conditionnement</h3>
+        <p data-i18n="products.step2.text">ALBASSATINE VIANDES valorise à 100% le refroidissement des viandes et préservation de leur qualité pour cela nous prenons soin du produit dès qu'il arrive jusqu'à la livraison étape par étape avec prudence et précaution, pour nous chaque produit mérite pleinement d'attention pour qu'il y arrive à vos mains en très bon condition et bien soigné.</p>
+
+        <p class="produits-row-quote" data-i18n="products.step2.quote">« La qualité est notre objectif suprême »</p>
+      </div>
+    </article>
+
+    <!-- 03 — Packaging -->
+    <article class="produits-row reveal">
+      <div class="produits-row-media">
+        <span class="produits-row-bignum" aria-hidden="true">03</span>
+        <img src="{% static 'images/image_16.png' %}" alt="Emballage et étiquetage">
+      </div>
+      <div class="produits-row-body">
+        <span class="produits-row-eyebrow" data-i18n="products.step3.eyebrow">Étape 03</span>
+        <h3 data-i18n="products.step3.title">Packaging</h3>
+        <p data-i18n="products.step3.text">Nos produits arrivent vers nos clients bien emballés avec des étiquettes bien détaillés (nom de société, adresse, date de production…) , en plus des étiquettes des numéros fournis par l'ONSSA qui signifient que nos produits suivent les normes nationales et internationales de la découpe des viandes et les conditions des projets alimentaires.</p>
+
+        <p class="produits-row-quote" data-i18n="products.step3.quote">« Chaque emballage est un engagement »</p>
+      </div>
+    </article>
+
+    <!-- 04 — Logistique -->
+    <article class="produits-row reverse reveal">
+      <div class="produits-row-media">
+        <span class="produits-row-bignum" aria-hidden="true">04</span>
+        <img src="{% static 'images/image_17.png' %}" alt="Logistique frigorifique">
+      </div>
+      <div class="produits-row-body">
+        <span class="produits-row-eyebrow" data-i18n="products.step4.eyebrow">Étape 04</span>
+        <h3 data-i18n="products.step4.title">Logistique</h3>
+        <p data-i18n="products.step4.text">Comme tous les étapes précédentes ALBASSATINE VIANDES avec son équipe professionnelle et son amour de métier organise par cœur son logistique en utilisant des outils de logistiques qui permettent aux produits de garder leur qualité à très longtemps, notre équipe chargée des trajets garantie qu'ils sont bien organisés, les véhicules frigorifiques garantie la transportation des viandes dans les meilleures conditions et nos chauffeurs garantie le bienvenue et le sourire.</p>
+
+        <p class="produits-row-quote" data-i18n="products.step4.quote">« Votre satisfaction, notre moteur »</p>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- ENGAGEMENTS -->
+<section class="engagements" id="engagements">
+  <div class="engagements-head reveal">
+    <span class="eyebrow reveal" data-i18n="commitments.eyebrow">Nos engagements</span>
+    <h2 class="reveal" data-i18n="commitments.title">NOS ENGAGEMENTS</h2>
+  </div>
+
+  <button type="button" class="eng-pause-btn reveal" id="engPauseBtn" aria-pressed="false">
+    <span class="eng-pause-icon"><span></span><span></span></span>
+    <span class="eng-pause-label" id="engPauseLabel" data-i18n="commitments.pause">Pause</span>
+  </button>
+
+  <div class="eng-slider">
+    <div class="eng-track" id="engTrack1" style="--eng-duration:42s;">
+
+      <!-- Card 1 — Qualité -->
+      <article class="eng-card">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_18.png' %}" alt="Qualité garantie — viande grillée" loading="lazy">
+          <span class="eng-card-num">01</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card1.title">QUALITÉ GARANTIE</h3>
+          <p data-i18n="commitments.card1.text">Proposer le meilleur de la viande au consommateur est notre engagement premier. Chaque pièce est sélectionnée avec rigueur.</p>
+        </div>
+      </article>
+
+      <!-- Card 2 — Bon prix -->
+      <article class="eng-card">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_19.png' %}" alt="Bon prix — étal de boucherie" loading="lazy">
+          <span class="eng-card-num">02</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card2.title">BON PRIX</h3>
+          <p data-i18n="commitments.card2.text">Une viande d'excellence à un prix juste, sans intermédiaire superflu, pour un rapport qualité-prix imbattable.</p>
+        </div>
+      </article>
+
+      <!-- Card 3 — Livraison -->
+      <article class="eng-card">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_20.png' %}" alt="Livraison rapide" loading="lazy">
+          <span class="eng-card-num">03</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card3.title">LIVRAISON RAPIDE</h3>
+          <p data-i18n="commitments.card3.text">Des moyens logistiques et technologiques de pointe pour une livraison dans les meilleures conditions de fraîcheur.</p>
+        </div>
+      </article>
+
+      <!-- Card 4 — Traçabilité -->
+      <article class="eng-card">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_21.png' %}" alt="Traçabilité complète — de l'élevage à l'assiette" loading="lazy">
+          <span class="eng-card-num">04</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card4.title">TRAÇABILITÉ</h3>
+          <p data-i18n="commitments.card4.text">Tous les morceaux proposés sont identifiés et traçables dans notre système, du pré à votre assiette.</p>
+        </div>
+      </article>
+
+      <!-- Card 5 — Bon services -->
+      <article class="eng-card">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_22.png' %}" alt="Bon services — boucher professionnel" loading="lazy">
+          <span class="eng-card-num">05</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card5.title">BON SERVICES</h3>
+          <p data-i18n="commitments.card5.text">Une équipe à l'écoute et disponible, du conseil à la livraison, pour un accompagnement attentif à chaque étape.</p>
+        </div>
+      </article>
+
+      <!-- duplicate set for seamless loop (aria-hidden, not announced twice) -->
+      <article class="eng-card" aria-hidden="true">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_18.png' %}" alt="" loading="lazy">
+          <span class="eng-card-num">01</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card1.title">QUALITÉ GARANTIE</h3>
+          <p data-i18n="commitments.card1.text">Proposer le meilleur de la viande au consommateur est notre engagement premier. Chaque pièce est sélectionnée avec rigueur.</p>
+        </div>
+      </article>
+      <article class="eng-card" aria-hidden="true">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_19.png' %}" alt="" loading="lazy">
+          <span class="eng-card-num">02</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card2.title">BON PRIX</h3>
+          <p data-i18n="commitments.card2.text">Une viande d'excellence à un prix juste, sans intermédiaire superflu, pour un rapport qualité-prix imbattable.</p>
+        </div>
+      </article>
+      <article class="eng-card" aria-hidden="true">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_20.png' %}" alt="" loading="lazy">
+          <span class="eng-card-num">03</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card3.title">LIVRAISON RAPIDE</h3>
+          <p data-i18n="commitments.card3.text">Des moyens logistiques et technologiques de pointe pour une livraison dans les meilleures conditions de fraîcheur.</p>
+        </div>
+      </article>
+      <article class="eng-card" aria-hidden="true">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_21.png' %}" alt="" loading="lazy">
+          <span class="eng-card-num">04</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card4.title">TRAÇABILITÉ</h3>
+          <p data-i18n="commitments.card4.text">Tous les morceaux proposés sont identifiés et traçables dans notre système, du pré à votre assiette.</p>
+        </div>
+      </article>
+      <article class="eng-card" aria-hidden="true">
+        <div class="eng-card-media">
+          <img src="{% static 'images/image_22.png' %}" alt="" loading="lazy">
+          <span class="eng-card-num">05</span>
+        </div>
+        <div class="eng-card-body">
+          <h3 data-i18n="commitments.card5.title">BON SERVICES</h3>
+          <p data-i18n="commitments.card5.text">Une équipe à l'écoute et disponible, du conseil à la livraison, pour un accompagnement attentif à chaque étape.</p>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section class="certs" id="certifications">
+  <div class="certs-bg-glow" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="eyebrow reveal" data-i18n="certs.eyebrow">Certifications</span>
+    <h2 class="reveal" data-i18n="certs.title">Nos certifications</h2>
+    <p class="certs-sub reveal" data-i18n="certs.subtitle">Agréments sanitaires délivrés par l'ONSSA, garantissant le respect strict des normes d'hygiène et de sécurité alimentaire.</p>
+
+    <div class="certs-grid reveal-stagger">
+
+      <article class="cert-card" data-cert="1">
+        <div class="cert-card-frame">
+          <span class="cert-corner cert-corner-tl" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-tr" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-bl" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-br" aria-hidden="true"></span>
+          <div class="cert-card-media">
+            <img src="{% static 'images/image_41.png' %}" alt="Agrément sanitaire ONSSA - Atelier de découpe de viandes rouges" loading="lazy">
+            <div class="cert-card-shine" aria-hidden="true"></div>
+            <div class="cert-card-overlay">
+              <span class="cert-zoom-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              <span data-i18n="certs.cta">Voir le certificat</span>
+            </div>
+          </div>
+          <div class="cert-card-body">
+            <span class="cert-card-number">N° ADVR.34.6.26</span>
+            <h3 data-i18n="certs.card1.title">Découpe de viandes rouges</h3>
+            <p data-i18n="certs.card1.desc">Agrément sanitaire pour l'exploitation d'un atelier de découpe de viandes rouges.</p>
+            <span class="cert-card-issuer">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3.5v5c0 5-3 8.5-7 10.5-4-2-7-5.5-7-10.5v-5L12 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              ONSSA
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <article class="cert-card" data-cert="2">
+        <div class="cert-card-frame">
+          <span class="cert-corner cert-corner-tl" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-tr" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-bl" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-br" aria-hidden="true"></span>
+          <div class="cert-card-media">
+            <img src="{% static 'images/image_42.png' %}" alt="Agrément sanitaire ONSSA - Préparation de viandes hachées" loading="lazy">
+            <div class="cert-card-shine" aria-hidden="true"></div>
+            <div class="cert-card-overlay">
+              <span class="cert-zoom-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              <span data-i18n="certs.cta">Voir le certificat</span>
+            </div>
+          </div>
+          <div class="cert-card-body">
+            <span class="cert-card-number">N° VH.34.7.26</span>
+            <h3 data-i18n="certs.card2.title">Viandes hachées</h3>
+            <p data-i18n="certs.card2.desc">Agrément sanitaire pour la préparation de viandes hachées.</p>
+            <span class="cert-card-issuer">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3.5v5c0 5-3 8.5-7 10.5-4-2-7-5.5-7-10.5v-5L12 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              ONSSA
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <article class="cert-card" data-cert="3">
+        <div class="cert-card-frame">
+          <span class="cert-corner cert-corner-tl" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-tr" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-bl" aria-hidden="true"></span>
+          <span class="cert-corner cert-corner-br" aria-hidden="true"></span>
+          <div class="cert-card-media">
+            <img src="{% static 'images/image_43.png' %}" alt="Agrément sanitaire ONSSA - Préparation de produits à base de viande" loading="lazy">
+            <div class="cert-card-shine" aria-hidden="true"></div>
+            <div class="cert-card-overlay">
+              <span class="cert-zoom-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.6"/><path d="M21 21l-4.3-4.3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M11 8v6M8 11h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+              </span>
+              <span data-i18n="certs.cta">Voir le certificat</span>
+            </div>
+          </div>
+          <div class="cert-card-body">
+            <span class="cert-card-number">N° PAV.34.8.26</span>
+            <h3 data-i18n="certs.card3.title">Préparation de produits à base de viande</h3>
+            <p data-i18n="certs.card3.desc">Agrément sanitaire pour l'établissement et la préparation de produits à base de viande.</p>
+            <span class="cert-card-issuer">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 2l7 3.5v5c0 5-3 8.5-7 10.5-4-2-7-5.5-7-10.5v-5L12 2z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              ONSSA
+            </span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <p class="certs-footnote reveal" data-i18n="certs.issuer">Office National de Sécurité Sanitaire des Produits Alimentaires — Direction Régionale de Tanger-Tétouan-Al Hoceima.</p>
+  </div>
+</section>
+
+<!-- LIGHTBOX CERTIFICATS -->
+<div class="cert-lightbox" id="certLightbox" aria-hidden="true">
+  <div class="cert-lightbox-backdrop" data-close-lightbox></div>
+  <div class="cert-lightbox-inner">
+    <button type="button" class="cert-lightbox-close" data-close-lightbox aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <img src="" alt="" id="certLightboxImg">
+  </div>
+</div>
+
+<!-- AVIS CLIENT -->
+<section class="reviews" id="presse">
+  <div class="reviews-bg-shape" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="news-head">
+      <span class="eyebrow on-dark reveal" data-i18n="reviews.eyebrow">Votre opinion compte</span>
+      <h2 class="reveal" data-i18n="reviews.title">Laissez votre avis</h2>
+      <p class="reviews-sub reveal" data-i18n="reviews.subtitle">Votre retour nous aide à faire grandir ALBASSATINE VIANDES et à mieux vous servir.</p>
+    </div>
+
+    <form class="review-form reveal" id="reviewForm" novalidate>
+      {% csrf_token %}
+
+      <div class="review-form-grid">
+        <div class="review-field">
+          <label for="reviewName" data-i18n="reviews.form.name">Nom complet</label>
+          <input type="text" id="reviewName" name="name" required autocomplete="name" data-i18n-placeholder="reviews.form.namePh" placeholder="Votre nom">
+        </div>
+        <div class="review-field">
+          <label for="reviewEmail" data-i18n="reviews.form.email">Email</label>
+          <input type="email" id="reviewEmail" name="email" required autocomplete="email" data-i18n-placeholder="reviews.form.emailPh" placeholder="vous@exemple.com">
+        </div>
+      </div>
+
+      <div class="review-field">
+        <span class="review-field-label" data-i18n="reviews.form.rating">Votre note</span>
+        <div class="review-stars" id="reviewStars" role="radiogroup" aria-label="Note sur 5 étoiles">
+          <button type="button" class="review-star" data-value="1" role="radio" aria-checked="false" aria-label="1 étoile">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          </button>
+          <button type="button" class="review-star" data-value="2" role="radio" aria-checked="false" aria-label="2 étoiles">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          </button>
+          <button type="button" class="review-star" data-value="3" role="radio" aria-checked="false" aria-label="3 étoiles">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          </button>
+          <button type="button" class="review-star" data-value="4" role="radio" aria-checked="false" aria-label="4 étoiles">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          </button>
+          <button type="button" class="review-star" data-value="5" role="radio" aria-checked="false" aria-label="5 étoiles">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z"/></svg>
+          </button>
+          <span class="review-stars-hint" id="reviewStarsHint" data-i18n="reviews.form.ratingHint">Touchez une étoile</span>
+        </div>
+        <input type="hidden" id="reviewRatingValue" name="rating" value="0">
+      </div>
+
+      <div class="review-field">
+        <label for="reviewMessage" data-i18n="reviews.form.message">Votre avis</label>
+        <textarea id="reviewMessage" name="message" rows="4" required data-i18n-placeholder="reviews.form.messagePh" placeholder="Partagez votre expérience avec ALBASSATINE VIANDES..."></textarea>
+        <span class="review-field-count"><span id="reviewMsgCount">0</span>/400</span>
+      </div>
+
+      <button type="submit" class="review-submit">
+        <span class="review-submit-label" data-i18n="reviews.form.submit">Envoyer mon avis</span>
+        <span class="review-submit-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </span>
+      </button>
+
+      <div class="review-success" id="reviewSuccess" role="status" aria-live="polite">
+        <svg viewBox="0 0 24 24" class="review-success-check"><path d="M20 6L9 17l-5-5"/></svg>
+        <span data-i18n="reviews.form.success">Merci pour votre avis&nbsp;! Il a bien été envoyé.</span>
+      </div>
+
+    </form>
+  </div>
+</section>
+
+<!-- AVIS PUBLIÉS -->
+<section class="avis-showcase" id="avis-showcase">
+  <div class="avis-showcase-head reveal">
+    <span class="eyebrow reveal" data-i18n="avis.eyebrow">Avis clients</span>
+    <h2 class="reveal" data-i18n="avis.title">CE QU'ILS EN PENSENT</h2>
+  </div>
+
+  <div class="avis-stats" id="avisStats">
+    <div class="avis-stats-score">
+      <span class="avis-stats-number" id="avisAvgNumber">0.0</span>
+      <div class="avis-stats-stars" id="avisAvgStars" aria-hidden="true"></div>
+    </div>
+    <span class="avis-stats-count">
+      <span id="avisCountNumber">0</span> <span data-i18n="avis.countSuffix">avis</span>
+    </span>
+  </div>
+
+  <button type="button" class="eng-pause-btn reveal" id="avisPauseBtn" aria-pressed="false">
+    <span class="eng-pause-icon"><span></span><span></span></span>
+    <span class="eng-pause-label" id="avisPauseLabel" data-i18n="commitments.pause">Pause</span>
+  </button>
+
+  <div class="eng-slider" id="avisSlider">
+    <div class="eng-track avis-track" id="avisTrack" style="--eng-duration:36s;"></div>
+  </div>
+
+  <p class="avis-empty" id="avisEmpty" data-i18n="avis.empty">Soyez le premier à laisser un avis.</p>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="reveal">
+      <h2 data-i18n="contact.title">Contactez-nous</h2>
+      <p class="lead" data-i18n="contact.lead">Une question sur nos produits&nbsp;? Notre équipe vous répond rapidement.</p>
+    </div>
+    <div class="contact-info reveal">
+      <div>
+        <span class="ci-label" data-i18n="contact.addressLabel">Adresse</span>
+        Lot. AL Bassatine Rue Agadir N° 111 — Tanger
+      </div>
+      <div>
+        <span class="ci-label" data-i18n="contact.phoneLabel">Téléphone</span>
+        <a href="tel:+212539947841">+212 539 94 78 41</a>
+      </div>
+      <div>
+        <span class="ci-label" data-i18n="contact.gsmLabel">GSM</span>
+        <a href="https://wa.me/212667106796" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp" style="display:inline-flex;align-items:center;gap:7px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:#25D366;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          +212 667 10 67 96
+        </a>
+      </div>
+      <div>
+        <span class="ci-label" data-i18n="contact.emailLabel">Email</span>
+        <a href="mailto:boucheriealbassatine@gmail.com">boucheriealbassatine@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span data-i18n="footer.rights">© 2026 Boucherie AL Bassatine. Tous droits réservés.</span>
+    <div class="social">
+      <a href="https://www.facebook.com/share/198nyYgYi7/" aria-label="Facebook">f</a>
+      <a href="https://www.instagram.com/albassatineviandes?igsh=eTIzZzc5c3BxMXMx" aria-label="Instagram">in</a>
+    </div>
+  </div>
+</footer>
+
+</main>
+
+<script>
+/* ============================================
+   NAV: fixed permanently, compact on scroll
+   ============================================ */
+const nav = document.getElementById('nav');
+const heroEl = document.getElementById('hero');
+const navProgress = document.getElementById('navProgress');
+
+function onScrollUpdate(){
+  const y = window.scrollY;
+  nav.classList.toggle('scrolled', y > 60);
+
+  /* Tout le hero (images + texte) monte ensemble au scroll */
+  const maxDrift = window.innerHeight * 0.45;
+  const drift = Math.min(y * 0.45, maxDrift);
+  heroEl.style.setProperty('--hero-drift', drift + 'px');
+
+  /* Barre de progression de lecture (mobile) */
+  if (navProgress){
+    const docH = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = docH > 0 ? Math.min(100, Math.max(0, (y / docH) * 100)) : 0;
+    navProgress.style.width = pct + '%';
+  }
+}
+window.addEventListener('scroll', onScrollUpdate, { passive: true });
+onScrollUpdate();
+
+/* ============================================
+   MOBILE MENU — burger toggle
+   ============================================ */
+const navBurger = document.getElementById('navBurger');
+const navMobilePanel = document.getElementById('navMobilePanel');
+
+function closeMobileMenu(){
+  nav.classList.remove('menu-open');
+  navBurger.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('menu-locked');
+  const label = navBurger.querySelector('.nav-burger-label');
+  if (label) label.textContent = (i18nDict[currentLang] || i18nDict.fr)['nav.menuLabel'];
+}
+
+function toggleMobileMenu(){
+  const isOpen = nav.classList.toggle('menu-open');
+  navBurger.setAttribute('aria-expanded', String(isOpen));
+  document.body.classList.toggle('menu-locked', isOpen);
+  const dict = i18nDict[currentLang] || i18nDict.fr;
+  const label = navBurger.querySelector('.nav-burger-label');
+  if (label) label.textContent = isOpen ? dict['nav.closeLabel'] : dict['nav.menuLabel'];
+}
+
+navBurger.addEventListener('click', toggleMobileMenu);
+
+navMobilePanel.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', closeMobileMenu);
+});
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 1080) closeMobileMenu();
+});
+
+/* ============================================
+   PRODUITS DROPDOWN — desktop (click + keyboard) & mobile (accordion)
+   ============================================ */
+const navProduitsDropdown = document.getElementById('navProduitsDropdown');
+const navProduitsTrigger = document.getElementById('navProduitsTrigger');
+
+if (navProduitsDropdown && navProduitsTrigger) {
+  navProduitsTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = navProduitsDropdown.classList.toggle('is-open');
+    navProduitsTrigger.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('click', (e) => {
+    if (!navProduitsDropdown.contains(e.target)) {
+      navProduitsDropdown.classList.remove('is-open');
+      navProduitsTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      navProduitsDropdown.classList.remove('is-open');
+      navProduitsTrigger.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+const nmpProduitsDropdown = document.getElementById('nmpProduitsDropdown');
+const nmpProduitsTrigger = document.getElementById('nmpProduitsTrigger');
+
+if (nmpProduitsDropdown && nmpProduitsTrigger) {
+  nmpProduitsTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = nmpProduitsDropdown.classList.toggle('is-open');
+    nmpProduitsTrigger.setAttribute('aria-expanded', String(isOpen));
+  });
+  // sous-liens du dropdown mobile doivent fermer tout le panneau mobile au clic
+  nmpProduitsDropdown.querySelectorAll('.nmp-dropdown-panel a').forEach(link => {
+    link.addEventListener('click', closeMobileMenu);
+  });
+}
+
+/* ============================================
+   HERO MOSAIC — 2 slides, fondu automatique
+   ============================================ */
+const heroTiles = Array.from(document.querySelectorAll('#heroMosaic .tile'));
+const heroDots = document.querySelectorAll('.hero-dot');
+let heroCurrent = 0;
+let heroTimer;
+const heroReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function goToHeroSlide(i){
+  heroCurrent = (i + heroTiles.length) % heroTiles.length;
+  heroTiles.forEach((tile, idx) => tile.classList.toggle('active', idx === heroCurrent));
+  heroDots.forEach((dot, idx) => dot.classList.toggle('active', idx === heroCurrent));
+}
+
+function startHeroTimer(){
+  if (heroReduceMotion) return;
+  clearInterval(heroTimer);
+  heroTimer = setInterval(() => goToHeroSlide(heroCurrent + 1), 5000);
+}
+
+heroDots.forEach((dot, idx) => {
+  dot.addEventListener('click', () => {
+    goToHeroSlide(idx);
+    startHeroTimer();
+  });
+});
+
+startHeroTimer();
+
+document.getElementById('heroPlus').addEventListener('click', () => {
+  const target = document.querySelector('#societe');
+  if (target){
+    window.scrollTo({ top: target.getBoundingClientRect().top + window.pageYOffset - 90, behavior: 'smooth' });
+  }
+});
+
+/* ============================================
+   I18N — FR / EN / AR (avancé : dropdown, persistance, RTL)
+   ============================================ */
+const i18nDict = {
+  fr: {
+    "nav.home": "Accueil",
+    "nav.about": "Notre société",
+    "nav.products": "Nos produits",
+    "nav.products.cow": "Vache",
+    "nav.products.cow.desc": "Découpe & transformation<br>sur mesure",
+    "nav.products.sheep": "Mouton",
+    "nav.products.sheep.desc": "Agneau & brebis<br>sélectionnés à la source",
+    "nav.dropdown.title": "Nos produits",
+    "nav.dropdown.badge": "✦ Halal certifié",
+    "nav.dropdown.farmToTable": "La qualité est notre objectif suprême",
+    "nav.dropdown.seeAll": "Voir tous",
+    "nav.commitments": "Nos engagements",
+    
+    "nav.contact": "Contact",
+    "nav.menuLabel": "Menu",
+    "nav.closeLabel": "Fermer",
+    "nav.openMenuAria": "Ouvrir le menu",
+    "hero.title": "ALBASSATINE VIANDES : <span class=\"accent\">L’excellence </span><br>taillée sur mesure",
+    "hero.subtitle": "Le premier pas pour des bons plats, une bonne cuisine et un client satisfait c'est également les matières premières que vous utilisez, pour cela<span class=\"thin\"> ALBASSATINE VIANDES</span> valorise chaque pièce et respecte chaque saveur.",
+    "hero.tagline": "« Votre confiance, notre savoir-faire ».",
+    "hero.cta": "Plus d'infos",
+    "about.eyebrow": "Notre Société",
+    "about.titleMain": "ALBASSATINE VIANDES",
+    "about.titleSub": " Là ou l'amour et le métier se rencontre",
+    "about.text": "Fondée par Mr Mohcine Driss un expert en boucherie depuis les années 70, avec pleinement d'expériences, d'amour de métier, persévérance et détermination. Notre Leader vous serve ses années en main pour rendre votre expérience spéciale et pour que votre client soit SUPER SATISFAIT.",
+    "about.cta": "Découvrir nos expertises",
+    "products.eyebrow": "Nos expertises",
+    "products.title": "Ce que nous faisons",
+    "products.subtitle": "Du pré à l'assiette, chaque étape de notre chaîne est pensée pour garantir traçabilité, hygiène et fraîcheur — de la découpe jusqu'à la livraison.",
+    "products.step1.eyebrow": "Étape 01",
+    "products.step1.title": "Découpe &amp; Transformation",
+    "products.step1.text": "Notre salle de découpe et transformation répond à tous les normes internationales de qualité, d'hygiène et d'organisation et répond également aux conditions fixées sur le DECRET n°2-10-473 du 7Chaoual et au système de management HACCP.",
+
+
+
+    "products.step1.quote": "« Car chaque découpe est une responsabilité »",
+    "products.step2.eyebrow": "Étape 02",
+    "products.step2.title": "Stockage &amp; Conditionnement",
+    "products.step2.text": "ALBASSATINE VIANDES valorise à 100% le refroidissement des viandes et préservation de leur qualité pour cela nous prenons soin du produit dès qu'il arrive jusqu'à la livraison étape par étape avec prudence et précaution, pour nous chaque produit mérite pleinement d'attention pour qu'il y arrive à vos mains en très bon condition et bien soigné.",
+
+
+
+    "products.step2.quote": "« La qualité est notre objectif suprême »",
+    "products.step3.eyebrow": "Étape 03",
+    "products.step3.title": "Packaging",
+    "products.step3.text": "Nos produits arrivent vers nos clients bien emballés avec des étiquettes bien détaillés (nom de société, adresse, date de production…) , en plus des étiquettes des numéros fournis par l'ONSSA qui signifient que nos produits suivent les normes nationales et internationales de la découpe des viandes et les conditions des projets alimentaires.",
+
+
+
+    "products.step3.quote": "« Chaque emballage est un engagement »",
+    "products.step4.eyebrow": "Étape 04",
+    "products.step4.title": "Logistique",
+    "products.step4.text": "Comme tous les étapes précédentes ALBASSATINE VIANDES avec son équipe professionnelle et son amour de métier organise par cœur son logistique en utilisant des outils de logistiques qui permettent aux produits de garder leur qualité à très longtemps, notre équipe chargée des trajets garantie qu'ils sont bien organisés, les véhicules frigorifiques garantie la transportation des viandes dans les meilleures conditions et nos chauffeurs garantie le bienvenue et le sourire.",
+
+
+
+    "products.step4.quote": "« Votre satisfaction, notre moteur »",
+    "commitments.eyebrow": "Nos engagements",
+    "commitments.title": "NOS ENGAGEMENTS",
+    "commitments.pause": "Pause",
+    "commitments.card1.title": "QUALITÉ GARANTIE",
+    "commitments.card1.text": "Proposer le meilleur de la viande au consommateur est notre engagement premier. Chaque pièce est sélectionnée avec rigueur.",
+    "commitments.card2.title": "BON PRIX",
+    "commitments.card2.text": "Une viande d'excellence à un prix juste, sans intermédiaire superflu, pour un rapport qualité-prix imbattable.",
+    "commitments.card3.title": "LIVRAISON RAPIDE",
+    "commitments.card3.text": "Des moyens logistiques et technologiques de pointe pour une livraison dans les meilleures conditions de fraîcheur.",
+    "commitments.card4.title": "TRAÇABILITÉ",
+    "commitments.card4.text": "Tous les morceaux proposés sont identifiés et traçables dans notre système, du pré à votre assiette.",
+    "commitments.card5.title": "BON SERVICES",
+    "commitments.card5.text": "Une équipe à l'écoute et disponible, du conseil à la livraison, pour un accompagnement attentif à chaque étape.",
+    "certs.eyebrow": "Certifications",
+    "certs.title": "Nos certifications",
+    "certs.subtitle": "Agréments sanitaires délivrés par l'ONSSA, garantissant le respect strict des normes d'hygiène et de sécurité alimentaire.",
+    "certs.cta": "Voir le certificat",
+    "certs.card1.title": "Découpe de viandes rouges",
+    "certs.card1.desc": "Agrément sanitaire pour l'exploitation d'un atelier de découpe de viandes rouges.",
+    "certs.card2.title": "Viandes hachées",
+    "certs.card2.desc": "Agrément sanitaire pour la préparation de viandes hachées.",
+    "certs.card3.title": "Préparation de produits à base de viande",
+    "certs.card3.desc": "Agrément sanitaire pour l'établissement et la préparation de produits à base de viande.",
+    "certs.issuer": "Office National de Sécurité Sanitaire des Produits Alimentaires — Direction Régionale de Tanger-Tétouan-Al Hoceima.",
+    "reviews.eyebrow": "Votre opinion compte",
+    "reviews.title": "Laissez votre avis",
+    "reviews.subtitle": "Votre retour nous aide à faire grandir ALBASSATINE VIANDES et à mieux vous servir.",
+    "reviews.form.name": "Nom complet",
+    "reviews.form.namePh": "Votre nom",
+    "reviews.form.email": "Email",
+    "reviews.form.emailPh": "vous@exemple.com",
+    "reviews.form.rating": "Votre note",
+    "reviews.form.ratingHint": "Touchez une étoile",
+    "reviews.form.message": "Votre avis",
+    "reviews.form.messagePh": "Partagez votre expérience avec ALBASSATINE VIANDES...",
+    "reviews.form.submit": "Envoyer mon avis",
+    "reviews.form.success": "Merci pour votre avis&nbsp;! Il a bien été envoyé.",
+    "reviews.form.errorRating": "Merci de choisir une note",
+    "avis.eyebrow": "Avis clients",
+    "avis.title": "CE QU'ILS EN PENSENT",
+    "avis.countSuffix": "avis",
+    "avis.empty": "Soyez le premier à laisser un avis.",
+    "contact.title": "Contactez-nous",
+    "contact.lead": "Une question sur nos produits&nbsp;? Notre équipe vous répond rapidement.",
+    "contact.addressLabel": "Adresse",
+    "contact.phoneLabel": "Téléphone",
+    "contact.gsmLabel": "GSM",
+    "contact.emailLabel": "Email",
+    "contact.callUs": "Nous appeler",
+    "footer.rights": "© 2026 Boucherie AL Bassatine. Tous droits réservés."
+  },
+  en: {
+    "nav.home": "Home",
+    "nav.about": "Our company",
+    "nav.products": "Our products",
+    "nav.products.cow": "Beef",
+    "nav.products.cow.desc": "Custom cutting <br> &amp; processing",
+    "nav.products.sheep": "Lamb",
+    "nav.products.sheep.desc": "Lamb &amp; ewe<br>selected at source",
+    "nav.dropdown.title": "Our products",
+    "nav.dropdown.badge": "✦ Halal certified",
+    "nav.dropdown.farmToTable": "Good quality provided",
+    "nav.dropdown.seeAll": "See all",
+    "nav.commitments": "Our commitments",
+    
+    "nav.contact": "Contact",
+    "nav.menuLabel": "Menu",
+    "nav.closeLabel": "Close",
+    "nav.openMenuAria": "Open menu",
+    "hero.title": "ALBASSATINE MEATS: <span class=\"accent\">Excellence </span><br>cut to measure",
+    "hero.subtitle": "The first step toward great dishes, good cooking and a satisfied customer is also the raw materials you use — that's why<span class=\"thin\"> ALBASSATINE VIANDES</span> values every cut and respects every flavor.",
+    "hero.tagline": "\"Your trust, our know-how.\"",
+    "hero.cta": "Learn more",
+    "about.eyebrow": "Our Company",
+    "about.titleMain": "ALBASSATINE VIANDES",
+    "about.titleSub": " Where passion meets the craft",
+    "about.text": "Founded by Mr Mohcine Driss, a butchery expert since the 1970s, with a wealth of experience, love for the craft, perseverance and determination. Our Leader puts his years of hands-on expertise to work to make your experience exceptional, so that your customer is left SUPER SATISFIED.",
+    "about.cta": "Discover our expertise",
+    "products.eyebrow": "Our expertise",
+    "products.title": "What we do",
+    "products.subtitle": "From farm to plate, every step of our chain is designed to guarantee traceability, hygiene and freshness — from cutting through to delivery.",
+    "products.step1.eyebrow": "Step 01",
+    "products.step1.title": "Cutting &amp; Processing",
+    "products.step1.text": "Our cutting and processing room meets all international quality, hygiene and organization standards, and also meets the conditions set out in Decree No. 2-10-473 of 7 Chaoual and the HACCP management system.",
+
+
+
+    "products.step1.quote": "\"Because every cut is a responsibility\"",
+    "products.step2.eyebrow": "Step 02",
+    "products.step2.title": "Storage &amp; Packaging",
+    "products.step2.text": "ALBASSATINE VIANDES is 100% committed to chilling meats and preserving their quality. We take care of the product from the moment it arrives until delivery, step by step, with care and caution — because for us every product fully deserves attention so that it reaches your hands in very good condition and well cared for.",
+
+
+
+    "products.step2.quote": "\"Quality is our ultimate goal\"",
+    "products.step3.eyebrow": "Step 03",
+    "products.step3.title": "Packaging",
+    "products.step3.text": "Our products reach our clients well packaged with detailed labels (company name, address, production date…), plus the label numbers provided by ONSSA which signify that our products follow the national and international standards of meat cutting and the conditions of food projects.",
+
+
+
+    "products.step3.quote": "\"Every package is a commitment\"",
+    "products.step4.eyebrow": "Step 04",
+    "products.step4.title": "Logistics",
+    "products.step4.text": "Like all the previous steps, ALBASSATINE VIANDES with its professional team and love of the trade organizes its logistics wholeheartedly, using logistical tools that allow products to maintain their quality for a very long time. Our team in charge of the routes guarantees that they are well organized, the refrigerated vehicles guarantee the transportation of meats in the best conditions, and our drivers guarantee a warm welcome and a smile.",
+
+
+
+    "products.step4.quote": "\"Your satisfaction, our drive\"",
+    "commitments.eyebrow": "Our commitments",
+    "commitments.title": "OUR COMMITMENTS",
+    "commitments.pause": "Pause",
+    "commitments.card1.title": "GUARANTEED QUALITY",
+    "commitments.card1.text": "Offering consumers the best of meat is our primary commitment. Every piece is rigorously selected.",
+    "commitments.card2.title": "GREAT VALUE",
+    "commitments.card2.text": "Premium meat at a fair price, with no unnecessary middlemen, for unbeatable value for money.",
+    "commitments.card3.title": "FAST DELIVERY",
+    "commitments.card3.text": "State-of-the-art logistics and technology for delivery in the freshest possible condition.",
+    "commitments.card4.title": "TRACEABILITY",
+    "commitments.card4.text": "Every cut we offer is identified and traceable in our system, from farm to plate.",
+    "commitments.card5.title": "EXCELLENT SERVICE",
+    "commitments.card5.text": "An attentive, available team — from advice to delivery — supporting you closely at every step.",
+    "certs.eyebrow": "Certifications",
+    "certs.title": "Our certifications",
+    "certs.subtitle": "Health approvals issued by ONSSA, guaranteeing strict compliance with hygiene and food safety standards.",
+    "certs.cta": "View certificate",
+    "certs.card1.title": "Red meat cutting",
+    "certs.card1.desc": "Health approval for operating a red meat cutting workshop.",
+    "certs.card2.title": "Ground meat",
+    "certs.card2.desc": "Health approval for the preparation of ground meat.",
+    "certs.card3.title": "Meat-based product preparation",
+    "certs.card3.desc": "Health approval for the establishment and preparation of meat-based products.",
+    "certs.issuer": "National Office of Food Product Sanitary Safety — Regional Directorate of Tangier-Tetouan-Al Hoceima.",
+    "reviews.eyebrow": "Your opinion matters",
+    "reviews.title": "Leave your review",
+    "reviews.subtitle": "Your feedback helps ALBASSATINE VIANDES grow and serve you even better.",
+    "reviews.form.name": "Full name",
+    "reviews.form.namePh": "Your name",
+    "reviews.form.email": "Email",
+    "reviews.form.emailPh": "you@example.com",
+    "reviews.form.rating": "Your rating",
+    "reviews.form.ratingHint": "Tap a star",
+    "reviews.form.message": "Your review",
+    "reviews.form.messagePh": "Share your experience with ALBASSATINE VIANDES...",
+    "reviews.form.submit": "Send my review",
+    "reviews.form.success": "Thank you for your review&nbsp;! It has been sent.",
+    "reviews.form.errorRating": "Please choose a rating",
+    "avis.eyebrow": "Customer reviews",
+    "avis.title": "WHAT THEY THINK",
+    "avis.countSuffix": "reviews",
+    "avis.empty": "Be the first to leave a review.",
+    "contact.title": "Contact us",
+    "contact.lead": "A question about our products&nbsp;? Our team will get back to you quickly.",
+    "contact.addressLabel": "Address",
+    "contact.phoneLabel": "Phone",
+    "contact.gsmLabel": "Mobile",
+    "contact.emailLabel": "Email",
+    "contact.callUs": "Call us",
+    "footer.rights": "© 2026 Boucherie AL Bassatine. All rights reserved."
+  },
+  ar: {
+    "nav.home": "الرئيسية",
+    "nav.about": "شركتنا",
+    "nav.products": "منتجاتنا",
+    "nav.products.cow": "بقري",
+    "nav.products.cow.desc": "تقطيع ومعالجة<br>حسب الطلب",
+    "nav.products.sheep": "غنمي",
+    "nav.products.sheep.desc": "خروف ونعجة<br>مختارة من المصدر",
+    "nav.dropdown.title": "منتجاتنا",
+    "nav.dropdown.badge": "✦ حلال معتمد",
+    "nav.dropdown.farmToTable": "من المزرعة إلى الطبق",
+    "nav.dropdown.seeAll": "عرض الكل",
+    "nav.commitments": "التزاماتنا",
+    
+    "nav.contact": "اتصل بنا",
+    "nav.menuLabel": "القائمة",
+    "nav.closeLabel": "إغلاق",
+    "nav.openMenuAria": "افتح القائمة",
+    "hero.title": "ALBASSATINE VIANDES: <span class=\"accent\">التميّز </span><br>على المقاس",
+    "hero.subtitle": "الخطوة الأولى نحو أطباق شهية ومطبخ جيد وزبون راضٍ تبدأ من المواد الأولية التي تستخدمها، ولهذا<span class=\"thin\"> ALBASSATINE VIANDES</span> تثمّن كل قطعة وتحترم كل نكهة.",
+    "hero.tagline": "«ثقتكم، خبرتنا».",
+    "hero.cta": "اعرف المزيد",
+    "about.eyebrow": "شركتنا",
+    "about.titleMain": "ALBASSATINE VIANDES",
+    "about.titleSub": " حيث يلتقي الشغف بالحرفة",
+    "about.text": "تأسست ALBASSATINE VIANDES على يد السيد محسين إدريس، خبير في المجزرة منذ سبعينيات القرن الماضي، بخبرة واسعة وحب للمهنة ومثابرة وإصرار. يضع قائدنا سنوات خبرته العملية في خدمتكم لجعل تجربتكم استثنائية، ليكون زبونكم  راضياً تماماً.",
+    "about.cta": "اكتشف خبراتنا",
+    "products.eyebrow": "خبراتنا",
+    "products.title": "ما الذي نقوم به",
+    "products.subtitle": "من المزرعة إلى المائدة، كل مرحلة في سلسلتنا مصمَّمة لضمان إمكانية التتبع والنظافة والطزاجة — من التقطيع حتى التوصيل.",
+    "products.step1.eyebrow": "المرحلة 01",
+    "products.step1.title": "التقطيع والتحويل",
+    "products.step1.text": "تستوفي قاعة التقطيع والتحويل لدينا جميع معايير الجودة والنظافة والتنظيم الدولية، وتمتثل كذلك للشروط المحددة في المرسوم رقم 2-10-473 الصادر في 7 شوال، ولنظام إدارة HACCP.",
+
+
+
+    "products.step1.quote": "«لأن كل عملية تقطيع هي مسؤولية»",
+    "products.step2.eyebrow": "المرحلة 02",
+    "products.step2.title": "التخزين والتعبئة",
+    "products.step2.text": "تُولي ALBASSATINE VIANDES اهتماماً بالغاً بتبريد اللحوم والحفاظ على جودتها، إذ نعتني بالمنتج منذ وصوله حتى لحظة تسليمه خطوةً بخطوة وبكل حذر وعناية، لأن كل منتج يستحق كامل الاهتمام لكي يصل إلى يديكم في أحسن حال ومعتنىً به جيداً.",
+
+
+
+    "products.step2.quote": "«الجودة هي هدفنا الأسمى»",
+    "products.step3.eyebrow": "المرحلة 03",
+    "products.step3.title": "التغليف",
+    "products.step3.text": "تصل منتجاتنا إلى عملائنا مُعبَّأةً بشكل جيد مع ملصقات تفصيلية (اسم الشركة، العنوان، تاريخ الإنتاج…)، فضلاً عن أرقام الملصقات المقدمة من ONSSA التي تدل على أن منتجاتنا تتبع المعايير الوطنية والدولية لتقطيع اللحوم وشروط المشاريع الغذائية.",
+
+
+
+    "products.step3.quote": "«كل تغليف هو التزام»",
+    "products.step4.eyebrow": "المرحلة 04",
+    "products.step4.title": "اللوجستيك",
+    "products.step4.text": "كسائر المراحل السابقة، تنظّم ALBASSATINE VIANDES لوجستيكها بعشق واحترافية مع فريقها المتخصص، باستخدام أدوات لوجستية تُبقي المنتجات محافِظةً على جودتها لفترة طويلة جداً. فريقنا المسؤول عن المسارات يضمن تنظيمها الجيد، والشاحنات المبردة تضمن نقل اللحوم في أفضل الظروف، وسائقونا يضمنون الترحيب والابتسامة.",
+
+
+
+    "products.step4.quote": "«رضاكم محرك عملنا»",
+    "commitments.eyebrow": "التزاماتنا",
+    "commitments.title": "التزاماتنا",
+    "commitments.pause": "إيقاف",
+    "commitments.card1.title": "جودة مضمونة",
+    "commitments.card1.text": "تقديم أفضل ما في اللحوم للمستهلك هو التزامنا الأول. تُختار كل قطعة بدقة.",
+    "commitments.card2.title": "سعر مناسب",
+    "commitments.card2.text": "لحم ممتاز بسعر عادل، دون وسطاء غير ضروريين، لأفضل قيمة مقابل السعر.",
+    "commitments.card3.title": "توصيل سريع",
+    "commitments.card3.text": "وسائل لوجستية وتقنية متطورة لتوصيل في أفضل ظروف الطزاجة.",
+    "commitments.card4.title": "إمكانية التتبع",
+    "commitments.card4.text": "كل القطع المعروضة محددة الهوية وقابلة للتتبع في نظامنا، من المزرعة إلى مائدتكم.",
+    "commitments.card5.title": "خدمة ممتازة",
+    "commitments.card5.text": "فريق متاح ومستمع لاحتياجاتكم، من النصيحة إلى التوصيل، لمرافقة دقيقة في كل خطوة.",
+    "certs.eyebrow": "الشهادات",
+    "certs.title": "شهاداتنا",
+    "certs.subtitle": "اعتمادات صحية صادرة عن المكتب الوطني للسلامة الصحية للمنتجات الغذائية (ONSSA)، تضمن الاحترام الصارم لمعايير النظافة والسلامة الغذائية.",
+    "certs.cta": "عرض الشهادة",
+    "certs.card1.title": "تقطيع اللحوم الحمراء",
+    "certs.card1.desc": "اعتماد صحي لاستغلال ورشة تقطيع اللحوم الحمراء.",
+    "certs.card2.title": "اللحوم المفرومة",
+    "certs.card2.desc": "اعتماد صحي لتحضير اللحوم المفرومة.",
+    "certs.card3.title": "تحضير منتجات أساسها اللحوم",
+    "certs.card3.desc": "اعتماد صحي لإحداث وتحضير منتجات أساسها اللحوم.",
+    "certs.issuer": "المكتب الوطني للسلامة الصحية للمنتجات الغذائية — المديرية الجهوية لجهة طنجة تطوان الحسيمة.",
+    "reviews.eyebrow": "رأيكم يهمنا",
+    "reviews.title": "شاركنا رأيك",
+    "reviews.subtitle": "ملاحظاتكم تساعد ALBASSATINE VIANDES على التطور وتقديم خدمة أفضل لكم.",
+    "reviews.form.name": "الاسم الكامل",
+    "reviews.form.namePh": "اسمك",
+    "reviews.form.email": "البريد الإلكتروني",
+    "reviews.form.emailPh": "anta@example.com",
+    "reviews.form.rating": "تقييمك",
+    "reviews.form.ratingHint": "اضغط على نجمة",
+    "reviews.form.message": "رأيك",
+    "reviews.form.messagePh": "شاركنا تجربتك مع ALBASSATINE VIANDES...",
+    "reviews.form.submit": "إرسال رأيي",
+    "reviews.form.success": "شكراً على رأيكم&nbsp;! تم إرساله بنجاح.",
+    "reviews.form.errorRating": "يرجى اختيار تقييم",
+    "avis.eyebrow": "آراء العملاء",
+    "avis.title": "ماذا يقولون عنا",
+    "avis.countSuffix": "تقييم",
+    "avis.empty": "كن أول من يترك تقييمًا.",
+    "contact.title": "اتصل بنا",
+    "contact.lead": "هل لديك سؤال حول منتجاتنا&nbsp;؟ فريقنا سيجيبك بسرعة.",
+    "contact.addressLabel": "العنوان",
+    "contact.phoneLabel": "الهاتف",
+    "contact.gsmLabel": "الجوال",
+    "contact.emailLabel": "البريد الإلكتروني",
+    "contact.callUs": "اتصل بنا",
+    "footer.rights": "© 2026 مجزرة البساتين. جميع الحقوق محفوظة."
+  },
+  ja: {
+    "nav.home": "ホーム",
+    "nav.about": "会社概要",
+    "nav.products": "製品",
+    "nav.products.cow": "牛肉",
+    "nav.products.cow.desc": "カスタムカット＆加工",
+    "nav.products.sheep": "羊肉",
+    "nav.products.sheep.desc": "ラム＆マトン<br>産地直送",
+    "nav.dropdown.title": "製品",
+    "nav.dropdown.badge": "✦ ハラール認証",
+    "nav.dropdown.farmToTable": "牧場から食卓へ",
+    "nav.dropdown.seeAll": "すべて見る",
+    "nav.commitments": "私たちの取り組み",
+    
+    "nav.contact": "お問い合わせ",
+    "nav.menuLabel": "メニュー",
+    "nav.closeLabel": "閉じる",
+    "nav.openMenuAria": "メニューを開く",
+    "hero.title": "ALBASSATINE VIANDES: <span class=\"accent\">卓越した</span><br>オーダーメイドの品質",
+    "hero.subtitle": "美味しい料理、良い調理、そしてお客様にご満足いただくための第一歩は、使用する原材料にもあります。だからこそ<span class=\"thin\">ALBASSATINE VIANDES</span>は、ひとつひとつの部位を大切にし、すべての風味を尊重しています。",
+    "hero.tagline": "「お客様の信頼、私たちの技術。」",
+    "hero.cta": "詳しく見る",
+    "about.eyebrow": "私たちの会社",
+    "about.titleMain": "ALBASSATINE VIANDES",
+    "about.titleSub": " 情熱と職人技が出会う場所",
+    "about.text": "ALBASSATINE VIANDESは1970年代から精肉の道を歩んできた専門家、ムフシン・ドリス氏によって設立されました。豊富な経験と仕事への愛情、忍耐力と強い意志を持つ私たちのリーダーが、長年培った技術を惜しみなく注ぎ、お客様に特別な体験をお届けします。すべては のお客様に心から満足していただくために。",
+    "about.cta": "私たちの専門性を見る",
+    "products.eyebrow": "私たちの専門分野",
+    "products.title": "私たちの仕事内容",
+    "products.subtitle": "農場から食卓まで、トレーサビリティ・衛生・新鮮さを保証するために、加工から配送まで、サプライチェーンのすべての工程が設計されています。",
+    "products.step1.eyebrow": "ステップ01",
+    "products.step1.title": "カット・加工",
+    "products.step1.text": "当社のカット・加工室は、品質・衛生・組織に関するすべての国際基準を満たしており、7 Chaoual付政令第2-10-473号に定められた条件およびHACCP管理システムにも適合しています。",
+
+
+
+    "products.step1.quote": "「すべてのカットには責任が伴う」",
+    "products.step2.eyebrow": "ステップ02",
+    "products.step2.title": "保管・梱包",
+    "products.step2.text": "ALBASSATINE VIANDESは、肉の冷却と品質保持に100%注力しています。商品が到着した瞬間から配送まで、一工程一工程を丁寧かつ慎重に管理します。なぜなら、すべての商品がお客様の手に最高の状態でよく手入れされて届く価値があるからです。",
+
+
+
+    "products.step2.quote": "「品質こそが私たちの最終目標」",
+    "products.step3.eyebrow": "ステップ03",
+    "products.step3.title": "パッケージング",
+    "products.step3.text": "当社の製品は、詳細なラベル（会社名、住所、製造日など）を貼付したうえで適切に梱包してお届けします。さらに、ONSSAが提供する番号により、国内外の食肉加工基準および食品プロジェクトの条件への適合が示されています。",
+
+
+
+    "products.step3.quote": "「すべての梱包はひとつの約束」",
+    "products.step4.eyebrow": "ステップ04",
+    "products.step4.title": "物流",
+    "products.step4.text": "他のすべての工程と同様に、ALBASSATINE VIANDESはプロフェッショナルなチームと仕事への愛情をもって物流を心を込めて管理しています。製品の品質を長期間保つための物流ツールを使用し、ルート担当チームが計画を万全に整え、冷蔵車両が最良の輸送環境を確保し、ドライバーが温かいお迎えと笑顔をお届けします。",
+
+
+
+    "products.step4.quote": "「お客様の満足が私たちの原動力」",
+    "commitments.eyebrow": "私たちの取り組み",
+    "commitments.title": "私たちの取り組み",
+    "commitments.pause": "一時停止",
+    "commitments.card1.title": "品質保証",
+    "commitments.card1.text": "消費者に最高の肉をご提供することが、私たちの第一の使命です。すべての部位を厳格に選別しています。",
+    "commitments.card2.title": "お得な価格",
+    "commitments.card2.text": "余分な仲介を省き、適正価格で上質なお肉をご提供。コストパフォーマンスに優れています。",
+    "commitments.card3.title": "迅速な配送",
+    "commitments.card3.text": "最先端の物流・技術手段により、最も新鮮な状態での配送を実現します。",
+    "commitments.card4.title": "トレーサビリティ",
+    "commitments.card4.text": "提供するすべての部位は、私たちのシステムで識別・追跡可能です。農場から食卓まで。",
+    "commitments.card5.title": "丁寧なサービス",
+    "commitments.card5.text": "ご相談から配送まで、お客様に寄り添う心のこもったサポートをご提供します。",
+    "certs.eyebrow": "認証",
+    "certs.title": "私たちの認証",
+    "certs.subtitle": "ONSSA（国家食品安全衛生局）が発行する衛生認可であり、衛生および食品安全基準の厳格な遵守を保証します。",
+    "certs.cta": "証明書を見る",
+    "certs.card1.title": "赤身肉のカット",
+    "certs.card1.desc": "赤身肉カット作業場の運営に関する衛生認可。",
+    "certs.card2.title": "挽き肉",
+    "certs.card2.desc": "挽き肉の調製に関する衛生認可。",
+    "certs.card3.title": "食肉加工品の調製",
+    "certs.card3.desc": "食肉ベースの製品の設立および調製に関する衛生認可。",
+    "certs.issuer": "国家食品安全衛生局（ONSSA）— タンジェ・テトゥアン・アルホセイマ地域局。",
+    "reviews.eyebrow": "お客様の声",
+    "reviews.title": "レビューを送る",
+    "reviews.subtitle": "皆様からのご意見が、ALBASSATINE VIANDESの成長とより良いサービスにつながります。",
+    "reviews.form.name": "お名前",
+    "reviews.form.namePh": "お名前を入力",
+    "reviews.form.email": "メールアドレス",
+    "reviews.form.emailPh": "you@example.com",
+    "reviews.form.rating": "評価",
+    "reviews.form.ratingHint": "星をタップしてください",
+    "reviews.form.message": "ご意見",
+    "reviews.form.messagePh": "ALBASSATINE VIANDESでのご体験をお聞かせください...",
+    "reviews.form.submit": "レビューを送信",
+    "reviews.form.success": "レビューをありがとうございます&nbsp;! 送信が完了しました。",
+    "reviews.form.errorRating": "評価を選択してください",
+    "avis.eyebrow": "お客様の声",
+    "avis.title": "皆様の声",
+    "avis.countSuffix": "件のレビュー",
+    "avis.empty": "最初のレビューを投稿しましょう。",
+    "contact.title": "お問い合わせ",
+    "contact.lead": "製品についてのご質問がございますか&nbsp;? 担当チームが迅速に対応いたします。",
+    "contact.addressLabel": "住所",
+    "contact.phoneLabel": "電話番号",
+    "contact.gsmLabel": "携帯電話",
+    "contact.emailLabel": "メール",
+    "contact.callUs": "お電話はこちら",
+    "footer.rights": "© 2026 ブシュリー・アルバササティン。全著作権所有。"
+  },
+  zh: {
+    "nav.home": "首页",
+    "nav.about": "公司简介",
+    "nav.products": "我们的产品",
+    "nav.products.cow": "牛肉",
+    "nav.products.cow.desc": "定制切割<br>与加工",
+    "nav.products.sheep": "羊肉",
+    "nav.products.sheep.desc": "精选羔羊肉<br>直接来自产地",
+    "nav.dropdown.title": "我们的产品",
+    "nav.dropdown.badge": "✦ 清真认证",
+    "nav.dropdown.farmToTable": "品质至上",
+    "nav.dropdown.seeAll": "查看全部",
+    "nav.commitments": "我们的承诺",
+    "nav.contact": "联系我们",
+    "nav.menuLabel": "菜单",
+    "nav.closeLabel": "关闭",
+    "nav.openMenuAria": "打开菜单",
+    "hero.title": "AL BASSATINE VIANDES：<span class=\"accent\">卓越品质</span><br>量身定制",
+    "hero.subtitle": "美味佳肴、精良烹饪与满意顾客的第一步，始于您所使用的原材料。正因如此，<span class=\"thin\">AL BASSATINE VIANDES</span> 珍视每一块肉，尊重每一种风味。",
+    "hero.tagline": "「您的信任，我们的专业。」",
+    "hero.cta": "了解更多",
+    "about.eyebrow": "公司简介",
+    "about.titleMain": "AL BASSATINE VIANDES",
+    "about.titleSub": " 热情与工艺相遇之处",
+    "about.text": "由自70年代起深耕肉类行业的专家穆赫辛·德里斯先生创立，凭借丰富的经验、对职业的热爱、坚韧与决心。我们的领导者将多年积累的实践技术倾注于服务之中，致力于为您带来非凡体验，让您的顾客真正感到满意。",
+    "about.cta": "探索我们的专业",
+    "products.eyebrow": "我们的专业领域",
+    "products.title": "我们的工作内容",
+    "products.subtitle": "从牧场到餐桌，我们供应链的每一个环节都经过精心设计，以确保可追溯性、卫生与新鲜度——从切割到配送，一丝不苟。",
+    "products.step1.eyebrow": "第 01 步",
+    "products.step1.title": "切割与加工",
+    "products.step1.text": "我们的切割与加工车间符合所有国际质量、卫生及组织标准，同时满足第2-10-473号法令（7 Chaoual）所规定的条件及HACCP管理体系的相关要求。",
+
+
+
+    "products.step1.quote": "「每一刀都承载着责任」",
+    "products.step2.eyebrow": "第 02 步",
+    "products.step2.title": "储存与包装",
+    "products.step2.text": "AL BASSATINE VIANDES 100% 致力于肉类冷却与品质保持。从产品入库到交付客户，我们逐步、谨慎、细心地守护每一件产品，因为对我们来说每件产品都值得充分的关注，以便以最佳状态并经过妥善养护后送达您手中。",
+
+
+
+    "products.step2.quote": "「品质是我们的最高目标」",
+    "products.step3.eyebrow": "第 03 步",
+    "products.step3.title": "包装",
+    "products.step3.text": "我们的产品经过精良包装送达客户，附有详细标签（公司名称、地址、生产日期等），并附有ONSSA提供的编号标签，表明我们的产品符合国内外肉类切割标准及食品项目规范。",
+
+
+
+    "products.step3.quote": "「每一份包装都是一份承诺」",
+    "products.step4.eyebrow": "第 04 步",
+    "products.step4.title": "物流",
+    "products.step4.text": "与所有前序环节一样，AL BASSATINE VIANDES 凭借专业团队和对职业的热爱，全心全意地组织其物流工作，使用能让产品长期保持品质的物流工具。负责路线的团队保证路线安排有序，冷藏车辆保证肉类在最佳条件下运输，司机保证热情的欢迎与微笑。",
+
+
+
+    "products.step4.quote": "「您的满意，是我们的动力」",
+    "commitments.eyebrow": "我们的承诺",
+    "commitments.title": "我们的承诺",
+    "commitments.pause": "暂停",
+    "commitments.card1.title": "品质保证",
+    "commitments.card1.text": "为消费者提供最优质的肉类是我们的首要承诺，每一块肉都经过严格筛选。",
+    "commitments.card2.title": "价格合理",
+    "commitments.card2.text": "无多余中间环节，以公道的价格提供优质肉类，性价比无可匹敌。",
+    "commitments.card3.title": "快速配送",
+    "commitments.card3.text": "先进的物流与技术手段，确保产品在最新鲜的状态下送达。",
+    "commitments.card4.title": "全程溯源",
+    "commitments.card4.text": "我们提供的所有部位均可在系统中识别和追溯，从牧场到您的餐桌。",
+    "commitments.card5.title": "优质服务",
+    "commitments.card5.text": "从咨询到配送，专注倾听、全程陪伴的专业团队在每一个环节为您提供贴心支持。",
+    "certs.eyebrow": "认证",
+    "certs.title": "我们的认证",
+    "certs.subtitle": "由ONSSA（国家食品安全卫生局）颁发的卫生批准，确保严格遵守卫生与食品安全标准。",
+    "certs.cta": "查看证书",
+    "certs.card1.title": "红肉分割",
+    "certs.card1.desc": "红肉分割车间运营卫生批准。",
+    "certs.card2.title": "碎肉",
+    "certs.card2.desc": "碎肉加工卫生批准。",
+    "certs.card3.title": "肉制品加工",
+    "certs.card3.desc": "肉类制品设立与加工卫生批准。",
+    "certs.issuer": "国家食品安全卫生局（ONSSA）— 丹吉尔-得土安-霍塞马大区管理局。",
+    "reviews.eyebrow": "您的评价",
+    "reviews.title": "留下您的评价",
+    "reviews.subtitle": "您的反馈有助于 AL BASSATINE VIANDES 不断成长，更好地为您服务。",
+    "reviews.form.name": "姓名",
+    "reviews.form.namePh": "请输入您的姓名",
+    "reviews.form.email": "电子邮箱",
+    "reviews.form.emailPh": "you@example.com",
+    "reviews.form.rating": "您的评分",
+    "reviews.form.ratingHint": "点击星星评分",
+    "reviews.form.message": "您的评价",
+    "reviews.form.messagePh": "分享您与 AL BASSATINE VIANDES 的体验…",
+    "reviews.form.submit": "提交评价",
+    "reviews.form.success": "感谢您的评价&nbsp;！已成功提交。",
+    "reviews.form.errorRating": "请选择评分",
+    "avis.eyebrow": "客户评价",
+    "avis.title": "他们的评价",
+    "avis.countSuffix": "条评价",
+    "avis.empty": "成为第一个发表评价的人。",
+    "contact.title": "联系我们",
+    "contact.lead": "对我们的产品有疑问&nbsp;？我们的团队将尽快为您解答。",
+    "contact.addressLabel": "地址",
+    "contact.phoneLabel": "电话",
+    "contact.gsmLabel": "手机",
+    "contact.emailLabel": "电子邮箱",
+    "contact.callUs": "致电我们",
+    "footer.rights": "© 2026 AL BASSATINE 肉铺。保留所有权利。"
+  }
+};
+
+const i18nEls = document.querySelectorAll('[data-i18n]');
+const i18nPlaceholderEls = document.querySelectorAll('[data-i18n-placeholder]');
+const langSwitch = document.getElementById('langSwitch');
+const langSwitchBtn = document.getElementById('langSwitchBtn');
+const langSwitchMenu = document.getElementById('langSwitchMenu');
+const langCurrent = document.getElementById('langCurrent');
+const langButtons = document.querySelectorAll('.lang-switch-menu button, .lang-switch-mobile button');
+let currentLang = 'fr';
+
+function applyLanguage(lang){
+  const dict = i18nDict[lang] || i18nDict.fr;
+  currentLang = i18nDict[lang] ? lang : 'fr';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined){
+      el.innerHTML = dict[key];
+    }
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if (dict[key] !== undefined){
+      el.setAttribute('placeholder', dict[key]);
+    }
+  });
+
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+
+  langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+  if (langCurrent) langCurrent.textContent = lang.toUpperCase();
+
+  if (navBurger){
+    navBurger.setAttribute('aria-label', dict['nav.openMenuAria']);
+    const burgerLabel = navBurger.querySelector('.nav-burger-label');
+    if (burgerLabel){
+      const isOpen = nav.classList.contains('menu-open');
+      burgerLabel.textContent = isOpen ? dict['nav.closeLabel'] : dict['nav.menuLabel'];
+    }
+  }
+
+  try { localStorage.setItem('albassatine-lang', lang); } catch(e){}
+}
+
+langButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    applyLanguage(btn.dataset.lang);
+    if (langSwitch) langSwitch.classList.remove('open');
+    langSwitchBtn && langSwitchBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+
+if (langSwitchBtn){
+  langSwitchBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = langSwitch.classList.toggle('open');
+    langSwitchBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('click', (e) => {
+    if (langSwitch && !langSwitch.contains(e.target)){
+      langSwitch.classList.remove('open');
+      langSwitchBtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+
+let initialLang = 'fr';
+try {
+  initialLang = localStorage.getItem('albassatine-lang') || 'fr';
+} catch(e){}
+applyLanguage(initialLang);
+
+
+
+/* ============================================
+   PROCESS TABS (intro section) — sync with scroll to features
+   ============================================ */
+const tabs = document.querySelectorAll('.process-tab');
+const features = document.querySelectorAll('.feature');
+
+
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const idx = parseInt(tab.dataset.target, 10);
+    const targetFeature = features[idx];
+    if (targetFeature){
+      const offset = 90;
+      window.scrollTo({
+        top: targetFeature.getBoundingClientRect().top + window.pageYOffset - offset,
+        behavior: 'smooth'
+      });
+    }
+  });
+});
+
+const featureObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const idx = Array.from(features).indexOf(entry.target);
+    if (entry.isIntersecting && idx !== -1){
+      tabs.forEach(t => t.classList.remove('active'));
+      const matchingTab = document.querySelector(`.process-tab[data-target="${idx}"]`);
+      if (matchingTab) matchingTab.classList.add('active');
+    }
+  });
+}, { threshold: 0.5 });
+
+features.forEach(f => featureObserver.observe(f));
+
+/* ============================================
+   SCROLL REVEAL (IntersectionObserver)
+   ============================================ */
+const revealEls = document.querySelectorAll('.reveal:not(.produits-row), .reveal-stagger, .feature');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting){
+      entry.target.classList.add('is-visible');
+    }
+  });
+}, { threshold: 0.2, rootMargin: '0px 0px -60px 0px' });
+
+revealEls.forEach(el => revealObserver.observe(el));
+
+/* ============================================
+   NOS EXPERTISES — animation rejouée à chaque entrée
+   (contrairement au reveal générique ci-dessus, qui ne joue
+   qu'une seule fois, ici on retire la classe à la sortie pour
+   que l'animation se redéclenche à chaque passage dans la section)
+   ============================================ */
+const produitsHeader = document.getElementById('produitsHeader');
+const produitsRows = document.querySelectorAll('.produits-row');
+
+if (produitsHeader){
+  const produitsHeaderObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('is-visible', entry.isIntersecting);
+    });
+  }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
+  produitsHeaderObserver.observe(produitsHeader);
+}
+
+if (produitsRows.length){
+  const produitsRowObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('is-visible', entry.isIntersecting);
+    });
+  }, { threshold: 0.25, rootMargin: '0px 0px -60px 0px' });
+  produitsRows.forEach(row => produitsRowObserver.observe(row));
+}
+
+/* ============================================
+   CURSEUR AVANCÉ — dot + ring + halo tournant + traîne
+   ============================================ */
+(function(){
+  const dot   = document.getElementById('cursor-dot');
+  const ring  = document.getElementById('cursor-ring');
+  const halo  = document.getElementById('cursor-halo');
+  const trail = document.getElementById('cursor-trail');
+
+  if (!dot || window.matchMedia('(hover: none), (pointer: coarse)').matches) return;
+
+  let mx = window.innerWidth / 2;
+  let my = window.innerHeight / 2;
+  let rx = mx, ry = my;
+  let tx = mx, ty = my;
+  let angle = 0;
+  let visible = false;
+
+  function setPos(el, x, y) {
+    el.style.left = x + 'px';
+    el.style.top  = y + 'px';
+  }
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    setPos(dot, mx, my);
+    if (!visible) {
+      visible = true;
+      [dot, ring, halo, trail].forEach(el => el.style.opacity = '1');
+    }
+  });
+
+  document.addEventListener('mouseleave', () => {
+    [dot, ring, halo, trail].forEach(el => el.style.opacity = '0');
+    visible = false;
+  });
+
+  /* Hover sur éléments interactifs */
+  document.querySelectorAll('a, button, [role="button"], .process-tab, .eng-card, .avis-card, .cert-card, .cert-card-media, .groupe-cell, .review-star, .hero-dot, .produits-row').forEach(el => {
+    el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+  });
+
+  function lerp(a, b, t) { return a + (b - a) * t; }
+
+  function tick() {
+    /* ring suit avec lag doux */
+    rx = lerp(rx, mx, 0.14);
+    ry = lerp(ry, my, 0.14);
+    setPos(ring, rx, ry);
+
+    /* halo suit encore plus lentement + rotation */
+    tx = lerp(tx, mx, 0.07);
+    ty = lerp(ty, my, 0.07);
+    angle += 0.9;
+    halo.style.left = tx + 'px';
+    halo.style.top  = ty + 'px';
+    halo.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+
+    /* trail = traîne ultra-lag */
+    trail.style.left = lerp(parseFloat(trail.style.left)||mx, mx, 0.08) + 'px';
+    trail.style.top  = lerp(parseFloat(trail.style.top)||my, my, 0.08) + 'px';
+
+    requestAnimationFrame(tick);
+  }
+  tick();
+})();
+
+
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e){
+    const targetId = this.getAttribute('href');
+    if (targetId.length > 1){
+      const target = document.querySelector(targetId);
+      if (target){
+        e.preventDefault();
+        const offset = 90;
+        window.scrollTo({
+          top: target.getBoundingClientRect().top + window.pageYOffset - offset,
+          behavior: 'smooth'
+        });
+      }
+    }
+  });
+});
+
+/* ============================================
+   ENGAGEMENTS SLIDER — pause/play toggle
+   ============================================ */
+(function(){
+  const btn = document.getElementById('engPauseBtn');
+  const label = document.getElementById('engPauseLabel');
+  const track = document.getElementById('engTrack1');
+  if (!btn || !track) return;
+
+  let paused = false;
+  const pauseText = { fr:'Pause', en:'Pause', ar:'إيقاف', es:'Pausa', ja:'一時停止', zh:'暂停' };
+  const playText  = { fr:'Lecture', en:'Play', ar:'تشغيل', es:'Reproducir', ja:'再生', zh:'播放' };
+
+  btn.addEventListener('click', () => {
+    paused = !paused;
+    track.classList.toggle('is-paused', paused);
+    btn.classList.toggle('is-paused', paused);
+    btn.setAttribute('aria-pressed', String(paused));
+    if (label){
+      const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'fr';
+      label.textContent = paused ? (playText[lang] || playText.fr) : (pauseText[lang] || pauseText.fr);
+    }
+  });
+})();
+
+/* ============================================
+   FORMULAIRE D'AVIS — étoiles, compteur, envoi
+   ============================================ */
+(function(){
+  const form = document.getElementById('reviewForm');
+  if (!form) return;
+
+  const stars = Array.from(document.querySelectorAll('.review-star'));
+  const ratingInput = document.getElementById('reviewRatingValue');
+  const starsHint = document.getElementById('reviewStarsHint');
+  const message = document.getElementById('reviewMessage');
+  const msgCount = document.getElementById('reviewMsgCount');
+  const submitBtn = form.querySelector('.review-submit');
+  const successBox = document.getElementById('reviewSuccess');
+
+  let currentRating = 0;
+
+  function paintStars(value){
+    stars.forEach(star => {
+      const v = parseInt(star.dataset.value, 10);
+      star.classList.toggle('is-hover', v <= value);
+    });
+  }
+
+  function setActiveStars(value){
+    stars.forEach(star => {
+      const v = parseInt(star.dataset.value, 10);
+      star.classList.toggle('is-active', v <= value);
+      star.setAttribute('aria-checked', v === value ? 'true' : 'false');
+    });
+  }
+
+  stars.forEach(star => {
+    star.addEventListener('mouseenter', () => paintStars(parseInt(star.dataset.value, 10)));
+    star.addEventListener('focus', () => paintStars(parseInt(star.dataset.value, 10)));
+    star.addEventListener('click', () => {
+      currentRating = parseInt(star.dataset.value, 10);
+      ratingInput.value = String(currentRating);
+      setActiveStars(currentRating);
+      paintStars(currentRating);
+      if (starsHint){
+        starsHint.classList.add('is-rated');
+        const ratedTexts = { 1:'1/5', 2:'2/5', 3:'3/5', 4:'4/5', 5:'5/5' };
+        starsHint.textContent = ratedTexts[currentRating];
+      }
+    });
+  });
+
+  const starsWrap = document.getElementById('reviewStars');
+  if (starsWrap){
+    starsWrap.addEventListener('mouseleave', () => paintStars(currentRating));
+  }
+
+  if (message && msgCount){
+    message.addEventListener('input', () => {
+      const len = message.value.length;
+      message.value = message.value.slice(0, 400);
+      msgCount.textContent = String(Math.min(len, 400));
+    });
+  }
+
+  form.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (currentRating === 0){
+    if (starsHint){
+      const dict = (typeof i18nDict !== 'undefined' && typeof currentLang !== 'undefined') ? i18nDict[currentLang] : null;
+      starsHint.textContent = (dict && dict['reviews.form.errorRating']) || 'Merci de choisir une note';
+      starsHint.style.color = '#C0263F';
+    }
+    if (starsWrap) starsWrap.classList.add('review-shake');
+    setTimeout(() => starsWrap && starsWrap.classList.remove('review-shake'), 500);
+    return;
+  }
+  if (!form.checkValidity()){
+    form.reportValidity();
+    return;
+  }
+
+  submitBtn.classList.add('is-loading');
+
+  const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+  fetch('/api/avis/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': csrfToken
+    },
+    body: JSON.stringify({
+      name: form.name.value,
+      email: form.email.value,
+      rating: currentRating,
+      message: message.value
+    })
+  })
+  .then(res => res.json())
+  .then(data => {
+    submitBtn.classList.remove('is-loading');
+    if (!data.ok) {
+      if (starsHint) {
+        starsHint.textContent = 'Erreur, réessaie';
+        starsHint.style.color = '#C0263F';
+      }
+      return;
+    }
+    successBox.classList.add('is-shown');
+    if (typeof window.avisReload === 'function'){
+      window.avisReload();
+    }
+    form.reset();
+    currentRating = 0;
+    setActiveStars(0);
+    paintStars(0);
+    if (msgCount) msgCount.textContent = '0';
+    if (starsHint){
+      starsHint.style.color = '';
+      starsHint.classList.remove('is-rated');
+      const dict = (typeof i18nDict !== 'undefined' && typeof currentLang !== 'undefined') ? i18nDict[currentLang] : null;
+      starsHint.textContent = (dict && dict['reviews.form.ratingHint']) || 'Touchez une étoile';
+    }
+    setTimeout(() => successBox.classList.remove('is-shown'), 5000);
+  })
+  .catch(() => {
+    submitBtn.classList.remove('is-loading');
+    if (starsHint) {
+      starsHint.textContent = 'Erreur réseau';
+      starsHint.style.color = '#C0263F';
+    }
+  });
+});
+
+})();
+
+
+/* ============================================
+   AVIS PUBLIÉS — chargement + marquee infini
+   (même mécanique que le slider Engagements)
+   ============================================ */
+(function(){
+  const track = document.getElementById('avisTrack');
+  const slider = document.getElementById('avisSlider');
+  if (!track) return;
+
+  const statsBox = document.getElementById('avisStats');
+  const avgNumberEl = document.getElementById('avisAvgNumber');
+  const avgStarsEl = document.getElementById('avisAvgStars');
+  const countEl = document.getElementById('avisCountNumber');
+  const emptyEl = document.getElementById('avisEmpty');
+
+  const starIcon = 'M12 2l3.09 6.26L22 9.27l-5 4.87L18.18 21 12 17.27 5.82 21 7 14.14l-5-4.87 6.91-1.01L12 2z';
+
+  function buildStars(rating, cls){
+    let html = '';
+    for (let i = 1; i <= 5; i++){
+      html += `<svg class="${cls}${i <= rating ? ' is-filled' : ''}" viewBox="0 0 24 24"><path d="${starIcon}"/></svg>`;
+    }
+    return html;
+  }
+
+  const localeMap = { fr:'fr-FR', en:'en-US', ar:'ar-MA', ja:'ja-JP', zh:'zh-CN' };
+  function formatDate(iso){
+    try {
+      const lang = (typeof currentLang !== 'undefined') ? currentLang : 'fr';
+      return new Intl.DateTimeFormat(localeMap[lang] || 'fr-FR', { day:'numeric', month:'short', year:'numeric' }).format(new Date(iso));
+    } catch(e){ return ''; }
+  }
+
+  function initials(name){
+    return (name || '?').trim().split(/\s+/).slice(0,2).map(w => w[0]).join('').toUpperCase();
+  }
+
+  function escapeHtml(str){
+    const div = document.createElement('div');
+    div.textContent = str || '';
+    return div.innerHTML;
+  }
+
+  function buildCard(avis, hidden){
+    const card = document.createElement('article');
+    card.className = 'avis-card';
+    if (hidden) card.setAttribute('aria-hidden', 'true');
+    card.innerHTML = `
+      <svg class="avis-card-quote" viewBox="0 0 24 24"><path d="M9.5 8.5c0 2.5-1.8 4.5-4.2 5v-2.1c1.1-.4 1.8-1.4 1.8-2.4h-1.8V4h4.2v4.5zm9 0c0 2.5-1.8 4.5-4.2 5v-2.1c1.1-.4 1.8-1.4 1.8-2.4h-1.8V4h4.2v4.5z"/></svg>
+      <div class="avis-card-head">
+        <div class="avis-card-avatar">${initials(avis.name)}</div>
+        <div class="avis-card-id">
+          <span class="avis-card-name">${escapeHtml(avis.name)}</span>
+          <span class="avis-card-date">${formatDate(avis.created_at)}</span>
+        </div>
+      </div>
+      <div class="avis-card-stars">${buildStars(avis.rating, 'avis-card-star')}</div>
+      <p class="avis-card-msg">${escapeHtml(avis.message)}</p>
+    `;
+    return card;
+  }
+
+  function renderStats(average, total){
+    if (!statsBox) return;
+    if (total > 0){
+      avgNumberEl.textContent = average.toFixed(1);
+      avgStarsEl.innerHTML = buildStars(Math.round(average), 'avis-stat-star');
+      countEl.textContent = String(total);
+      statsBox.classList.add('is-visible');
+    } else {
+      statsBox.classList.remove('is-visible');
+    }
+  }
+
+  async function loadAvis(){
+    try {
+      const res = await fetch('/api/avis/list/');
+      const data = await res.json();
+      if (!data.ok) return;
+
+      const list = data.avis || [];
+      track.innerHTML = '';
+
+      if (list.length === 0){
+        if (emptyEl) emptyEl.classList.add('is-shown');
+        if (slider) slider.style.display = 'none';
+        const pauseBtn = document.getElementById('avisPauseBtn');
+        if (pauseBtn) pauseBtn.style.display = 'none';
+        renderStats(0, 0);
+        return;
+      }
+
+      if (emptyEl) emptyEl.classList.remove('is-shown');
+      if (slider) slider.style.display = '';
+      const pauseBtn = document.getElementById('avisPauseBtn');
+      if (pauseBtn) pauseBtn.style.display = '';
+
+      // vitesse constante quel que soit le nombre d'avis (~90px/s), comme Engagements
+      const approxCardWidth = 374; // largeur carte + gap
+      const duration = Math.max(18, Math.round((list.length * approxCardWidth) / 90));
+      track.style.setProperty('--eng-duration', duration + 's');
+
+      // set réel + set dupliqué (aria-hidden) pour la boucle infinie transform:translateX(-50%)
+      list.forEach(avis => track.appendChild(buildCard(avis, false)));
+      list.forEach(avis => track.appendChild(buildCard(avis, true)));
+
+      renderStats(data.average || 0, data.total || 0);
+    } catch(e){
+      /* silencieux : la section reste vide si l'API ne répond pas */
+    }
+  }
+
+  // rechargement complet après un nouvel envoi (plus simple et fiable
+  // que d'insérer une carte dans les deux moitiés du track dupliqué)
+  window.avisReload = loadAvis;
+
+  loadAvis();
+})();
+
+/* ============================================
+   AVIS SLIDER — pause/play toggle (identique à Engagements)
+   ============================================ */
+(function(){
+  const btn = document.getElementById('avisPauseBtn');
+  const label = document.getElementById('avisPauseLabel');
+  const track = document.getElementById('avisTrack');
+  if (!btn || !track) return;
+
+  let paused = false;
+  const pauseText = { fr:'Pause', en:'Pause', ar:'إيقاف', ja:'一時停止', zh:'暂停' };
+  const playText  = { fr:'Lecture', en:'Play', ar:'تشغيل', ja:'再生', zh:'播放' };
+
+  btn.addEventListener('click', () => {
+    paused = !paused;
+    track.classList.toggle('is-paused', paused);
+    btn.classList.toggle('is-paused', paused);
+    btn.setAttribute('aria-pressed', String(paused));
+    if (label){
+      const lang = (typeof currentLang !== 'undefined' && currentLang) ? currentLang : 'fr';
+      label.textContent = paused ? (playText[lang] || playText.fr) : (pauseText[lang] || pauseText.fr);
+    }
+  });
+})();
+
+(function(){
+  const btn = document.getElementById('backToTop');
+  if(!btn) return;
+  window.addEventListener('scroll', () => {
+    if(window.scrollY > 400){
+      btn.classList.add('visible');
+    } else {
+      btn.classList.remove('visible');
+    }
+  }, {passive:true});
+  btn.addEventListener('click', () => {
+    window.scrollTo({top:0, behavior:'smooth'});
+  });
+})();
+
+/* ============================================
+   LIGHTBOX CERTIFICATS
+   ============================================ */
+(function(){
+  const lightbox = document.getElementById('certLightbox');
+  const lightboxImg = document.getElementById('certLightboxImg');
+  if (!lightbox || !lightboxImg) return;
+
+  let lastFocused = null;
+
+  function openLightbox(imgEl){
+    lastFocused = document.activeElement;
+    lightboxImg.src = imgEl.src;
+    lightboxImg.alt = imgEl.alt;
+    lightbox.classList.add('is-open');
+    lightbox.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeLightbox(){
+    lightbox.classList.remove('is-open');
+    lightbox.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    if (lastFocused) lastFocused.focus();
+  }
+
+  document.querySelectorAll('.cert-card-media').forEach(media => {
+    media.addEventListener('click', () => {
+      const img = media.querySelector('img');
+      if (img) openLightbox(img);
+    });
+  });
+
+  lightbox.querySelectorAll('[data-close-lightbox]').forEach(el => {
+    el.addEventListener('click', closeLightbox);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lightbox.classList.contains('is-open')) {
+      closeLightbox();
+    }
+  });
+})();
+
+</script>
+
+</div><!-- /#pageContent -->
+
+</body>
+</html>

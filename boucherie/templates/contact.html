@@ -1,0 +1,1556 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-i18n-title="contact.pageTitle">Contact — ALBASSATINE VIANDES</title>
+<link href="{% static 'images/image_11.png' %}" rel="icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+/* ======================================================
+   TOKENS
+   ====================================================== */
+:root{
+  --burgundy:#6E0E22;
+  --burgundy-deep:#4F0A18;
+  --burgundy-light:#8C1B33;
+  --white:#FFFFFF;
+  --off-white:#F7F4F3;
+  --ink:#221316;
+  --grey:#7A7072;
+  --line:#E7DEDF;
+  --display:"Oswald", sans-serif;
+  --body:"Lora", serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;background:var(--white);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.65;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+img{max-width:100%;display:block;}
+a{color:inherit;text-decoration:none;}
+h1,h2,h3,h4{font-family:var(--display);font-weight:600;margin:0;text-transform:uppercase;letter-spacing:0.01em;}
+p{margin:0;}
+::selection{background:var(--burgundy);color:var(--white);}
+@media(prefers-reduced-motion:reduce){*{animation-duration:0.001ms!important;transition-duration:0.001ms!important;}}
+.wrap{max-width:1280px;margin:0 auto;padding:0 6vw;}
+a:focus-visible,button:focus-visible{outline:2px solid var(--burgundy);outline-offset:3px;}
+
+/* ======================================================
+   CURSEUR
+   ====================================================== */
+*,body{cursor:none!important;}
+#cursor-dot{position:fixed;width:40px;height:40px;background:url("{% static 'images/image_10.png' %}") center/contain no-repeat;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .15s var(--ease),width .25s var(--ease),height .25s var(--ease),opacity .2s;}
+#cursor-ring{position:fixed;width:44px;height:44px;border:1.5px solid rgba(110,14,34,.7);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .35s var(--ease),height .35s var(--ease),border-color .3s,opacity .3s;}
+#cursor-halo{position:fixed;width:56px;height:56px;border:1px dashed rgba(110,14,34,.4);border-radius:50%;pointer-events:none;z-index:9997;transform:translate(-50%,-50%);opacity:0;transition:opacity .3s;}
+#cursor-trail{position:fixed;width:6px;height:6px;background:rgba(110,14,34,.35);border-radius:50%;pointer-events:none;z-index:9996;transform:translate(-50%,-50%);}
+body.cursor-hover #cursor-dot{width:48px;height:48px;}
+body.cursor-hover #cursor-ring{width:60px;height:60px;border-color:var(--burgundy);}
+body.cursor-hover #cursor-halo{opacity:.6;}
+@media(hover:none),(pointer:coarse){#cursor-dot,#cursor-ring,#cursor-halo,#cursor-trail{display:none;}*,body{cursor:auto!important;}}
+
+/* ======================================================
+   NAV — identique index
+   ====================================================== */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  display:flex;align-items:center;justify-content:center;
+  padding:0 6vw;height:128px;
+  background:transparent;
+  transition:height .4s var(--ease),background .4s var(--ease),box-shadow .4s var(--ease);
+}
+.nav.scrolled{height:84px;background:var(--white);box-shadow:0 6px 24px rgba(0,0,0,0.1);border-bottom:1px solid var(--line);}
+.nav.scrolled .nav-group a{color:var(--ink);}
+.nav.scrolled .nav-group a:hover{color:var(--burgundy);}
+.nav.scrolled .nav-burger{border-color:rgba(0,0,0,.18);background:rgba(0,0,0,.04);}
+.nav.scrolled .nav-burger:hover{border-color:rgba(0,0,0,.35);}
+.nav.scrolled .nav-burger-icon span{background:var(--ink);}
+.nav.scrolled.menu-open .nav-burger{background:var(--burgundy);border-color:var(--burgundy-light);}
+.nav.scrolled.menu-open .nav-burger-icon span{background:var(--white);}
+.nav-group{
+  display:flex;align-items:center;gap:clamp(16px,2.1vw,40px);flex:1;min-width:0;
+  font-family:var(--display);font-size:clamp(12px,1vw,13.5px);font-weight:600;
+  letter-spacing:0.06em;text-transform:uppercase;
+  opacity:0;transform:translateY(-14px);
+  animation:navDrop .7s var(--ease) forwards;
+}
+.nav-group.left{justify-content:flex-start;animation-delay:.55s;}
+.nav-group.right{justify-content:flex-end;animation-delay:.65s;}
+@keyframes navDrop{to{opacity:1;transform:translateY(0);}}
+.nav-group a{position:relative;padding:8px 0;color:var(--white);white-space:nowrap;transition:opacity .3s;}
+.nav-group>a:first-child{display:flex;align-items:center;gap:10px;}
+.nav-group>a:first-child::before{content:"";width:0;height:0;border-style:solid;border-width:0 0 22px 22px;border-color:transparent transparent var(--burgundy) transparent;display:inline-block;transition:border-width .4s var(--ease);}
+.nav.scrolled .nav-group>a:first-child::before{border-width:0 0 16px 16px;}
+.nav-group a::after{content:"";position:absolute;left:0;bottom:2px;width:0%;height:2px;background:var(--burgundy-light);transition:width .3s var(--ease);}
+.nav-group a:hover::after{width:100%;}
+/* Dropdown produits */
+.nav-dropdown{position:relative;}
+.nav-dropdown-trigger{display:flex;align-items:center;gap:6px;background:none;border:none;cursor:pointer;font-family:var(--display);font-size:clamp(12px,1vw,13.5px);font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:var(--white);padding:8px 0;position:relative;transition:opacity .3s,color .3s;}
+.nav.scrolled .nav-dropdown-trigger{color:var(--ink);}
+.nav-dropdown-trigger::after{content:"";position:absolute;left:0;bottom:2px;width:0%;height:2px;background:var(--burgundy-light);transition:width .3s var(--ease);}
+.nav-dropdown:hover .nav-dropdown-trigger::after,.nav-dropdown.is-open .nav-dropdown-trigger::after{width:100%;}
+.nav-dropdown-caret{width:9px;height:9px;display:inline-flex;transition:transform .3s var(--ease);flex-shrink:0;}
+.nav-dropdown-caret svg{width:100%;height:100%;}
+.nav-dropdown:hover .nav-dropdown-caret,.nav-dropdown.is-open .nav-dropdown-caret{transform:rotate(180deg);}
+.nav-dropdown-menu{position:absolute;top:calc(100% + 18px);left:50%;transform:translateX(-50%) translateY(6px);width:440px;background:var(--white);border-radius:20px;box-shadow:0 2px 0 rgba(110,14,34,.12),0 24px 60px rgba(34,19,22,.22),0 6px 16px rgba(34,19,22,.08);border:1px solid var(--line);padding:0;overflow:hidden;opacity:0;visibility:hidden;transition:opacity .28s var(--ease),transform .28s var(--ease),visibility .28s;z-index:50;}
+.nav-dropdown:hover .nav-dropdown-menu,.nav-dropdown.is-open .nav-dropdown-menu{opacity:1;visibility:visible;transform:translateX(-50%) translateY(0);}
+.nav-dropdown-header{background:linear-gradient(135deg,var(--burgundy-deep) 0%,var(--burgundy) 100%);padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;}
+.nav-dropdown-header-title{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:rgba(255,255,255,.65);}
+.nav-dropdown-badge{font-family:var(--display);font-size:9.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--white);background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:20px;padding:3px 10px;}
+.nav-dropdown-grid{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:12px;}
+.nav-dropdown-menu a{display:flex;flex-direction:column;align-items:center;gap:0;padding:18px 14px 16px;border-radius:14px;color:var(--ink);text-align:center;position:relative;overflow:hidden;background:transparent;transition:background .25s var(--ease),color .25s,transform .2s var(--ease),box-shadow .25s;}
+.nav-dropdown-menu a:hover{background:linear-gradient(160deg,var(--burgundy) 0%,var(--burgundy-deep) 100%);transform:translateY(-2px);box-shadow:0 8px 24px rgba(110,14,34,.22);color:var(--white);}
+.nav-dropdown-menu a::after{display:none;}
+.nav-dropdown-icon{width:52px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--off-white);border:1.5px solid var(--line);color:var(--burgundy);transition:background .25s,color .25s,border-color .25s,transform .2s var(--ease);position:relative;z-index:1;margin-bottom:12px;}
+.nav-dropdown-menu a:hover .nav-dropdown-icon{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35);color:var(--white);transform:scale(1.08);}
+.nav-dropdown-icon svg{width:24px;height:24px;}
+.nav-dropdown-card-name{font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;position:relative;z-index:1;transition:color .25s;}
+.nav-dropdown-card-desc{font-family:var(--body);font-size:11.5px;font-style:italic;color:var(--grey);margin-top:5px;line-height:1.4;position:relative;z-index:1;transition:color .25s;}
+.nav-dropdown-menu a:hover .nav-dropdown-card-desc{color:rgba(255,255,255,.75);}
+.nav-dropdown-card-arrow{position:absolute;bottom:12px;right:14px;width:20px;height:20px;border-radius:50%;background:rgba(110,14,34,.08);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .25s,background .25s;z-index:1;}
+.nav-dropdown-card-arrow svg{width:11px;height:11px;color:var(--burgundy);}
+.nav-dropdown-menu a:hover .nav-dropdown-card-arrow{opacity:1;background:rgba(255,255,255,.18);}
+.nav-dropdown-menu a:hover .nav-dropdown-card-arrow svg{color:var(--white);}
+.nav-dropdown-footer{border-top:1px solid var(--line);padding:11px 20px;display:flex;align-items:center;justify-content:space-between;background:var(--off-white);}
+.nav-dropdown-footer-text{font-family:var(--body);font-size:11.5px;font-style:italic;color:var(--grey);}
+.nav-dropdown-footer-link{font-family:var(--display);font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--burgundy);display:flex;align-items:center;gap:5px;transition:gap .2s;}
+.nav-dropdown-footer-link:hover{gap:8px;}
+.nav-dropdown-footer-link svg{width:12px;height:12px;}
+/* CREST */
+.nav-crest{position:relative;z-index:2;flex-shrink:0;width:132px;height:132px;display:flex;align-items:center;justify-content:center;margin:0 18px;border-radius:50%;background:radial-gradient(circle at 32% 26%,var(--white) 0%,#FBF8F7 55%,#F0E8E7 100%);box-shadow:0 22px 46px rgba(0,0,0,.38),0 2px 0 rgba(255,255,255,.9) inset,0 -10px 18px rgba(0,0,0,.05) inset,0 0 0 1px rgba(110,14,34,.14);opacity:0;transform:translateY(-26px) scale(0.92);animation:crestDrop .8s cubic-bezier(.2,.9,.25,1.3) .15s forwards,badgeBreathe 5s ease-in-out 1.2s infinite;transition:transform .45s var(--ease),margin .45s var(--ease),width .45s var(--ease),height .45s var(--ease),box-shadow .45s var(--ease);}
+.nav-crest::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:1px solid rgba(110,14,34,.18);background:conic-gradient(from 220deg,rgba(110,14,34,.45) 0deg,rgba(110,14,34,.06) 70deg,rgba(110,14,34,.02) 180deg,rgba(110,14,34,.28) 280deg,rgba(110,14,34,.45) 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px));mask:radial-gradient(farthest-side,transparent calc(100% - 2px),#000 calc(100% - 2px));opacity:.85;transition:inset .45s var(--ease);}
+.nav-crest::after{content:"";position:absolute;inset:9px;border-radius:50%;border:1px solid rgba(110,14,34,.16);box-shadow:0 1px 1px rgba(0,0,0,.08) inset;pointer-events:none;transition:inset .45s var(--ease);}
+@keyframes crestDrop{to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes badgeBreathe{0%,100%{transform:translateY(0) scale(1);}50%{transform:translateY(-3px) scale(1.025);}}
+.nav-crest .crest-halo{position:absolute;inset:-14px;border-radius:50%;box-shadow:0 0 0 0 rgba(140,27,51,.55);animation:badgePulse 3.2s ease-out 1.4s infinite;pointer-events:none;transition:inset .45s var(--ease);}
+@keyframes badgePulse{0%{box-shadow:0 0 0 0 rgba(140,27,51,.5);}70%{box-shadow:0 0 0 16px rgba(140,27,51,0);}100%{box-shadow:0 0 0 16px rgba(140,27,51,0);}}
+.nav.scrolled .nav-crest{width:64px;height:64px;margin:0 10px;box-shadow:0 10px 22px rgba(0,0,0,.18),0 1px 0 rgba(255,255,255,.9) inset,0 -6px 10px rgba(0,0,0,.04) inset,0 0 0 1px rgba(110,14,34,.16);}
+.nav.scrolled .nav-crest::before{inset:-4px;}
+.nav.scrolled .nav-crest::after{inset:6px;}
+.nav.scrolled .nav-crest .crest-halo{inset:-8px;}
+.nav-crest .crest-logo{position:relative;z-index:1;width:70%;height:auto;filter:drop-shadow(0 6px 10px rgba(0,0,0,.35));transition:width .45s var(--ease);}
+.nav.scrolled .nav-crest .crest-logo{width:66%;}
+/* LANG SWITCH */
+.lang-switch{position:relative;display:flex;align-items:center;margin-left:28px;font-family:var(--display);}
+.lang-switch-btn{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.28);color:var(--white);padding:8px 14px;font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;cursor:pointer;transition:background .3s,border-color .3s,color .3s;}
+.nav.scrolled .lang-switch-btn{background:rgba(20,6,11,.04);border-color:rgba(20,6,11,.18);color:var(--ink);}
+.lang-switch-btn:hover{background:var(--burgundy);border-color:var(--burgundy);color:var(--white);}
+.lang-switch-btn .lang-globe{width:14px;height:14px;display:inline-flex;}
+.lang-switch-btn .lang-globe svg{width:100%;height:100%;}
+.lang-switch-btn .lang-current{min-width:18px;text-align:center;}
+.lang-switch-btn .lang-caret{width:9px;height:9px;display:inline-flex;transition:transform .3s var(--ease);}
+.lang-switch.open .lang-switch-btn .lang-caret{transform:rotate(180deg);}
+.lang-switch-menu{position:absolute;top:calc(100% + 10px);right:0;min-width:172px;background:var(--white);border:1px solid var(--line);box-shadow:0 18px 48px rgba(20,6,11,.18);opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .25s var(--ease),transform .25s var(--ease),visibility .25s;z-index:50;overflow:hidden;}
+.lang-switch.open .lang-switch-menu{opacity:1;visibility:visible;transform:translateY(0);}
+.lang-switch-menu button{display:flex;align-items:center;gap:11px;width:100%;padding:13px 16px;background:none;border:none;border-bottom:1px solid var(--line);font-family:var(--body);font-size:13.5px;color:var(--ink);cursor:pointer;text-align:left;transition:background .2s,padding-left .2s;}
+.lang-switch-menu button:last-child{border-bottom:none;}
+.lang-switch-menu button:hover{background:var(--off-white);padding-left:21px;}
+.lang-switch-menu button.active{color:var(--burgundy);font-weight:700;}
+.lang-switch-menu button .lang-code{width:26px;height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:var(--off-white);font-size:10px;font-weight:700;letter-spacing:0.04em;color:var(--burgundy);font-family:var(--display);}
+.lang-switch-menu button.active .lang-code{background:var(--burgundy);color:var(--white);}
+.lang-switch-menu button .lang-native{margin-left:auto;font-size:11px;color:var(--grey);}
+html[dir="rtl"] .lang-switch{margin-left:0;margin-right:28px;}
+html[dir="rtl"] .lang-switch-menu{right:auto;left:0;}
+html[dir="rtl"] .lang-switch-menu button{text-align:right;}
+html[dir="rtl"] .lang-switch-menu button:hover{padding-left:16px;padding-right:21px;}
+html[dir="rtl"] .lang-switch-menu button .lang-native{margin-left:0;margin-right:auto;}
+@media(max-width:1080px){.lang-switch{display:none;}}
+.lang-switch-mobile{display:flex;gap:8px;margin:6px 0 22px;}
+.lang-switch-mobile button{flex:1;padding:10px 0;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.7);font-family:var(--display);font-size:12px;font-weight:700;letter-spacing:0.06em;cursor:pointer;transition:background .25s,color .25s,border-color .25s;}
+.lang-switch-mobile button.active{background:var(--burgundy);border-color:var(--burgundy);color:var(--white);}
+/* MOBILE NAV */
+.nav-burger{display:none;height:44px;padding:0 17px 0 14px;border:1px solid rgba(255,255,255,.35);border-radius:24px;background:rgba(0,0,0,.2);align-items:center;justify-content:center;gap:10px;cursor:pointer;position:relative;z-index:3;transition:background .3s,border-color .3s;}
+.nav-burger-icon{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;width:18px;flex-shrink:0;}
+.nav-burger-icon span{display:block;width:18px;height:2px;background:var(--white);transition:transform .35s var(--ease),opacity .25s,width .25s;}
+.nav-burger-label{font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);white-space:nowrap;transition:color .3s;}
+.nav.scrolled .nav-burger-label{color:var(--ink);}
+.nav.scrolled.menu-open .nav-burger-label,.nav.menu-open .nav-burger-label{color:var(--white);}
+.nav-burger:hover{border-color:rgba(255,255,255,.6);}
+.nav.menu-open .nav-burger{background:var(--burgundy);border-color:var(--burgundy-light);}
+.nav.menu-open .nav-burger-icon span:nth-child(1){transform:translateY(7px) rotate(45deg);}
+.nav.menu-open .nav-burger-icon span:nth-child(2){opacity:0;width:0;}
+.nav.menu-open .nav-burger-icon span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
+.nav-progress{display:none;position:absolute;left:0;bottom:0;height:2px;width:0%;background:linear-gradient(90deg,var(--burgundy-light),var(--burgundy));transition:width .12s linear;z-index:4;}
+.nav-mobile-panel{display:none;}
+@media(max-width:1080px){
+  .nav-group{display:none;}
+  .nav{justify-content:space-between;height:110px;}
+  .nav.scrolled{height:78px;background:rgba(255,255,255,.82);backdrop-filter:blur(18px) saturate(160%);-webkit-backdrop-filter:blur(18px) saturate(160%);}
+  .nav-progress{display:block;}
+  .nav-crest{width:84px;height:84px;}
+  .nav.scrolled .nav-crest{width:54px;height:54px;}
+  .nav-burger{display:flex;}
+  .nav-spacer-right{display:none;}
+  .nav-mobile-panel{display:block;position:fixed;top:0;left:0;right:0;background:var(--burgundy-deep);z-index:199;max-height:0;overflow:hidden;transition:max-height .5s var(--ease),box-shadow .5s var(--ease);box-shadow:none;}
+  .nav.menu-open + .nav-mobile-panel{max-height:680px;box-shadow:0 18px 40px rgba(0,0,0,.4);}
+  .nav-mobile-panel-inner{padding:128px 8vw 32px;display:flex;flex-direction:column;gap:2px;}
+  .nav-mobile-panel-inner>a{display:flex;align-items:center;gap:14px;padding:16px 4px;color:var(--white);font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;border-bottom:1px solid rgba(255,255,255,.12);opacity:0;transform:translateY(10px);transition:opacity .25s,color .25s;}
+  .nmp-num{font-family:var(--display);font-size:11px;font-weight:600;color:var(--burgundy-light);letter-spacing:0.05em;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner>a{animation:mobileLinkIn .5s var(--ease) forwards;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner>a:nth-child(1){animation-delay:.08s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner>a:nth-child(2){animation-delay:.13s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner>a:nth-child(3){animation-delay:.18s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner>a:nth-child(4){animation-delay:.23s;}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner>a:nth-child(5){animation-delay:.28s;}
+  @keyframes mobileLinkIn{to{opacity:1;transform:translateY(0);}}
+  .nav-mobile-panel-inner>a:hover{color:var(--burgundy-light);}
+  .nav-mobile-panel-inner>a:last-of-type{border-bottom:none;}
+  .nmp-dropdown{opacity:0;transform:translateY(10px);border-bottom:1px solid rgba(255,255,255,.12);}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-inner>.nmp-dropdown{animation:mobileLinkIn .5s var(--ease) forwards;}
+  .nmp-dropdown-trigger{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;padding:16px 4px;background:none;border:none;color:var(--white);font-family:var(--display);font-size:16px;font-weight:600;letter-spacing:0.05em;text-transform:uppercase;cursor:pointer;}
+  .nmp-dropdown-trigger-label{display:flex;align-items:center;gap:14px;}
+  .nmp-dropdown-caret{width:11px;height:11px;transition:transform .3s var(--ease);flex-shrink:0;}
+  .nmp-dropdown-caret svg{width:100%;height:100%;}
+  .nmp-dropdown.is-open .nmp-dropdown-caret{transform:rotate(180deg);}
+  .nmp-dropdown-panel{max-height:0;overflow:hidden;transition:max-height .35s var(--ease);}
+  .nmp-dropdown.is-open .nmp-dropdown-panel{max-height:160px;}
+  .nmp-dropdown-panel a{display:flex;align-items:center;gap:12px;padding:13px 4px 13px 38px;color:rgba(255,255,255,.82);font-family:var(--display);font-size:14px;font-weight:600;letter-spacing:0.04em;text-transform:uppercase;}
+  .nmp-dropdown-panel a:hover{color:var(--burgundy-light);}
+  .nmp-dropdown-icon{width:24px;height:24px;flex-shrink:0;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,.1);color:var(--white);}
+  .nmp-dropdown-icon svg{width:14px;height:14px;}
+  .nav-mobile-panel-footer{margin-top:16px;padding-top:22px;border-top:1px solid rgba(255,255,255,.14);display:flex;align-items:center;justify-content:space-between;gap:16px;opacity:0;transform:translateY(10px);}
+  .nav.menu-open + .nav-mobile-panel .nav-mobile-panel-footer{animation:mobileLinkIn .5s var(--ease) .38s forwards;}
+  .nmp-call{display:flex;flex-direction:column;gap:4px;}
+  .nmp-call-label{font-family:var(--display);font-size:10.5px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,.55);}
+  .nmp-call-number{font-family:var(--body);font-style:italic;font-size:16.5px;color:var(--white);letter-spacing:0;transition:color .25s;}
+  .nmp-call:hover .nmp-call-number{color:var(--burgundy-light);}
+  .nmp-social{display:flex;gap:10px;flex-shrink:0;}
+  .nmp-social a{width:36px;height:36px;border:1px solid rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-size:12px;color:var(--white);transition:border-color .25s,background .25s;}
+  .nmp-social a:hover{border-color:var(--burgundy-light);background:rgba(110,14,34,.3);}
+  body.menu-locked{overflow:hidden;}
+}
+@media(max-width:480px){
+  .nav{height:96px;}
+  .nav.scrolled{height:70px;}
+  .nav-crest{width:82px;height:82px;}
+  .nav.scrolled .nav-crest{width:54px;height:54px;}
+  .nav-mobile-panel-inner{padding-top:112px;}
+}
+
+/* ======================================================
+   BACK TO TOP
+   ====================================================== */
+#backToTop{position:fixed;bottom:32px;right:32px;width:48px;height:48px;background:var(--burgundy);border:none;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:190;opacity:0;transform:translateY(16px);transition:opacity .4s var(--ease),transform .4s var(--ease),background .25s,box-shadow .3s;box-shadow:0 6px 22px rgba(110,14,34,.45);pointer-events:none;}
+#backToTop.visible{opacity:1;transform:translateY(0);pointer-events:auto;}
+#backToTop:hover{background:var(--burgundy-light);box-shadow:0 10px 30px rgba(110,14,34,.55);transform:translateY(-3px);}
+#backToTop svg{width:18px;height:18px;stroke:var(--white);stroke-width:2.2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+@media(max-width:680px){#backToTop{bottom:20px;right:16px;width:42px;height:42px;}}
+
+/* ======================================================
+   PAGE HERO CONTACT
+   ====================================================== */
+.page-hero{
+  position:relative;
+  min-height:480px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  overflow:hidden;
+  background:var(--ink);
+  padding-top:148px;
+  padding-bottom:32px;
+}
+.page-hero-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(145deg,var(--burgundy-deep) 0%,#2a0810 45%,#1a0408 100%);
+}
+/* Animated geometric pattern */
+.page-hero-pattern{
+  position:absolute;inset:0;
+  opacity:.07;
+  background-image:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.5) 0,rgba(255,255,255,.5) 1px,transparent 1px,transparent 60px),
+    repeating-linear-gradient(90deg,rgba(255,255,255,.5) 0,rgba(255,255,255,.5) 1px,transparent 1px,transparent 60px);
+  animation:patternDrift 20s linear infinite;
+}
+@keyframes patternDrift{0%{transform:translate(0,0);}100%{transform:translate(60px,60px);}}
+.page-hero-glow{
+  position:absolute;right:-10%;top:-20%;
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(140,27,51,.45) 0%,transparent 65%);
+  animation:glowPulse 4s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes glowPulse{0%{transform:scale(1);opacity:.5;}100%{transform:scale(1.15);opacity:.8;}}
+.page-hero-inner{
+  position:relative;z-index:3;
+  padding:0 6vw;
+  width:100%;max-width:1280px;margin:0 auto;
+  flex:1;
+  display:flex;flex-direction:column;justify-content:center;
+}
+.page-hero-eyebrow{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.55);
+  margin-bottom:20px;
+  opacity:0;transform:translateY(12px);
+  animation:slideUp .7s var(--ease) .1s forwards;
+}
+.page-hero-eyebrow::before{content:"";width:28px;height:1px;background:rgba(255,255,255,.35);}
+.page-hero h1{
+  font-size:clamp(52px,8vw,110px);
+  font-weight:700;color:var(--white);
+  letter-spacing:-0.02em;line-height:.88;
+  margin:0 0 28px;
+  opacity:0;transform:translateY(32px);
+  animation:slideUp .9s var(--ease) .2s forwards;
+}
+.page-hero h1 em{font-style:normal;color:transparent;-webkit-text-stroke:2px rgba(255,255,255,.3);}
+.page-hero-sub{
+  font-family:var(--body);font-style:italic;font-size:16px;color:rgba(255,255,255,.65);
+  max-width:50ch;line-height:1.65;
+  opacity:0;transform:translateY(16px);
+  animation:slideUp .9s var(--ease) .4s forwards;
+}
+@keyframes slideUp{to{opacity:1;transform:translateY(0);}}
+/* Breadcrumb inside hero */
+.page-hero-bc{
+  position:relative;z-index:3;
+  padding:0 6vw;
+  display:flex;align-items:center;gap:10px;
+  font-family:var(--display);font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  opacity:0;animation:slideUp .7s var(--ease) .6s forwards;
+}
+.page-hero-bc a{color:rgba(255,255,255,.4);transition:color .2s;}
+.page-hero-bc a:hover{color:rgba(255,255,255,.75);}
+.page-hero-bc span{color:rgba(255,255,255,.7);}
+.page-hero-bc-sep{opacity:.4;}
+/* ======================================================
+   CONTACT LAYOUT — two-column grid
+   ====================================================== */
+.contact-page{padding:100px 0 120px;}
+.contact-grid{
+  display:grid;
+  grid-template-columns:1fr 1.1fr;
+  gap:80px;
+  align-items:start;
+}
+@media(max-width:1000px){
+  .contact-grid{grid-template-columns:1fr;gap:60px;}
+  .contact-page{padding:72px 0 96px;}
+}
+
+/* ======================================================
+   LEFT — INFO COLUMN
+   ====================================================== */
+.contact-info-col{
+  position:sticky;top:104px;
+}
+.section-eyebrow{
+  font-family:var(--display);font-size:11.5px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;
+  color:var(--burgundy);
+  display:flex;align-items:center;gap:12px;
+  margin-bottom:20px;
+}
+.section-eyebrow::after{content:"";flex:1;height:1px;background:var(--line);max-width:60px;}
+.contact-info-col h2{
+  font-size:clamp(28px,3.5vw,42px);
+  line-height:1.05;color:var(--ink);
+  margin-bottom:18px;
+}
+.contact-info-col .lead-text{
+  font-family:var(--body);font-style:italic;font-size:16px;color:var(--grey);
+  line-height:1.7;margin-bottom:48px;
+  max-width:44ch;
+}
+
+/* Info cards */
+.info-cards{display:flex;flex-direction:column;gap:14px;}
+.info-card{
+  display:flex;align-items:center;gap:20px;
+  padding:20px 24px;
+  border:1px solid var(--line);
+  background:var(--white);
+  position:relative;overflow:hidden;
+  transition:transform .35s var(--ease),box-shadow .35s var(--ease),border-color .35s;
+}
+.info-card::before{
+  content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:var(--burgundy);
+  transform:scaleY(0);transform-origin:bottom;
+  transition:transform .4s var(--ease);
+}
+.info-card:hover{transform:translateX(6px);box-shadow:0 12px 36px rgba(34,19,22,.1);border-color:rgba(110,14,34,.2);}
+.info-card:hover::before{transform:scaleY(1);}
+.info-card-icon{
+  width:48px;height:48px;flex-shrink:0;
+  border-radius:50%;
+  background:rgba(110,14,34,.07);
+  border:1px solid rgba(110,14,34,.12);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--burgundy);
+  transition:background .3s,transform .35s var(--ease);
+}
+.info-card:hover .info-card-icon{background:var(--burgundy);color:var(--white);transform:scale(1.08);}
+.info-card-icon svg{width:20px;height:20px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.info-card-body{flex:1;min-width:0;}
+.info-card-label{
+  font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--grey);margin-bottom:4px;
+}
+.info-card-value{
+  font-family:var(--display);font-size:15px;font-weight:600;color:var(--ink);
+  transition:color .25s;
+}
+.info-card:hover .info-card-value{color:var(--burgundy);}
+.info-card-sub{font-family:var(--body);font-size:12.5px;font-style:italic;color:var(--grey);margin-top:2px;}
+/* CTA buttons on info cards */
+.info-card-actions{
+  display:flex;flex-direction:column;gap:6px;
+  margin-top:10px;
+}
+.info-card-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 14px;
+  border-radius:30px;
+  font-family:var(--display);font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  transition:background .25s,color .25s,transform .2s var(--ease);
+  width:fit-content;
+}
+.info-card-btn.call{background:var(--burgundy);color:var(--white);}
+.info-card-btn.call:hover{background:var(--burgundy-deep);transform:translateY(-1px);}
+.info-card-btn.whatsapp{background:#25D366;color:var(--white);}
+.info-card-btn.whatsapp:hover{background:#1ebe5c;transform:translateY(-1px);}
+.info-card-btn svg{width:12px;height:12px;fill:currentColor;}
+
+/* Hours strip */
+.hours-strip{
+  margin-top:36px;
+  padding:24px 28px;
+  background:var(--ink);
+  color:var(--white);
+  position:relative;overflow:hidden;
+}
+.hours-strip::before{content:"";position:absolute;right:-30px;top:-30px;width:120px;height:120px;border-radius:50%;border:1px solid rgba(255,255,255,.06);}
+.hours-strip-label{font-family:var(--display);font-size:10px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,.5);margin-bottom:12px;}
+.hours-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.07);}
+.hours-row:last-child{border-bottom:none;}
+.hours-day{font-family:var(--display);font-size:12px;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;color:rgba(255,255,255,.65);}
+.hours-time{font-family:var(--body);font-size:13px;font-style:italic;color:var(--white);}
+.hours-closed{color:rgba(255,255,255,.3);}
+
+/* Social */
+.social-strip{margin-top:24px;display:flex;gap:12px;}
+.social-btn{
+  width:44px;height:44px;border:1px solid var(--line);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--grey);font-family:var(--display);font-size:13px;font-weight:700;
+  transition:border-color .25s,background .25s,color .25s,transform .3s var(--ease);
+}
+.social-btn:hover{border-color:var(--burgundy);background:var(--burgundy);color:var(--white);transform:translateY(-3px);}
+
+/* ======================================================
+   RIGHT — FORM COLUMN
+   ====================================================== */
+.contact-form-col{}
+.contact-form{
+  background:var(--white);
+  border:1px solid var(--line);
+  padding:48px clamp(24px,4vw,56px) 56px;
+  box-shadow:0 20px 60px rgba(34,19,22,.06);
+  position:relative;overflow:hidden;
+}
+/* top accent bar */
+.contact-form::before{
+  content:"";position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,var(--burgundy-deep),var(--burgundy),var(--burgundy-light));
+}
+.form-title{
+  font-family:var(--display);font-size:clamp(20px,2.2vw,26px);color:var(--ink);
+  letter-spacing:0.04em;margin-bottom:8px;
+}
+.form-subtitle{
+  font-family:var(--body);font-style:italic;font-size:14.5px;color:var(--grey);
+  margin-bottom:36px;line-height:1.6;
+}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+.form-field{display:flex;flex-direction:column;gap:8px;position:relative;}
+.form-field.full{grid-column:1/-1;}
+.form-field label{
+  font-family:var(--display);font-size:10.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;
+  color:var(--burgundy);
+}
+.form-field input,
+.form-field select,
+.form-field textarea{
+  width:100%;
+  background:var(--off-white);
+  border:1px solid var(--line);
+  color:var(--ink);
+  font-family:var(--body);font-size:15px;
+  padding:14px 18px;
+  resize:vertical;
+  transition:border-color .3s var(--ease),background .3s,box-shadow .3s;
+  -webkit-appearance:none;
+  appearance:none;
+}
+.form-field select{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none' stroke='%237A7072' stroke-width='1.6'%3E%3Cpolyline points='2,4 6,8 10,4'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 16px center;padding-right:40px;
+}
+.form-field textarea{min-height:140px;line-height:1.6;}
+.form-field input::placeholder,.form-field textarea::placeholder{color:var(--grey);opacity:.6;}
+.form-field input:focus,.form-field select:focus,.form-field textarea:focus{
+  outline:none;border-color:var(--burgundy);background:var(--white);
+  box-shadow:0 0 0 4px rgba(110,14,34,.1);
+}
+/* Floating label animation on focus */
+.form-field{position:relative;}
+/* Input icon */
+.form-field-icon{
+  position:absolute;right:14px;bottom:16px;
+  width:16px;height:16px;color:var(--line);
+  pointer-events:none;
+  transition:color .3s;
+}
+.form-field:focus-within .form-field-icon{color:var(--burgundy);}
+.form-field-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:1.6;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+
+/* Subject selector pills */
+.form-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.form-pill{
+  padding:7px 16px;
+  border:1px solid var(--line);
+  border-radius:30px;
+  font-family:var(--display);font-size:10.5px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
+  color:var(--grey);background:var(--white);cursor:pointer;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.form-pill.active,.form-pill:hover{background:var(--burgundy);border-color:var(--burgundy);color:var(--white);}
+
+/* Submit */
+.form-submit{
+  margin-top:32px;
+  display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+}
+.btn-submit{
+  display:inline-flex;align-items:center;gap:12px;
+  background:var(--burgundy);color:var(--white);
+  padding:18px 36px;
+  font-family:var(--display);font-size:13px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  border:none;cursor:pointer;
+  position:relative;overflow:hidden;
+  transition:transform .3s var(--ease),box-shadow .3s var(--ease);
+}
+.btn-submit::before{content:"";position:absolute;inset:0;background:var(--burgundy-deep);transform:translateX(-101%);transition:transform .4s var(--ease);z-index:0;}
+.btn-submit:hover::before{transform:translateX(0);}
+.btn-submit:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(110,14,34,.35);}
+.btn-submit-label,.btn-submit-icon{position:relative;z-index:1;}
+.btn-submit-icon{width:16px;height:16px;display:flex;align-items:center;justify-content:center;transition:transform .3s var(--ease);}
+.btn-submit-icon svg{width:100%;height:100%;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.btn-submit:hover .btn-submit-icon{transform:translateX(5px);}
+.form-privacy{
+  font-family:var(--body);font-size:12px;font-style:italic;color:var(--grey);
+  max-width:36ch;line-height:1.5;
+}
+
+/* Success */
+.form-success{
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px;
+  padding:48px 32px;text-align:center;
+  opacity:0;transform:translateY(12px);
+  transition:opacity .4s var(--ease),transform .4s var(--ease);
+}
+.form-success.is-shown{display:flex;opacity:1;transform:translateY(0);}
+.form-success-icon{width:64px;height:64px;border-radius:50%;background:rgba(31,122,61,.1);border:1.5px solid #1F7A3D;display:flex;align-items:center;justify-content:center;color:#1F7A3D;}
+.form-success-icon svg{width:28px;height:28px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+.form-success-title{font-family:var(--display);font-size:20px;color:var(--ink);}
+.form-success-text{font-family:var(--body);font-style:italic;font-size:15px;color:var(--grey);}
+
+/* Error */
+.form-error-msg{
+  font-family:var(--body);font-size:12px;color:#C0392B;margin-top:4px;
+  display:none;
+}
+.form-field.has-error input,
+.form-field.has-error textarea,
+.form-field.has-error select{border-color:#C0392B;box-shadow:0 0 0 3px rgba(192,57,43,.1);}
+.form-field.has-error .form-error-msg{display:block;}
+
+/* ======================================================
+   MAP SECTION
+   ====================================================== */
+.map-section{
+  padding:0 0 100px;
+}
+.map-header{
+  text-align:center;
+  padding:80px 0 48px;
+  position:relative;
+}
+.map-header::before{
+  content:"";position:absolute;left:50%;transform:translateX(-50%);
+  top:0;height:1px;width:120px;background:var(--line);
+}
+.map-header .section-eyebrow{justify-content:center;}
+.map-header .section-eyebrow::after{display:none;}
+.map-header .section-eyebrow::before{content:"";width:28px;height:1px;background:rgba(110,14,34,.3);}
+.map-header h2{font-size:clamp(24px,3vw,36px);margin-bottom:12px;}
+.map-header p{font-family:var(--body);font-style:italic;font-size:15px;color:var(--grey);}
+.map-container{
+  position:relative;
+  border:1px solid var(--line);
+  overflow:hidden;
+  box-shadow:0 20px 60px rgba(34,19,22,.1);
+}
+.map-container iframe{
+  width:100%;height:480px;border:none;display:block;
+  filter:grayscale(20%) contrast(1.04);
+  transition:filter .4s;
+}
+.map-container:hover iframe{filter:grayscale(0%) contrast(1);}
+/* Map overlay pin card */
+.map-pin-card{
+  position:absolute;bottom:24px;left:24px;
+  background:var(--white);
+  padding:20px 24px;
+  box-shadow:0 12px 40px rgba(34,19,22,.18);
+  border:1px solid var(--line);
+  max-width:300px;
+  border-left:4px solid var(--burgundy);
+  animation:cardFloat 4s ease-in-out infinite;
+}
+@keyframes cardFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+.map-pin-card-name{font-family:var(--display);font-size:14px;font-weight:700;color:var(--burgundy);letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;}
+.map-pin-card-addr{font-family:var(--body);font-size:13px;color:var(--grey);font-style:italic;line-height:1.5;}
+.map-pin-card-dir{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:12px;
+  font-family:var(--display);font-size:10.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;
+  color:var(--burgundy);transition:gap .2s;
+}
+.map-pin-card-dir:hover{gap:10px;}
+.map-pin-card-dir svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round;}
+@media(max-width:640px){
+  .map-container iframe{height:340px;}
+  .map-pin-card{position:static;bottom:auto;left:auto;right:auto;margin:16px;max-width:none;animation:none;}
+}
+
+/* ======================================================
+   FOOTER — identique index
+   ====================================================== */
+.site-footer-contact{
+  background:var(--burgundy);color:var(--white);
+  padding:80px 0;position:relative;overflow:hidden;
+}
+.site-footer-contact::before{content:"";position:absolute;width:540px;height:540px;border-radius:50%;border:1px solid rgba(255,255,255,.14);top:-260px;right:-180px;}
+.sfc-inner{display:grid;grid-template-columns:1.3fr 1fr;gap:60px;position:relative;z-index:2;}
+.sfc-inner h2{font-size:clamp(22px,3vw,36px);color:var(--white);}
+.sfc-inner p.lead{margin-top:14px;color:rgba(255,255,255,.82);font-family:var(--body);font-style:italic;font-size:15.5px;max-width:40ch;}
+.sfc-info{display:flex;flex-direction:column;gap:20px;font-family:var(--display);font-size:14px;font-weight:500;border-left:1px solid rgba(255,255,255,.3);padding-left:36px;}
+.sfc-info a{transition:opacity .25s;}.sfc-info a:hover{opacity:.7;}
+.sfc-label{display:block;font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:5px;font-weight:700;}
+@media(max-width:880px){.sfc-inner{grid-template-columns:1fr;gap:36px;}.sfc-info{border-left:none;padding-left:0;border-top:1px solid rgba(255,255,255,.3);padding-top:24px;}}
+footer{background:var(--ink);color:rgba(255,255,255,.55);padding:36px 0;font-family:var(--display);font-size:12px;letter-spacing:0.03em;}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;}
+footer a{color:rgba(255,255,255,.75);}
+footer a:hover{color:var(--white);}
+footer .social{display:flex;gap:14px;}
+footer .social a{width:34px;height:34px;border:1px solid rgba(255,255,255,.25);border-radius:50%;display:flex;align-items:center;justify-content:center;transition:border-color .25s,background .25s;}
+footer .social a:hover{border-color:var(--burgundy-light);background:rgba(110,14,34,.3);}
+
+/* ======================================================
+   REVEAL (IntersectionObserver)
+   ====================================================== */
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .75s var(--ease),transform .75s var(--ease);}
+.reveal.is-visible{opacity:1;transform:translateY(0);}
+.reveal-left{opacity:0;transform:translateX(-30px);transition:opacity .75s var(--ease),transform .75s var(--ease);}
+.reveal-left.is-visible{opacity:1;transform:translateX(0);}
+.reveal-right{opacity:0;transform:translateX(30px);transition:opacity .75s var(--ease),transform .75s var(--ease);}
+.reveal-right.is-visible{opacity:1;transform:translateX(0);}
+
+/* ======================================================
+   RTL
+   ====================================================== */
+html[dir="rtl"] body{direction:rtl;}
+html[dir="rtl"] .info-card::before{left:auto;right:0;}
+html[dir="rtl"] .info-card:hover{transform:translateX(-6px);}
+html[dir="rtl"] .contact-form::before{background:linear-gradient(270deg,var(--burgundy-deep),var(--burgundy),var(--burgundy-light));}
+html[dir="rtl"] .section-eyebrow::after{margin-left:0;margin-right:12px;}
+html[dir="rtl"] .sfc-info{border-left:none;padding-left:0;border-right:1px solid rgba(255,255,255,.3);padding-right:36px;}
+@media(max-width:880px){html[dir="rtl"] .sfc-info{border-right:none;padding-right:0;}}
+html[dir="rtl"] .map-pin-card{left:auto;right:24px;border-left:none;border-right:4px solid var(--burgundy);}
+
+/* ======================================================
+   MOBILE — max 640px  (doit être EN DERNIER pour prendre effet)
+   ====================================================== */
+@media(max-width:640px){
+
+  /* HERO */
+  .page-hero{
+    min-height:0;
+    padding-top:96px;
+    padding-bottom:24px;
+  }
+  .page-hero h1{
+    font-size:clamp(36px,9vw,58px);
+    line-height:.92;
+    margin-bottom:16px;
+  }
+  .page-hero-sub{font-size:14px;max-width:100%;}
+  .page-hero-bc{padding:0 5vw;margin-top:20px;}
+
+  /* WRAP */
+  .wrap{padding:0 5vw;}
+
+  /* CONTACT SECTION */
+  .contact-page{padding:48px 0 64px;}
+  .contact-grid{grid-template-columns:1fr !important;gap:40px;}
+
+  /* INFO COLUMN */
+  .contact-info-col{position:static !important;}
+  .contact-info-col h2{font-size:clamp(22px,6vw,32px);margin-bottom:12px;}
+  .contact-info-col .lead-text{font-size:14px;margin-bottom:28px;}
+
+  /* INFO CARDS */
+  .info-card{padding:14px 16px;gap:12px;}
+  .info-card:hover{transform:none !important;}
+  .info-card-icon{width:40px;height:40px;flex-shrink:0;}
+  .info-card-value{font-size:13.5px;}
+  .info-card-btn{padding:6px 12px;font-size:10px;}
+
+  /* HOURS */
+  .hours-strip{padding:18px;}
+  .hours-day{font-size:11px;}
+  .hours-time{font-size:12px;}
+
+  /* SOCIAL */
+  .social-strip{gap:10px;}
+  .social-btn{width:38px;height:38px;}
+
+  /* FORM */
+  .contact-form{padding:24px 18px 32px;}
+  .form-title{font-size:clamp(17px,5vw,21px);}
+  .form-subtitle{font-size:13px;margin-bottom:22px;}
+  .form-grid{grid-template-columns:1fr !important;gap:14px;}
+  .form-field.full{grid-column:1 !important;}
+  .form-pills{gap:6px;flex-wrap:wrap;}
+  .form-pill{font-size:10px;padding:6px 12px;}
+  .form-submit{flex-direction:column;align-items:stretch;gap:12px;}
+  .btn-submit{width:100%;justify-content:center;padding:15px 20px;font-size:12px;}
+  .form-privacy{max-width:100%;text-align:center;}
+
+  /* MAP */
+  .map-section{padding:0 0 60px;}
+  .map-container iframe{height:260px;}
+  .map-pin-card{
+    position:static !important;
+    bottom:auto !important;left:auto !important;right:auto !important;
+    margin:14px 0 0;
+    max-width:none;
+    animation:none !important;
+  }
+
+  /* FOOTER CTA */
+  .site-footer-contact{padding:48px 0;}
+  .sfc-inner{grid-template-columns:1fr !important;gap:24px;}
+  .sfc-info{border-left:none !important;padding-left:0 !important;border-top:1px solid rgba(255,255,255,.3);padding-top:18px;}
+
+  /* FOOTER BAR */
+  footer .wrap{flex-direction:column;align-items:center;text-align:center;gap:10px;}
+  footer{padding:24px 0;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- CURSEUR -->
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="cursor-halo"></div>
+<div id="cursor-trail"></div>
+
+<!-- BACK TO TOP -->
+<button id="backToTop" aria-label="Retour en haut">
+  <svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"></polyline></svg>
+</button>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <button class="nav-burger" id="navBurger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="navMobilePanel">
+    <span class="nav-burger-icon"><span></span><span></span><span></span></span>
+    <span class="nav-burger-label">Menu</span>
+  </button>
+
+  <div class="nav-group left">
+    <a href="/" data-i18n="nav.home">Accueil</a>
+    <a href="/#societe" data-i18n="nav.about">Notre société</a>
+    <div class="nav-dropdown" id="navProduitsDropdown">
+      <button type="button" class="nav-dropdown-trigger" id="navProduitsTrigger" aria-haspopup="true" aria-expanded="false">
+        <span data-i18n="nav.products">Nos produits</span>
+        <span class="nav-dropdown-caret" aria-hidden="true">
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="2,4 6,8 10,4"></polyline></svg>
+        </span>
+      </button>
+      <div class="nav-dropdown-menu" role="menu">
+        <div class="nav-dropdown-header">
+          <span class="nav-dropdown-header-title" data-i18n="nav.dropdown.title">Nos produits</span>
+          <span class="nav-dropdown-badge" data-i18n="nav.dropdown.badge">✦ Halal certifié</span>
+        </div>
+        <div class="nav-dropdown-grid">
+          <a href="/vache" role="menuitem">
+            <div class="nav-dropdown-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10c0-1.5 1-2.5 2.2-2.8C6.8 5.8 8.2 5 10 5c.8 0 1.5.3 2 .8.5-.5 1.2-.8 2-.8 1.8 0 3.2.8 3.8 2.2C19 7.5 20 8.5 20 10c0 1.7-1.2 3-3 3.2V15c0 2.2-2.2 4-5 4s-5-1.8-5-4v-1.8C5.2 13 4 11.7 4 10z"></path></svg>
+            </div>
+            <span class="nav-dropdown-card-name" data-i18n="nav.products.cow">Vache</span>
+            <span class="nav-dropdown-card-desc" data-i18n="nav.products.cow.desc">Découpe &amp; transformation<br>sur mesure</span>
+            <span class="nav-dropdown-card-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h8M7 3l3 3-3 3"/></svg></span>
+          </a>
+          <a href="/mouton" role="menuitem">
+            <div class="nav-dropdown-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9c-1.7 0-3-1.1-3-2.5S4.3 4 6 4c.6 0 1.1.2 1.6.5C8.3 3.6 10 3 12 3s3.7.6 4.4 1.5c.5-.3 1-.5 1.6-.5 1.7 0 3 1.1 3 2.5S19.7 9 18 9c-.3 0-.6 0-.9-.1.5.7.9 1.6.9 2.6 0 3-3 6-6 6s-6-3-6-6c0-1 .3-1.9.9-2.6-.3.1-.6.1-.9.1z"></path></svg>
+            </div>
+            <span class="nav-dropdown-card-name" data-i18n="nav.products.sheep">Mouton</span>
+            <span class="nav-dropdown-card-desc" data-i18n="nav.products.sheep.desc">Agneau &amp; brebis<br>sélectionnés à la source</span>
+            <span class="nav-dropdown-card-arrow"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6h8M7 3l3 3-3 3"/></svg></span>
+          </a>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="nav-crest">
+    <span class="crest-halo"></span>
+    <img src="{% static 'images/image_11.png' %}" alt="Boucherie Albassatine" class="crest-logo">
+  </div>
+
+  <div class="nav-group right">
+    <a href="/#engagements" data-i18n="nav.commitments">Nos engagements</a>
+    <a href="/contact" class="nav-active" data-i18n="nav.contact">Contact</a>
+    <div class="lang-switch" id="langSwitch">
+      <button class="lang-switch-btn" id="langSwitchBtn" aria-haspopup="true" aria-expanded="false">
+        <span class="lang-globe"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9s1.3-6.4 3.8-9z"></path></svg></span>
+        <span class="lang-current" id="langCurrent">FR</span>
+        <span class="lang-caret"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="2,4 6,8 10,4"></polyline></svg></span>
+      </button>
+      <div class="lang-switch-menu" id="langSwitchMenu" role="menu">
+        <button type="button" data-lang="fr" class="active"><span class="lang-code">FR</span> Français <span class="lang-native">FR</span></button>
+        <button type="button" data-lang="en"><span class="lang-code">EN</span> English <span class="lang-native">EN</span></button>
+        <button type="button" data-lang="ar"><span class="lang-code">AR</span> العربية <span class="lang-native">AR</span></button>
+        <button type="button" data-lang="ja"><span class="lang-code">JA</span> 日本語 <span class="lang-native">JA</span></button>
+      </div>
+    </div>
+  </div>
+
+  <span class="nav-spacer-right" aria-hidden="true"></span>
+  <span class="nav-progress" id="navProgress" aria-hidden="true"></span>
+</nav>
+
+<!-- MOBILE PANEL -->
+<div class="nav-mobile-panel" id="navMobilePanel">
+  <div class="nav-mobile-panel-inner">
+    <a href="/"><span class="nmp-num">01</span><span data-i18n="nav.home">Accueil</span></a>
+    <a href="/#societe"><span class="nmp-num">02</span><span data-i18n="nav.about">Notre société</span></a>
+    <div class="nmp-dropdown" id="nmpProduitsDropdown">
+      <button type="button" class="nmp-dropdown-trigger" id="nmpProduitsTrigger" aria-expanded="false">
+        <span class="nmp-dropdown-trigger-label"><span class="nmp-num">03</span><span data-i18n="nav.products">Nos produits</span></span>
+        <span class="nmp-dropdown-caret"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.6"><polyline points="2,4 6,8 10,4"></polyline></svg></span>
+      </button>
+      <div class="nmp-dropdown-panel">
+        <a href="/vache">
+          <span class="nmp-dropdown-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10c0-1.5 1-2.5 2.2-2.8C6.8 5.8 8.2 5 10 5c.8 0 1.5.3 2 .8.5-.5 1.2-.8 2-.8 1.8 0 3.2.8 3.8 2.2C19 7.5 20 8.5 20 10c0 1.7-1.2 3-3 3.2V15c0 2.2-2.2 4-5 4s-5-1.8-5-4v-1.8C5.2 13 4 11.7 4 10z"></path></svg></span>
+          <span data-i18n="nav.products.cow">Vache</span>
+        </a>
+        <a href="/mouton">
+          <span class="nmp-dropdown-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9c-1.7 0-3-1.1-3-2.5S4.3 4 6 4c.6 0 1.1.2 1.6.5C8.3 3.6 10 3 12 3s3.7.6 4.4 1.5c.5-.3 1-.5 1.6-.5 1.7 0 3 1.1 3 2.5S19.7 9 18 9c-.3 0-.6 0-.9-.1.5.7.9 1.6.9 2.6 0 3-3 6-6 6s-6-3-6-6c0-1 .3-1.9.9-2.6-.3.1-.6.1-.9.1z"></path></svg></span>
+          <span data-i18n="nav.products.sheep">Mouton</span>
+        </a>
+      </div>
+    </div>
+    <a href="/#engagements"><span class="nmp-num">04</span><span data-i18n="nav.commitments">Nos engagements</span></a>
+    <a href="/contact"><span class="nmp-num">05</span><span data-i18n="nav.contact">Contact</span></a>
+    <div class="lang-switch-mobile">
+      <button type="button" data-lang="fr" class="active">FR</button>
+      <button type="button" data-lang="en">EN</button>
+      <button type="button" data-lang="ar">AR</button>
+      <button type="button" data-lang="ja">JA</button>
+    </div>
+    <div class="nav-mobile-panel-footer">
+      <a href="tel:+212539947841" class="nmp-call">
+        <span class="nmp-call-label" data-i18n="contact.callUs">Nous appeler</span>
+        <span class="nmp-call-number">+212 539 94 78 41</span>
+      </a>
+      <div class="nmp-social">
+        <a href="https://www.facebook.com/share/198nyYgYi7/" aria-label="Facebook">f</a>
+        <a href="https://www.instagram.com/albassatineviandes?igsh=eTIzZzc5c3BxMXMx" aria-label="Instagram">in</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<header class="page-hero" id="top">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-pattern"></div>
+  <div class="page-hero-glow"></div>
+  <div class="page-hero-inner">
+    <p class="page-hero-eyebrow" data-i18n="contact.eyebrow">Albassatine Viandes</p>
+    <h1 data-i18n="contact.heroTitle">NOUS<br><em>CONTACTER</em></h1>
+    <p class="page-hero-sub" data-i18n="contact.heroSub">Notre équipe est à votre écoute pour toute question sur nos produits, commandes ou partenariats.</p>
+    <br>
+  </div>
+  <div class="page-hero-bc">
+    <a href="/" data-i18n="nav.home">Accueil</a>
+    <span class="page-hero-bc-sep">›</span>
+    <span data-i18n="nav.contact">Contact</span>
+  </div>
+</header>
+
+<!-- MAIN CONTACT SECTION -->
+<main>
+<section class="contact-page">
+  <div class="wrap">
+    <div class="contact-grid">
+
+      <!-- LEFT: INFO -->
+      <div class="contact-info-col">
+        <span class="section-eyebrow reveal" data-i18n="contact.infoEyebrow">Nos coordonnées</span>
+        <h2 class="reveal" data-i18n="contact.infoTitle">Où nous trouver</h2>
+        <p class="lead-text reveal" data-i18n="contact.infoLead">Une question, une commande ou un partenariat ? Contactez-nous via le formulaire ou directement par téléphone et WhatsApp.</p>
+
+        <div class="info-cards">
+
+          <!-- Adresse -->
+          <div class="info-card reveal">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2C8.1 2 5 5.1 5 9c0 5.3 7 13 7 13s7-7.7 7-13c0-3.9-3.1-7-7-7z"></path><circle cx="12" cy="9" r="2.5" stroke-width="1.8"></circle></svg>
+            </div>
+            <div class="info-card-body">
+              <p class="info-card-label" data-i18n="contact.addressLabel">Adresse</p>
+              <p class="info-card-value">Lot. AL Bassatine</p>
+              <p class="info-card-sub" data-i18n="contact.addressFull">Rue Agadir N° 111, Tanger, Maroc</p>
+            </div>
+          </div>
+
+          <!-- Téléphone + Appel -->
+          <div class="info-card reveal">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12.8 12.8 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12.8 12.8 0 0 0 2.8.7A2 2 0 0 1 22 16.9z"></path></svg>
+            </div>
+            <div class="info-card-body">
+              <p class="info-card-label" data-i18n="contact.phoneLabel">Téléphone</p>
+              <p class="info-card-value">+212 539 94 78 41</p>
+              <div class="info-card-actions">
+                <a href="tel:+212539947841" class="info-card-btn call">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12.8 12.8 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12.8 12.8 0 0 0 2.8.7A2 2 0 0 1 22 16.9z"/></svg>
+                  <span data-i18n="contact.callBtn">Appeler maintenant</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- WhatsApp / GSM -->
+          <div class="info-card reveal">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.4 8.4 0 0 1-3.8-.9L3 21l1.9-5.7a8.4 8.4 0 0 1-.9-3.8 8.5 8.5 0 0 1 8.5-8.5 8.5 8.5 0 0 1 8.5 8.5z"></path></svg>
+            </div>
+            <div class="info-card-body">
+              <p class="info-card-label" data-i18n="contact.gsmLabel">GSM / WhatsApp</p>
+              <p class="info-card-value">+212 667 10 67 96</p>
+              <div class="info-card-actions">
+                <a href="https://wa.me/212667106796" target="_blank" rel="noopener" class="info-card-btn whatsapp">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 8.9 8.9 0 0 1-1.6-2.1c-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.2-.5s-.4-1-.6-1.4c-.1-.4-.3-.3-.5-.3h-.6c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.1 3 2 3 4.8 4.2c.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2zm0 18.3a8.3 8.3 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.3 8.3 0 1 1 12 20.3z"/></svg>
+                  <span data-i18n="contact.whatsappBtn">WhatsApp</span>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="info-card reveal">
+            <div class="info-card-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </div>
+            <div class="info-card-body">
+              <p class="info-card-label" data-i18n="contact.emailLabel">Email</p>
+              <a href="mailto:boucheriealbassatine@gmail.com" class="info-card-value" style="display:block;">boucheriealbassatine@gmail.com</a>
+            </div>
+          </div>
+
+        </div><!-- /info-cards -->
+
+        <!-- Horaires -->
+        <div class="hours-strip reveal">
+          <p class="hours-strip-label" data-i18n="contact.hoursLabel">Horaires d'ouverture</p>
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="contact.hoursDays1">Lun – Ven</span>
+            <span class="hours-time">08:00 – 15:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="contact.hoursDays2">Samedi</span>
+            <span class="hours-time">08:00 – 13:00</span>
+          </div>
+          <div class="hours-row">
+            <span class="hours-day" data-i18n="contact.hoursDays3">Dimanche</span>
+            <span class="hours-time hours-closed" data-i18n="contact.hoursClosed">Fermé</span>
+          </div>
+        </div>
+
+        <!-- Social -->
+        <div class="social-strip reveal">
+          <a href="#" aria-label="Facebook" class="social-btn">f</a>
+          <a href="#" aria-label="Instagram" class="social-btn">in</a>
+          <a href="https://wa.me/212667106796" aria-label="WhatsApp" target="_blank" rel="noopener" class="social-btn">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1s-.8 1-.9 1.1c-.2.2-.3.2-.6.1a8 8 0 0 1-2.4-1.5 8.9 8.9 0 0 1-1.6-2.1c-.2-.3 0-.5.1-.6l.5-.6c.1-.2.2-.3.2-.5s-.4-1-.6-1.4c-.1-.4-.3-.3-.5-.3h-.6c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.1 3 2 3 4.8 4.2c.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.7.2-1.3.1-1.4-.1-.1-.3-.2-.6-.3z"/><path d="M12 2a10 10 0 0 0-8.5 15.2L2 22l4.9-1.5A10 10 0 1 0 12 2zm0 18.3a8.3 8.3 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.3 8.3 0 1 1 12 20.3z"/></svg>
+          </a>
+        </div>
+      </div><!-- /contact-info-col -->
+
+      <!-- RIGHT: FORM -->
+      <div class="contact-form-col reveal-right">
+        <div class="contact-form" id="contactForm">
+          {% csrf_token %}
+          <h3 class="form-title" data-i18n="contact.formTitle">Envoyez-nous un message</h3>
+          <p class="form-subtitle" data-i18n="contact.formSubtitle">Nous vous répondons sous 24h ouvrées.</p>
+
+          <!-- Subject pills -->
+          <div style="margin-bottom:28px;">
+            <p style="font-family:var(--display);font-size:10.5px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--burgundy);margin-bottom:12px;" data-i18n="contact.formSubject">Objet</p>
+            <div class="form-pills" id="subjectPills">
+              <button type="button" class="form-pill active" data-subject="commande" data-i18n="contact.subjectOrder">Commande</button>
+              <button type="button" class="form-pill" data-subject="partenariat" data-i18n="contact.subjectPartner">Partenariat</button>
+              <button type="button" class="form-pill" data-subject="information" data-i18n="contact.subjectInfo">Information</button>
+              <button type="button" class="form-pill" data-subject="autre" data-i18n="contact.subjectOther">Autre</button>
+            </div>
+          </div>
+
+          <div class="form-grid" id="contactFormFields">
+            <div class="form-field">
+              <label for="cf-name" data-i18n="contact.fieldName">Nom complet</label>
+              <input type="text" id="cf-name" name="name" data-i18n-placeholder="contact.fieldNamePh" placeholder="Votre nom">
+              <div class="form-field-icon"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+              <span class="form-error-msg" data-i18n="contact.fieldRequired">Ce champ est requis</span>
+            </div>
+            <div class="form-field">
+              <label for="cf-email" data-i18n="contact.fieldEmail">Email</label>
+              <input type="email" id="cf-email" name="email" data-i18n-placeholder="contact.fieldEmailPh" placeholder="vous@exemple.com">
+              <div class="form-field-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg></div>
+              <span class="form-error-msg" data-i18n="contact.fieldEmailError">Email invalide</span>
+            </div>
+            <div class="form-field">
+              <label for="cf-phone" data-i18n="contact.fieldPhone">Téléphone</label>
+              <input type="tel" id="cf-phone" name="phone" data-i18n-placeholder="contact.fieldPhonePh" placeholder="+212 6XX XXX XXX">
+              <div class="form-field-icon"><svg viewBox="0 0 24 24"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7 12.8 12.8 0 0 0 .7 2.8 2 2 0 0 1-.5 2.1l-1.3 1.3a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5 12.8 12.8 0 0 0 2.8.7A2 2 0 0 1 22 16.9z"/></svg></div>
+            </div>
+            <div class="form-field">
+              <label for="cf-company" data-i18n="contact.fieldCompany">Société (optionnel)</label>
+              <input type="text" id="cf-company" name="company" data-i18n-placeholder="contact.fieldCompanyPh" placeholder="Nom de votre société">
+              <div class="form-field-icon"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9,22 9,12 15,12 15,22"></polyline></svg></div>
+            </div>
+            <div class="form-field full">
+              <label for="cf-message" data-i18n="contact.fieldMessage">Message</label>
+              <textarea id="cf-message" name="message" data-i18n-placeholder="contact.fieldMessagePh" placeholder="Décrivez votre demande..."></textarea>
+              <span class="form-error-msg" data-i18n="contact.fieldRequired">Ce champ est requis</span>
+            </div>
+          </div>
+
+          <div class="form-submit">
+            <button type="button" class="btn-submit" id="cfSubmit">
+              <span class="btn-submit-label" data-i18n="contact.formSubmit">Envoyer le message</span>
+              <span class="btn-submit-icon">
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              </span>
+            </button>
+            <p class="form-privacy" data-i18n="contact.formPrivacy">Vos données sont utilisées uniquement pour répondre à votre demande.</p>
+            <p id="cfServerError" style="display:none;color:#B3261E;font-family:var(--body);font-size:13.5px;margin-top:10px;">Une erreur est survenue. Merci de réessayer dans un instant.</p>
+          </div>
+
+          <!-- Success -->
+          <div class="form-success" id="cfSuccess">
+            <div class="form-success-icon">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h4 class="form-success-title" data-i18n="contact.successTitle">Message envoyé !</h4>
+            <p class="form-success-text" data-i18n="contact.successText">Nous vous répondrons dans les plus brefs délais.</p>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /contact-grid -->
+  </div>
+</section>
+
+<!-- MAP -->
+<section class="map-section">
+  <div class="wrap">
+    <div class="map-header">
+      <span class="section-eyebrow" data-i18n="contact.mapEyebrow">Notre emplacement</span>
+      <h2 data-i18n="contact.mapTitle">Nous trouver</h2>
+      <p data-i18n="contact.mapSub">Lot. AL Bassatine, Rue Agadir N° 111, Tanger, Maroc</p>
+    </div>
+    <div class="map-container reveal">
+      <iframe
+        src="https://www.google.com/maps?q=Boucherie+AlBassatine,+Rue+Agadir,+Tanger&z=17&output=embed"
+        allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+        title="Localisation Boucherie Albassatine">
+      </iframe>
+      <div class="map-pin-card">
+        <p class="map-pin-card-name">Boucherie AlBassatine</p>
+        <p class="map-pin-card-addr" data-i18n="contact.addressFull">Q59C+RJ9, Rue Agadir, Tanger 90060</p>
+        <a href="https://maps.app.goo.gl/Xg43voDSG1HWCX4a9" target="_blank" rel="noopener" class="map-pin-card-dir">
+          <span data-i18n="contact.directions">Itinéraire</span>
+          <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- FOOTER CTA -->
+<section class="site-footer-contact">
+  <div class="wrap sfc-inner">
+    <div>
+      <h2 data-i18n="contact.title">Contactez-nous</h2>
+      <p class="lead" data-i18n="contact.lead">Une question sur nos produits ? Notre équipe vous répond rapidement.</p>
+    </div>
+    <div class="sfc-info">
+      <div>
+        <span class="sfc-label" data-i18n="contact.addressLabel">Adresse</span>
+        Lot. AL Bassatine Rue Agadir N° 111 — Tanger
+      </div>
+      <div>
+        <span class="sfc-label" data-i18n="contact.phoneLabel">Téléphone</span>
+        <a href="tel:+212539947841">+212 539 94 78 41</a>
+      </div>
+     <div>
+        <span class="ci-label" data-i18n="contact.gsmLabel">GSM</span> <br>
+        <a href="https://wa.me/212667106796" target="_blank" rel="noopener" aria-label="Contacter sur WhatsApp" style="display:inline-flex;align-items:center;gap:7px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" style="color:#25D366;flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          +212 667 10 67 96
+        </a>
+      </div>
+      <div>
+        <span class="sfc-label" data-i18n="contact.emailLabel">Email</span>
+        <a href="mailto:boucheriealbassatine@gmail.com">boucheriealbassatine@gmail.com</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span data-i18n="footer.rights">© 2026 Boucherie AL Bassatine. Tous droits réservés.</span>
+    <div class="social">
+      <a href="https://www.facebook.com/share/198nyYgYi7/" aria-label="Facebook">f</a>
+      <a href="https://www.instagram.com/albassatineviandes?igsh=eTIzZzc5c3BxMXMx" aria-label="Instagram">in</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ======================================================
+   i18n DICTIONARY — FR / EN / AR / JA
+   ====================================================== */
+const i18nDict = {
+  fr: {
+    "nav.home":"Accueil","nav.about":"Notre société","nav.products":"Nos produits",
+    "nav.products.cow":"Vache","nav.products.cow.desc":"Découpe &amp; transformation<br>sur mesure",
+    "nav.products.sheep":"Mouton","nav.products.sheep.desc":"Agneau &amp; brebis<br>sélectionnés à la source",
+    "nav.dropdown.title":"Nos produits","nav.dropdown.badge":"✦ Halal certifié",
+    "nav.dropdown.farmToTable":"Du pré à l'assiette","nav.dropdown.seeAll":"Voir tous",
+    "nav.commitments":"Nos engagements","nav.contact":"Contact",
+    "nav.menuLabel":"Menu","nav.closeLabel":"Fermer","nav.openMenuAria":"Ouvrir le menu",
+    "contact.pageTitle":"Contact — ALBASSATINE VIANDES",
+    "contact.eyebrow":"Albassatine Viandes",
+    "contact.heroTitle":"NOUS<br><em>CONTACTER</em>",
+    "contact.heroSub":"Notre équipe est à votre écoute pour toute question sur nos produits, commandes ou partenariats.",
+    "contact.infoEyebrow":"Nos coordonnées","contact.infoTitle":"Où nous trouver",
+    "contact.infoLead":"Une question, une commande ou un partenariat ? Contactez-nous via le formulaire ou directement par téléphone et WhatsApp.",
+    "contact.addressLabel":"Adresse","contact.addressFull":"Rue Agadir N° 111, Tanger, Maroc",
+    "contact.phoneLabel":"Téléphone","contact.gsmLabel":"GSM / WhatsApp","contact.emailLabel":"Email",
+    "contact.callUs":"Nous appeler","contact.callBtn":"Appeler maintenant","contact.whatsappBtn":"WhatsApp",
+    "contact.hoursLabel":"Horaires d'ouverture",
+    "contact.hoursDays1":"Lun – Ven","contact.hoursDays2":"Samedi","contact.hoursDays3":"Dimanche",
+    "contact.hoursClosed":"Fermé",
+    "contact.formTitle":"Envoyez-nous un message","contact.formSubtitle":"Nous vous répondons sous 24h ouvrées.",
+    "contact.formSubject":"Objet",
+    "contact.subjectOrder":"Commande","contact.subjectPartner":"Partenariat",
+    "contact.subjectInfo":"Information","contact.subjectOther":"Autre",
+    "contact.fieldName":"Nom complet","contact.fieldNamePh":"Votre nom",
+    "contact.fieldEmail":"Email","contact.fieldEmailPh":"vous@exemple.com",
+    "contact.fieldEmailError":"Email invalide",
+    "contact.fieldPhone":"Téléphone","contact.fieldPhonePh":"+212 6XX XXX XXX",
+    "contact.fieldCompany":"Société (optionnel)","contact.fieldCompanyPh":"Nom de votre société",
+    "contact.fieldMessage":"Message","contact.fieldMessagePh":"Décrivez votre demande...",
+    "contact.fieldRequired":"Ce champ est requis",
+    "contact.formSubmit":"Envoyer le message","contact.formPrivacy":"Vos données sont utilisées uniquement pour répondre à votre demande.",
+    "contact.successTitle":"Message envoyé !","contact.successText":"Nous vous répondrons dans les plus brefs délais.",
+    "contact.mapEyebrow":"Notre emplacement","contact.mapTitle":"Nous trouver",
+    "contact.mapSub":"Lot. AL Bassatine, Rue Agadir N° 111, Tanger, Maroc",
+    "contact.directions":"Itinéraire",
+    "contact.title":"Contactez-nous","contact.lead":"Une question sur nos produits ? Notre équipe vous répond rapidement.",
+    "footer.rights":"© 2026 Boucherie AL Bassatine. Tous droits réservés."
+  },
+  en: {
+    "nav.home":"Home","nav.about":"Our company","nav.products":"Our products",
+    "nav.products.cow":"Beef","nav.products.cow.desc":"Custom cutting<br>&amp; processing",
+    "nav.products.sheep":"Lamb","nav.products.sheep.desc":"Lamb &amp; ewe<br>selected at source",
+    "nav.dropdown.title":"Our products","nav.dropdown.badge":"✦ Halal certified",
+    "nav.dropdown.farmToTable":"Farm to table","nav.dropdown.seeAll":"See all",
+    "nav.commitments":"Our commitments","nav.contact":"Contact",
+    "nav.menuLabel":"Menu","nav.closeLabel":"Close","nav.openMenuAria":"Open menu",
+    "contact.pageTitle":"Contact — ALBASSATINE VIANDES",
+    "contact.eyebrow":"Albassatine Viandes",
+    "contact.heroTitle":"GET IN<br><em>TOUCH</em>",
+    "contact.heroSub":"Our team is available to answer any question about our products, orders or partnerships.",
+    "contact.infoEyebrow":"Our details","contact.infoTitle":"Where to find us",
+    "contact.infoLead":"A question, an order or a partnership? Contact us via the form or directly by phone and WhatsApp.",
+    "contact.addressLabel":"Address","contact.addressFull":"Rue Agadir N° 111, Tangier, Morocco",
+    "contact.phoneLabel":"Phone","contact.gsmLabel":"GSM / WhatsApp","contact.emailLabel":"Email",
+    "contact.callUs":"Call us","contact.callBtn":"Call now","contact.whatsappBtn":"WhatsApp",
+    "contact.hoursLabel":"Opening hours",
+    "contact.hoursDays1":"Mon – Fri","contact.hoursDays2":"Saturday","contact.hoursDays3":"Sunday",
+    "contact.hoursClosed":"Closed",
+    "contact.formTitle":"Send us a message","contact.formSubtitle":"We respond within 24 business hours.",
+    "contact.formSubject":"Subject",
+    "contact.subjectOrder":"Order","contact.subjectPartner":"Partnership",
+    "contact.subjectInfo":"Information","contact.subjectOther":"Other",
+    "contact.fieldName":"Full name","contact.fieldNamePh":"Your name",
+    "contact.fieldEmail":"Email","contact.fieldEmailPh":"you@example.com",
+    "contact.fieldEmailError":"Invalid email",
+    "contact.fieldPhone":"Phone","contact.fieldPhonePh":"+212 6XX XXX XXX",
+    "contact.fieldCompany":"Company (optional)","contact.fieldCompanyPh":"Your company name",
+    "contact.fieldMessage":"Message","contact.fieldMessagePh":"Describe your request...",
+    "contact.fieldRequired":"This field is required",
+    "contact.formSubmit":"Send message","contact.formPrivacy":"Your data is only used to respond to your request.",
+    "contact.successTitle":"Message sent!","contact.successText":"We will get back to you as soon as possible.",
+    "contact.mapEyebrow":"Our location","contact.mapTitle":"Find us",
+    "contact.mapSub":"Lot. AL Bassatine, Rue Agadir N° 111, Tangier, Morocco",
+    "contact.directions":"Get directions",
+    "contact.title":"Contact us","contact.lead":"A question about our products? Our team will get back to you quickly.",
+    "footer.rights":"© 2026 Boucherie AL Bassatine. All rights reserved."
+  },
+  ar: {
+    "nav.home":"الرئيسية","nav.about":"شركتنا","nav.products":"منتجاتنا",
+    "nav.products.cow":"لحم بقر","nav.products.cow.desc":"تقطيع وتحويل<br>حسب الطلب",
+    "nav.products.sheep":"ضأن","nav.products.sheep.desc":"خروف ونعجة<br>مختارة من المصدر",
+    "nav.dropdown.title":"منتجاتنا","nav.dropdown.badge":"✦ حلال معتمد",
+    "nav.dropdown.farmToTable":"من المزرعة إلى المائدة","nav.dropdown.seeAll":"عرض الكل",
+    "nav.commitments":"التزاماتنا","nav.contact":"اتصل بنا",
+    "nav.menuLabel":"القائمة","nav.closeLabel":"إغلاق","nav.openMenuAria":"فتح القائمة",
+    "contact.pageTitle":"اتصل بنا — لحوم البساتين",
+    "contact.eyebrow":"لحوم البساتين",
+    "contact.heroTitle":"تواصل<br><em>معنا</em>",
+    "contact.heroSub":"فريقنا متاح للإجابة على أي سؤال حول منتجاتنا أو طلباتكم أو الشراكات.",
+    "contact.infoEyebrow":"معلومات الاتصال","contact.infoTitle":"أين نوجد",
+    "contact.infoLead":"سؤال أو طلب أو شراكة؟ تواصلوا معنا عبر النموذج أو مباشرةً بالهاتف أو واتساب.",
+    "contact.addressLabel":"العنوان","contact.addressFull":"شارع أكادير رقم 111، طنجة، المغرب",
+    "contact.phoneLabel":"الهاتف","contact.gsmLabel":"الجوال / واتساب","contact.emailLabel":"البريد الإلكتروني",
+    "contact.callUs":"اتصل بنا","contact.callBtn":"اتصل الآن","contact.whatsappBtn":"واتساب",
+    "contact.hoursLabel":"ساعات العمل",
+    "contact.hoursDays1":"الإثنين – الجمعة","contact.hoursDays2":"السبت","contact.hoursDays3":"الأحد",
+    "contact.hoursClosed":"مغلق",
+    "contact.formTitle":"أرسل لنا رسالة","contact.formSubtitle":"نرد عليكم خلال 24 ساعة عمل.",
+    "contact.formSubject":"الموضوع",
+    "contact.subjectOrder":"طلب","contact.subjectPartner":"شراكة",
+    "contact.subjectInfo":"معلومات","contact.subjectOther":"أخرى",
+    "contact.fieldName":"الاسم الكامل","contact.fieldNamePh":"اسمك",
+    "contact.fieldEmail":"البريد الإلكتروني","contact.fieldEmailPh":"anta@example.com",
+    "contact.fieldEmailError":"بريد إلكتروني غير صالح",
+    "contact.fieldPhone":"الهاتف","contact.fieldPhonePh":"+212 6XX XXX XXX",
+    "contact.fieldCompany":"الشركة (اختياري)","contact.fieldCompanyPh":"اسم شركتك",
+    "contact.fieldMessage":"الرسالة","contact.fieldMessagePh":"صف طلبك...",
+    "contact.fieldRequired":"هذا الحقل مطلوب",
+    "contact.formSubmit":"إرسال الرسالة","contact.formPrivacy":"تُستخدم بياناتك فقط للرد على طلبك.",
+    "contact.successTitle":"تم الإرسال!","contact.successText":"سنرد عليكم في أقرب وقت ممكن.",
+    "contact.mapEyebrow":"موقعنا","contact.mapTitle":"ابحث عنا",
+    "contact.mapSub":"البساتين، شارع أكادير رقم 111، طنجة، المغرب",
+    "contact.directions":"الاتجاهات",
+    "contact.title":"اتصل بنا","contact.lead":"هل لديك سؤال حول منتجاتنا؟ فريقنا سيجيبك بسرعة.",
+    "footer.rights":"© 2026 مجزرة البساتين. جميع الحقوق محفوظة."
+  },
+  ja: {
+    "nav.home":"ホーム","nav.about":"会社概要","nav.products":"製品",
+    "nav.products.cow":"牛肉","nav.products.cow.desc":"カスタムカット<br>&amp; 加工",
+    "nav.products.sheep":"羊肉","nav.products.sheep.desc":"ラム＆マトン<br>産地直送",
+    "nav.dropdown.title":"製品","nav.dropdown.badge":"✦ ハラール認証",
+    "nav.dropdown.farmToTable":"牧場から食卓へ","nav.dropdown.seeAll":"すべて見る",
+    "nav.commitments":"私たちの取り組み","nav.contact":"お問い合わせ",
+    "nav.menuLabel":"メニュー","nav.closeLabel":"閉じる","nav.openMenuAria":"メニューを開く",
+    "contact.pageTitle":"お問い合わせ — ALBASSATINE VIANDES",
+    "contact.eyebrow":"アルバサティーヌ・ヴィアンド",
+    "contact.heroTitle":"お問い<br><em>合わせ</em>",
+    "contact.heroSub":"製品・ご注文・パートナーシップに関するご質問はお気軽にどうぞ。",
+    "contact.infoEyebrow":"連絡先情報","contact.infoTitle":"アクセス",
+    "contact.infoLead":"ご質問、ご注文、またはパートナーシップについては、フォームまたは電話・WhatsAppで直接ご連絡ください。",
+    "contact.addressLabel":"住所","contact.addressFull":"アガディール通り111番地、タンジェ、モロッコ",
+    "contact.phoneLabel":"電話番号","contact.gsmLabel":"携帯 / WhatsApp","contact.emailLabel":"メール",
+    "contact.callUs":"お電話はこちら","contact.callBtn":"今すぐ電話","contact.whatsappBtn":"WhatsApp",
+    "contact.hoursLabel":"営業時間",
+    "contact.hoursDays1":"月〜金","contact.hoursDays2":"土曜日","contact.hoursDays3":"日曜日",
+    "contact.hoursClosed":"定休日",
+    "contact.formTitle":"メッセージを送る","contact.formSubtitle":"営業日24時間以内にご返信いたします。",
+    "contact.formSubject":"件名",
+    "contact.subjectOrder":"注文","contact.subjectPartner":"パートナーシップ",
+    "contact.subjectInfo":"情報","contact.subjectOther":"その他",
+    "contact.fieldName":"お名前","contact.fieldNamePh":"お名前を入力",
+    "contact.fieldEmail":"メールアドレス","contact.fieldEmailPh":"you@example.com",
+    "contact.fieldEmailError":"無効なメールアドレス",
+    "contact.fieldPhone":"電話番号","contact.fieldPhonePh":"+212 6XX XXX XXX",
+    "contact.fieldCompany":"会社名（任意）","contact.fieldCompanyPh":"会社名を入力",
+    "contact.fieldMessage":"メッセージ","contact.fieldMessagePh":"ご要望をお書きください...",
+    "contact.fieldRequired":"このフィールドは必須です",
+    "contact.formSubmit":"メッセージを送る","contact.formPrivacy":"お客様の情報はご返信のみに使用されます。",
+    "contact.successTitle":"送信完了！","contact.successText":"できるだけ早くご返信いたします。",
+    "contact.mapEyebrow":"所在地","contact.mapTitle":"アクセス",
+    "contact.mapSub":"アガディール通り111番地、タンジェ、モロッコ",
+    "contact.directions":"経路を見る",
+    "contact.title":"お問い合わせ","contact.lead":"製品についてのご質問がございますか？担当チームが迅速に対応いたします。",
+    "footer.rights":"© 2026 ブシュリー・アルバサティン。全著作権所有。"
+  }
+};
+
+/* i18n engine */
+const langSwitch = document.getElementById('langSwitch');
+const langSwitchBtn = document.getElementById('langSwitchBtn');
+const langCurrent = document.getElementById('langCurrent');
+const langButtons = document.querySelectorAll('.lang-switch-menu button, .lang-switch-mobile button');
+let currentLang = 'fr';
+
+function applyLanguage(lang){
+  const dict = i18nDict[lang] || i18nDict.fr;
+  currentLang = dict ? lang : 'fr';
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if(dict[key] !== undefined) el.innerHTML = dict[key];
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    const key = el.getAttribute('data-i18n-placeholder');
+    if(dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+  });
+  const titleEl = document.querySelector('[data-i18n-title]');
+  if(titleEl){ const tk = titleEl.getAttribute('data-i18n-title'); if(dict[tk]) document.title = dict[tk]; }
+  document.documentElement.setAttribute('lang', lang);
+  document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+  langButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.lang === lang));
+  if(langCurrent) langCurrent.textContent = lang.toUpperCase();
+  const navBurger = document.getElementById('navBurger');
+  if(navBurger){
+    navBurger.setAttribute('aria-label', dict['nav.openMenuAria'] || 'Menu');
+    const label = navBurger.querySelector('.nav-burger-label');
+    const nav = document.getElementById('nav');
+    if(label) label.textContent = nav.classList.contains('menu-open') ? (dict['nav.closeLabel']||'Fermer') : (dict['nav.menuLabel']||'Menu');
+  }
+  try{ localStorage.setItem('albassatine-lang', lang); }catch(e){}
+}
+
+langButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    applyLanguage(btn.dataset.lang);
+    if(langSwitch) langSwitch.classList.remove('open');
+    if(langSwitchBtn) langSwitchBtn.setAttribute('aria-expanded','false');
+  });
+});
+if(langSwitchBtn){
+  langSwitchBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = langSwitch.classList.toggle('open');
+    langSwitchBtn.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('click', e => {
+    if(langSwitch && !langSwitch.contains(e.target)){
+      langSwitch.classList.remove('open');
+      langSwitchBtn.setAttribute('aria-expanded','false');
+    }
+  });
+}
+let initLang = 'fr';
+try{ initLang = localStorage.getItem('albassatine-lang') || 'fr'; }catch(e){}
+applyLanguage(initLang);
+
+/* ======================================================
+   NAV — scroll + mobile
+   ====================================================== */
+const nav = document.getElementById('nav');
+const navProgress = document.getElementById('navProgress');
+function updateScroll(){
+  const y = window.scrollY;
+  nav.classList.toggle('scrolled', y > 60);
+  if(navProgress){
+    const dh = document.documentElement.scrollHeight - window.innerHeight;
+    navProgress.style.width = (dh > 0 ? Math.min(100,Math.max(0,(y/dh)*100)) : 0)+'%';
+  }
+}
+window.addEventListener('scroll', updateScroll, {passive:true});
+updateScroll();
+
+const navBurger = document.getElementById('navBurger');
+const navMobilePanel = document.getElementById('navMobilePanel');
+function closeMobileMenu(){
+  nav.classList.remove('menu-open');
+  navBurger.setAttribute('aria-expanded','false');
+  document.body.classList.remove('menu-locked');
+  const label = navBurger.querySelector('.nav-burger-label');
+  if(label) label.textContent = i18nDict[currentLang]['nav.menuLabel']||'Menu';
+}
+navBurger.addEventListener('click', () => {
+  const isOpen = nav.classList.toggle('menu-open');
+  navBurger.setAttribute('aria-expanded', String(isOpen));
+  document.body.classList.toggle('menu-locked', isOpen);
+  const label = navBurger.querySelector('.nav-burger-label');
+  if(label) label.textContent = isOpen ? (i18nDict[currentLang]['nav.closeLabel']||'Fermer') : (i18nDict[currentLang]['nav.menuLabel']||'Menu');
+});
+navMobilePanel.querySelectorAll('a').forEach(l => l.addEventListener('click', closeMobileMenu));
+window.addEventListener('resize', () => { if(window.innerWidth > 1080) closeMobileMenu(); });
+
+/* Produits dropdown */
+const navDD = document.getElementById('navProduitsDropdown');
+const navDDTrigger = document.getElementById('navProduitsTrigger');
+if(navDD && navDDTrigger){
+  navDDTrigger.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = navDD.classList.toggle('is-open');
+    navDDTrigger.setAttribute('aria-expanded', String(isOpen));
+  });
+  document.addEventListener('click', e => {
+    if(!navDD.contains(e.target)){ navDD.classList.remove('is-open'); navDDTrigger.setAttribute('aria-expanded','false'); }
+  });
+}
+const nmpDD = document.getElementById('nmpProduitsDropdown');
+const nmpTrigger = document.getElementById('nmpProduitsTrigger');
+if(nmpDD && nmpTrigger){
+  nmpTrigger.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = nmpDD.classList.toggle('is-open');
+    nmpTrigger.setAttribute('aria-expanded', String(isOpen));
+  });
+}
+
+/* ======================================================
+   SUBJECT PILLS
+   ====================================================== */
+document.querySelectorAll('#subjectPills .form-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('#subjectPills .form-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+  });
+});
+
+/* ======================================================
+   FORM VALIDATION + SUBMIT
+   ====================================================== */
+function getCsrfToken(){
+  const input = document.querySelector('#contactForm input[name="csrfmiddlewaretoken"]');
+  return input ? input.value : '';
+}
+
+document.getElementById('cfSubmit').addEventListener('click', () => {
+  const dict = i18nDict[currentLang] || i18nDict.fr;
+  const name = document.getElementById('cf-name');
+  const email = document.getElementById('cf-email');
+  const phone = document.getElementById('cf-phone');
+  const company = document.getElementById('cf-company');
+  const message = document.getElementById('cf-message');
+  const serverError = document.getElementById('cfServerError');
+  let valid = true;
+
+  serverError.style.display = 'none';
+  [name, email, message].forEach(f => f.closest('.form-field').classList.remove('has-error'));
+
+  if(!name.value.trim()){ name.closest('.form-field').classList.add('has-error'); valid = false; }
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if(!emailRe.test(email.value.trim())){
+    email.closest('.form-field').classList.add('has-error');
+    email.closest('.form-field').querySelector('.form-error-msg').textContent = dict['contact.fieldEmailError']||'Email invalide';
+    valid = false;
+  }
+  if(!message.value.trim()){ message.closest('.form-field').classList.add('has-error'); valid = false; }
+
+  if(!valid) return;
+
+  const activePill = document.querySelector('#subjectPills .form-pill.active');
+  const subject = activePill ? activePill.dataset.subject : 'autre';
+
+  const btn = document.getElementById('cfSubmit');
+  btn.style.opacity = '.6';btn.style.pointerEvents = 'none';
+
+  fetch('/api/contact/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-CSRFToken': getCsrfToken()
+    },
+    body: JSON.stringify({
+      name: name.value.trim(),
+      email: email.value.trim(),
+      phone: phone.value.trim(),
+      company: company.value.trim(),
+      subject: subject,
+      message: message.value.trim()
+    })
+  })
+  .then(res => res.json().then(data => ({status: res.status, data})))
+  .then(({status, data}) => {
+    if(status !== 200 || !data.ok){
+      throw new Error(data && data.error ? data.error : 'erreur_serveur');
+    }
+    document.getElementById('contactFormFields').style.display = 'none';
+    btn.closest('.form-submit').style.display = 'none';
+    document.querySelector('.form-subtitle').style.display = 'none';
+    document.querySelectorAll('#subjectPills').forEach(el => el.parentElement.style.display = 'none');
+    const success = document.getElementById('cfSuccess');
+    success.style.display = 'flex';
+    requestAnimationFrame(() => success.classList.add('is-shown'));
+  })
+  .catch(() => {
+    btn.style.opacity = '1';btn.style.pointerEvents = 'auto';
+    serverError.style.display = 'block';
+  });
+});
+
+/* ======================================================
+   BACK TO TOP
+   ====================================================== */
+const btt = document.getElementById('backToTop');
+window.addEventListener('scroll', () => btt.classList.toggle('visible', window.scrollY > 400), {passive:true});
+btt.addEventListener('click', () => window.scrollTo({top:0,behavior:'smooth'}));
+
+/* ======================================================
+   REVEAL — IntersectionObserver
+   ====================================================== */
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('is-visible'); });
+}, {threshold:0.1, rootMargin:'0px 0px -40px 0px'});
+document.querySelectorAll('.reveal,.reveal-left,.reveal-right').forEach(el => io.observe(el));
+
+/* ======================================================
+   CURSOR AVANCÉ
+   ====================================================== */
+(function(){
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  const halo = document.getElementById('cursor-halo');
+  const trail = document.getElementById('cursor-trail');
+  if(!dot || window.matchMedia('(hover:none),(pointer:coarse)').matches) return;
+  let mx=window.innerWidth/2, my=window.innerHeight/2, rx=mx, ry=my, tx=mx, ty=my, angle=0, visible=false;
+  const setPos = (el,x,y) => { el.style.left=x+'px'; el.style.top=y+'px'; };
+  document.addEventListener('mousemove', e => {
+    mx=e.clientX;my=e.clientY;setPos(dot,mx,my);
+    if(!visible){visible=true;[dot,ring,halo,trail].forEach(el=>el.style.opacity='1');}
+  });
+  document.addEventListener('mouseleave', () => {[dot,ring,halo,trail].forEach(el=>el.style.opacity='0');visible=false;});
+  document.querySelectorAll('a,button,[role="button"],.info-card,.form-pill').forEach(el => {
+    el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-hover'));
+    el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-hover'));
+  });
+  const lerp = (a,b,t) => a+(b-a)*t;
+  (function tick(){
+    rx=lerp(rx,mx,.14);ry=lerp(ry,my,.14);setPos(ring,rx,ry);
+    tx=lerp(tx,mx,.07);ty=lerp(ty,my,.07);angle+=.9;
+    halo.style.left=tx+'px';halo.style.top=ty+'px';
+    halo.style.transform=`translate(-50%,-50%) rotate(${angle}deg)`;
+    trail.style.left=lerp(parseFloat(trail.style.left)||mx,mx,.08)+'px';
+    trail.style.top=lerp(parseFloat(trail.style.top)||my,my,.08)+'px';
+    requestAnimationFrame(tick);
+  })();
+})();
+</script>
+</body>
+</html>

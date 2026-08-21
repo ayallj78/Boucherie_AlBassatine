@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Page introuvable — AL BASSATINE VIANDES</title>
+<link href="{% static 'images/image_11.png' %}" rel="icon">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Lora:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --burgundy:#6E0E22;
+  --burgundy-deep:#4F0A18;
+  --burgundy-light:#8C1B33;
+  --white:#FFFFFF;
+  --off-white:#F7F4F3;
+  --ink:#221316;
+  --grey:#7A7072;
+  --line:#E7DEDF;
+  --display:"Oswald", sans-serif;
+  --body:"Lora", serif;
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box;}
+body{
+  margin:0;min-height:100vh;background:var(--off-white);color:var(--ink);
+  font-family:var(--body);font-size:17px;line-height:1.65;
+  display:flex;align-items:center;justify-content:center;
+  padding:6vw;text-align:center;
+  -webkit-font-smoothing:antialiased;
+}
+.page-404{max-width:560px;}
+.code-404{
+  font-family:var(--display);font-weight:700;font-size:clamp(90px,16vw,150px);
+  line-height:1;letter-spacing:0.02em;color:var(--burgundy);
+  text-shadow:0 6px 0 rgba(110,14,34,.08);
+}
+h1{
+  font-family:var(--display);font-weight:600;text-transform:uppercase;
+  letter-spacing:0.04em;font-size:clamp(20px,2.6vw,28px);
+  margin:8px 0 14px;color:var(--ink);
+}
+p{color:var(--grey);margin:0 0 32px;font-size:16px;}
+.actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+.btn{
+  font-family:var(--display);font-size:12.5px;font-weight:600;letter-spacing:0.08em;
+  text-transform:uppercase;text-decoration:none;padding:14px 28px;border-radius:999px;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),background .25s,color .25s;
+  display:inline-flex;align-items:center;gap:8px;
+}
+.btn-primary{background:var(--burgundy);color:var(--white);}
+.btn-primary:hover{background:var(--burgundy-deep);transform:translateY(-2px);box-shadow:0 10px 24px rgba(110,14,34,.25);}
+.btn-secondary{background:var(--white);color:var(--ink);border:1.5px solid var(--line);}
+.btn-secondary:hover{border-color:var(--burgundy);color:var(--burgundy);transform:translateY(-2px);}
+.decor{width:60px;height:3px;background:var(--burgundy);margin:0 auto 24px;border-radius:2px;}
+</style>
+</head>
+<body>
+  <div class="page-404">
+    <div class="code-404">404</div>
+    <div class="decor"></div>
+    <h1>Page introuvable</h1>
+    <p>Désolé, la page que vous cherchez n'existe pas ou a été déplacée.</p>
+    <div class="actions">
+      <a class="btn btn-primary" href="{% url 'home' %}">Retour à l'accueil</a>
+      <a class="btn btn-secondary" href="{% url 'contact' %}">Nous contacter</a>
+    </div>
+  </div>
+</body>
+</html>

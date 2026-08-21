@@ -1,0 +1,106 @@
+{% load static %}<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nouveau message de contact</title>
+<style>
+  body{margin:0;padding:0;background:#F0EBEA;font-family:Georgia,'Lora',serif;}
+  table{border-collapse:collapse;}
+  a{color:#6E0E22;text-decoration:none;}
+  .display{font-family:'Trebuchet MS','Oswald',Arial,sans-serif;}
+</style>
+</head>
+<body>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F0EBEA;padding:36px 12px;">
+  <tr>
+    <td align="center">
+      <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:600px;max-width:100%;background:#FFFFFF;">
+
+        <!-- HEADER -->
+        <tr>
+          <td style="background:#4F0A18;background:linear-gradient(135deg,#6E0E22,#4F0A18);padding:38px 40px 32px;text-align:center;">
+            <table role="presentation" cellpadding="0" cellspacing="0" style="margin:0 auto 16px;">
+              <tr>
+                <td width="52" height="52" style="width:52px;height:52px;border-radius:50%;background:#FFFFFF;text-align:center;vertical-align:middle;" class="display">
+                  <span style="font-size:14px;font-weight:bold;color:#6E0E22;letter-spacing:0.03em;">AB</span>
+                </td>
+              </tr>
+            </table>
+            <p class="display" style="margin:0;color:#FFFFFF;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;opacity:0.75;">Site web — Formulaire de contact</p>
+            <h1 class="display" style="margin:10px 0 0;color:#FFFFFF;font-size:22px;letter-spacing:0.02em;text-transform:uppercase;font-weight:700;">Nouveau message reçu</h1>
+          </td>
+        </tr>
+
+        <!-- BADGE OBJET -->
+        <tr>
+          <td style="padding:28px 40px 0;">
+            <table role="presentation" cellpadding="0" cellspacing="0">
+              <tr>
+                <td style="background:#F7F4F3;border:1px solid #E7DEDF;padding:7px 16px;">
+                  <span class="display" style="font-size:11px;letter-spacing:0.08em;text-transform:uppercase;color:#6E0E22;font-weight:700;">{{ subject_label }}</span>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <!-- CORPS : infos client -->
+        <tr>
+          <td style="padding:20px 40px 8px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F7F4F3;border:1px solid #E7DEDF;margin:0 0 24px;">
+              <tr>
+                <td style="padding:24px 28px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td style="padding:0 0 14px;width:50%;vertical-align:top;">
+                        <p class="display" style="margin:0 0 4px;color:#7A7072;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;">Nom</p>
+                        <p style="margin:0;color:#221316;font-size:15px;">{{ name }}</p>
+                      </td>
+                      <td style="padding:0 0 14px;width:50%;vertical-align:top;">
+                        <p class="display" style="margin:0 0 4px;color:#7A7072;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;">Email</p>
+                        <p style="margin:0;color:#221316;font-size:15px;"><a href="mailto:{{ email }}" style="color:#6E0E22;">{{ email }}</a></p>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding:0 0 14px;width:50%;vertical-align:top;">
+                        <p class="display" style="margin:0 0 4px;color:#7A7072;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;">Téléphone</p>
+                        <p style="margin:0;color:#221316;font-size:15px;">{{ phone|default:"—" }}</p>
+                      </td>
+                      <td style="padding:0 0 14px;width:50%;vertical-align:top;">
+                        <p class="display" style="margin:0 0 4px;color:#7A7072;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;">Société</p>
+                        <p style="margin:0;color:#221316;font-size:15px;">{{ company|default:"—" }}</p>
+                      </td>
+                    </tr>
+                  </table>
+                  <div style="height:1px;background:#E7DEDF;margin:6px 0 18px;"></div>
+                  <p class="display" style="margin:0 0 6px;color:#7A7072;font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;">Message</p>
+                  <p style="margin:0;color:#221316;font-size:14.5px;line-height:1.7;font-style:italic;white-space:pre-line;">
+                    &laquo;&nbsp;{{ message }}&nbsp;&raquo;
+                  </p>
+                </td>
+              </tr>
+            </table>
+
+            <p style="margin:0 0 4px;color:#221316;font-size:14px;line-height:1.6;">
+              Pensez à répondre au client sous <strong>24h ouvrées</strong>.
+            </p>
+          </td>
+        </tr>
+
+        <tr><td style="height:26px;font-size:0;line-height:0;">&nbsp;</td></tr>
+
+        <!-- FOOTER -->
+        <tr>
+          <td style="background:#221316;padding:30px 40px;">
+            <p class="display" style="margin:0 0 8px;color:#FFFFFF;font-size:12px;letter-spacing:0.05em;">AL BASSATINE VIANDES</p>
+            <p style="margin:0;color:rgba(255,255,255,0.55);font-size:12.5px;line-height:1.6;">Notification automatique — Formulaire de contact du site</p>
+          </td>
+        </tr>
+
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
